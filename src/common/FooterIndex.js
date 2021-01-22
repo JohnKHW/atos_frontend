@@ -15,7 +15,7 @@ const FooterIndex = (props) => {
     },
     scan: {
       title: 'Scan',
-      img: require('src/assets/images/icon_scan.png'),
+      img: require('src/assets/images/Icon_foodScan.png'),
     },
     rank: {
       title: 'Rank',
@@ -26,10 +26,10 @@ const FooterIndex = (props) => {
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.content}>
-        <BaseButton title={icon.article.title} img={icon.article.img} />
-        <BaseButton title={icon.transport.title} img={icon.transport.img} />
-        <BaseButton title={icon.scan.title} img={icon.scan.img} />
-        <BaseButton title={icon.rank.title} img={icon.rank.img} />
+        <BaseButton title={icon.article.title} img={icon.article.img} navigation={props.navigation}/>
+        <BaseButton title={icon.transport.title} img={icon.transport.img} navigation={props.navigation}/>
+        <BaseButton title={icon.scan.title} img={icon.scan.img} navigation={props.navigation}/>
+        <BaseButton title={icon.rank.title} img={icon.rank.img} navigation={props.navigation}/>
       </View>
     </View>
   );
@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#63cfaa',
+    backgroundColor: '#FFC650',
   },
   content: {
     width: '100%',
     height: '100%',
     flexDirection: 'row',
-    backgroundColor: '#63cfaa',
+    backgroundColor: '#FFC650',
     justifyContent: 'space-between',
     paddingHorizontal: 25,
     paddingTop: 13,

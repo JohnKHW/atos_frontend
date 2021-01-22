@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image,Alert} from 'react-native';
 import Profile from 'src/components/Profile';
 import NavButton from 'src/components/NavButton';
 
@@ -28,7 +28,7 @@ const icon = {
     img: require('src/assets/images/icon_logout.png'),
   },
 };
-const NavContainer = () => {
+const NavContainer = ({navigation}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.closeBtn}>
@@ -38,15 +38,18 @@ const NavContainer = () => {
       <View style={styles.btn_list}>
         <NavButton img={icon.setting.img} title={icon.setting.title} />
         <NavButton img={icon.history.img} title={icon.history.title} />
-        <NavButton img={icon.help.img} title={icon.help.title} />
+        <NavButton img={icon.help.img} title={icon.help.title}  navigation={navigation}/>
         <NavButton img={icon.about.img} title={icon.about.title} />
-        <NavButton img={icon.logout.img} title={icon.logout.title} />
+        <NavButton img={icon.logout.img} title={icon.logout.title} navigation={navigation} />
       </View>
+      {/*
       <View style={styles.systemInfo}>
         <Text>© Carbonet Inc. 2021</Text>
         <Text>v{version}</Text>
-      </View>
+      </View>*/
+}
     </View>
+      
   );
 };
 

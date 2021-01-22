@@ -1,18 +1,15 @@
-import React ,{useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet,Button, useWindowDimensions} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
-import NavContainer from 'src/containers/NavContainer';
-import {createDrawerNavigator} from "@react-navigation/drawer";
+
 import {componentStyles} from 'src/common/containerStyles';
-const Drawer = createDrawerNavigator();
 
-
-const DefaultContainer = ({navigation}) => {
+const Articles = ({navigation}) => {
   return (
     <View style={componentStyles.container}>
       <HeaderIndex navigation={navigation}/>
-    
+        <Text>Article</Text>
       <FooterIndex style={styles.footer} navigation={navigation}/>
 
     </View>
@@ -21,11 +18,10 @@ const DefaultContainer = ({navigation}) => {
 
 const styles = StyleSheet.create({
   footer: {
-    //backgroundColor: '#defef3',
     position: 'absolute',
     bottom: 0,
     width: '100%',
     height: 84,
   },
 });
-export default DefaultContainer;
+export default Articles;
