@@ -9,6 +9,7 @@ const Scan = ({navigation}) => {
   return (
      <>
         <HeaderIndex navigation={navigation}/>
+        <View style={{borderWidth:1,borderColor:"#F5F5F5"}}></View>
         <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
             <Text>Scan</Text>
             <View style={styles.scanContainer}>

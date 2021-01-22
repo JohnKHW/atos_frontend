@@ -12,6 +12,7 @@ const Transport = ({navigation}) => {
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/> 
+      <View style={{borderWidth:1,borderColor:"#f5f5f5"}}></View>
         <Text style={styles.title}>Read To Walk the day?</Text>
         <Image style={styles.tree1} source={require("src/assets/images/icon_tree1.png")}></Image>
         <Image style={styles.tree2} source={require("src/assets/images/icon_tree2.png")}></Image>
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
         color: '#f5f5f5',
         textAlign: 'center',
         fontSize: 24,
+        marginTop:40
     },
     StartBtn:{
         backgroundColor:"#309397",
