@@ -31,7 +31,7 @@ const icon = {
 const NavContainer = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.closeBtn}>
+      <TouchableOpacity style={styles.closeBtn} onPress={()=>navigation.closeDrawer()}>
         <Image source={require('src/assets/images/icon_close.png')} />
       </TouchableOpacity>
       <Profile contry={contry} username={username} />
@@ -71,8 +71,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   closeBtn: {
-    padding: 25,
+    paddingVertical: 75,
     alignSelf: 'flex-end',
+    marginRight: 10,
   },
 });
 export default NavContainer;

@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect} from 'react';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import {
@@ -9,7 +9,8 @@ import {
     Dimensions, 
     TextInput,
     Alert,
-    Image
+    Image,
+    FlatList
 } from 'react-native';
 import {componentStyles} from 'src/common/containerStyles';
 import BaseButton from 'src/components/BaseButton';
@@ -29,14 +30,20 @@ const Login = ({navigation})=> {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [data,setData] = useState([]);
+    const [load,setLoad] = useState(true);
+
+   
     const icon ={
         loginIcon:{
             img:require('src/assets/images/icon_loginIcon.png')
         }
     };
     
-    const authentication = async() => {  
-        if(username === user.user && password === user.password){
+    const authentication = () => {  
+        /*
+        if(data.length>0 && data.find((user,password)=> 
+            username === user.username && password === password.password)){
             try{
                 await AsyncStorage.setItem("isLoggedIn", "1");
                 navigation.navigate("DefaultContainer");
@@ -44,11 +51,38 @@ const Login = ({navigation})=> {
 
             }
         }
-        else {
+         else {
             Alert.alert("Your input username or password is incorrect!");
         }
+        */
+       fetch('http://42.2.228.35:8000/api/user/login', {
+        method: 'POST',
+        body:JSON.stringify({
+          username: username,
+          password: password,
+        })
+      })
+      .then((response) => {
+          if(response.status===200){
+            return response.json();
+          }
+        })
+//If response is in json then in success
+.then(async(data) => {
+    //Success 
+    Alert.alert(""+ JSON.stringify(data))
+    await AsyncStorage.setItem("isLoggedIn", "1");
+    navigation.navigate("DefaultContainer");
+})
+//If response is not in json then in error
+.catch((error) => {
+    //Error 
+    console.error(error);
+});
+       
     }
     
+   
     return (
         
         <View style={[componentStyles.container_v2,{alignItems:"center"}]}>
@@ -81,8 +115,9 @@ const Login = ({navigation})=> {
                     >
                         <Text style={styles.LoginText}>Register Now</Text> 
                 </TouchableOpacity>
+                
             </View>
-         
+             
         </View>
       
     );

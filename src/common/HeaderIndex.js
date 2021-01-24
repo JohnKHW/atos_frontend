@@ -39,7 +39,7 @@ const HeaderIndex = ({navigation}) => {
             <Image source={require('src/assets/images/icon_sharing.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.subicon}
-              onPress={()=>setClick(true)}
+           
           >
             <Image  source={require('src/assets/images/icon_searching.png')} />
           </TouchableOpacity>

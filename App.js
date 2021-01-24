@@ -30,9 +30,14 @@ import Article from "src/containers/Article";
 import Transport from "src/containers/Transport";
 import Scan from "src/containers/Scan";
 import Rank from "src/containers/Rank";
+
+
+
+
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{
+
   const loadData = async() =>{
     try{
       const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
@@ -64,8 +69,7 @@ const App = () => {
             <Drawer.Navigator initialRouteName="AuthScreen"
            
             drawerStyle={{
-              width:"80%",
-              marginTop:40,
+              width:"100%",
             }}
             drawerContent={({navigation})=> (<MyDrawer navigation={navigation}/>)}>
               <Drawer.Screen name="DefaultContainer" component={DefaultContainer}/>
