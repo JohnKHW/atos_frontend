@@ -44,9 +44,9 @@ const AuthScreen = ({navigation}) =>{
 
   const loadData = async() =>{
     try{
-      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      const isLoggedIn = await AsyncStorage.getItem("token");
       //Alert.alert(isLoggedIn);
-      if(isLoggedIn == 1 )
+      if(isLoggedIn)
         navigation.navigate("DefaultContainer");
       else
         navigation.navigate("Login");

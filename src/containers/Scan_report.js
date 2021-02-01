@@ -16,7 +16,7 @@ const Scan_report = ({navigation}) => {
             })
           })
             .then((response) => {
-              if(response.status===200){
+              if(response.status===201){
                 return response.json();
               }
             })
@@ -29,7 +29,7 @@ const Scan_report = ({navigation}) => {
             .catch((error) => {
                 
                 console.error(error);
-                navigation.navigate("Notification");
+                //navigation.navigate("Notification");
             });    
     }
    

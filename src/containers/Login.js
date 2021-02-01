@@ -20,8 +20,6 @@ import LoadScreen from "src/containers/LoadScreen";
 
 const window = Dimensions.get("window");
 
-
-
 const Login = ({navigation})=> {
 
     const user = {
@@ -58,15 +56,11 @@ const Login = ({navigation})=> {
             Alert.alert("Your input username or password is incorrect!");
         }
         */
-       fetch('http://42.2.228.35:8000/api/user/login', {
+       fetch(`http://42.2.228.35:8000/api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
-        body:JSON.stringify({
-          username: username,
-          password: password,
-        })
       })
         .then((response) => {
-          if(response.status===200){
+          if(response.status===201){
             return response.json();
           }
         
@@ -74,19 +68,15 @@ const Login = ({navigation})=> {
 //If response is in json then in success
         .then(async(data) => {
             //Success 
-            //Alert.alert(""+ JSON.stringify(data))
-            await AsyncStorage.setItem("isLoggedIn", "1");
+            Alert.alert(""+ JSON.stringify(data.token));
+            //await AsyncStorage.setItem("isLoggedIn", "1");
+            await AsyncStorage.setItem("token", JSON.stringify(data.token));
             navigation.navigate("Load");
         })
         //If response is not in json then in error
-        .catch((error) => {
-           
-            //Error 
-            
-            //navigation.navigate("Load");
-            
+        .catch((error) => {      
+            //Error         
             console.error(error);
-            
         });
     }
 
