@@ -69,23 +69,21 @@ const Login = ({navigation})=> {
           if(response.status===200){
             return response.json();
           }
-          else{
-              return Alert.alert("fail");
-          }
+        
         })
 //If response is in json then in success
         .then(async(data) => {
             //Success 
-            Alert.alert(""+ JSON.stringify(data))
+            //Alert.alert(""+ JSON.stringify(data))
             await AsyncStorage.setItem("isLoggedIn", "1");
-         
+            navigation.navigate("Load");
         })
         //If response is not in json then in error
         .catch((error) => {
            
             //Error 
             
-            navigation.navigate("Load");
+            //navigation.navigate("Load");
             
             console.error(error);
             

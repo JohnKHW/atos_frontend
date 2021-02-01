@@ -6,7 +6,7 @@ const NavButton = (props)=> {
     {
       switch(props.title){
         case "Logout":
-            //await AsyncStorage.clear();
+            await AsyncStorage.clear();
             
             return props.navigation.navigate("Login");
             

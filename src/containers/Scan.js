@@ -18,6 +18,9 @@ const Scan = ({navigation}) => {
                   <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
                   <Text style={styles.scanBtnText}>Photo Scan</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>navigation.navigate("Scan_2")}>
+                  <Text style={styles.scanBtnText}>Test Result</Text>
+                </TouchableOpacity>
             </View>
         </View>
     <FooterIndex style={styles.footer} navigation={navigation}/>

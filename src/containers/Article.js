@@ -29,7 +29,7 @@ const Articles = ({navigation}) => {
             <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text style={styles.newsTitle}>What's new today?</Text>
                 <View style={styles.newsContainer}>
-                      <Text style={styles.text} onPress={()=>Linking.openURL("https://google.com")}>{currentText}</Text>
+                      <Text style={styles.text}>{currentText}</Text>
                 </View>
                     <TouchableOpacity onPress={()=>{
                             setIndex(index=>(index<2)?index+1:index=0);

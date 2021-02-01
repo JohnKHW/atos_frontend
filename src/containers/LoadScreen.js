@@ -46,8 +46,6 @@ const LoadScreen = ({navigation}) => {
     ).start();
         
     
-
-   
     // Next, interpolate beginning and end values (in this case 0 and 1)
     const spin = spinValue.interpolate({
       inputRange: [0, 1],
@@ -62,8 +60,7 @@ const LoadScreen = ({navigation}) => {
       inputRange: [0,1],
       outputRange: [1,50]
     });
-      
-      
+    
       setTimeout(()=>{
         //Alert.alert("OK");
         //setStop(true);
@@ -83,7 +80,7 @@ const LoadScreen = ({navigation}) => {
             >
               
             </Animated.Image>
-            <Text>Hi</Text>
+            
           </View>
         }
     </View>
