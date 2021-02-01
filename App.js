@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React ,{useState,useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,7 +16,9 @@ import {
   StatusBar,
   Text,
   Button,
-  Alert
+  Alert,
+  Animated,
+  Easing
 } from 'react-native';
 import DefaultContainer from 'src/containers/DefaultContainer';
 import LoginPage from 'src/containers/Login';
@@ -30,9 +32,11 @@ import Article from "src/containers/Article";
 import Transport from "src/containers/Transport";
 import Scan from "src/containers/Scan";
 import Rank from "src/containers/Rank";
-
-
-
+import LoadScreen from "src/containers/LoadScreen";
+import Congrats from "src/containers/Congrats";
+import Scan_2 from "src/containers/Scan_2";
+import Report from "src/containers/Scan_report";
+import Notification from "src/containers/Notification";
 
 const Drawer = createDrawerNavigator();
 
@@ -58,6 +62,7 @@ const AuthScreen = ({navigation}) =>{
   )
 }
 
+
 const App = () => {
   return (
     <>
@@ -66,11 +71,13 @@ const App = () => {
         <View style={styles.context}>
           
           <NavigationContainer>
-            <Drawer.Navigator initialRouteName="AuthScreen"
-           
+            <Drawer.Navigator //initialRouteName="AuthScreen"
+            initialRouteName="Rank"
             drawerStyle={{
               width:"100%",
-            }}
+              backgroundColor: "rgba(0, 0, 0,0.6)"
+            }
+            }
             drawerContent={({navigation})=> (<MyDrawer navigation={navigation}/>)}>
               <Drawer.Screen name="DefaultContainer" component={DefaultContainer}/>
               <Drawer.Screen name='Login' component={LoginPage}/>
@@ -79,6 +86,12 @@ const App = () => {
               <Drawer.Screen name='Transport' component={Transport}/>
               <Drawer.Screen name='Scan' component={Scan}/>
               <Drawer.Screen name='Rank' component={Rank}/>
+              <Drawer.Screen name='Load' component={LoadScreen}/>
+              <Drawer.Screen name='Congrats' component={Congrats}/>
+              <Drawer.Screen name='Scan_2' component={Scan_2}/>
+              <Drawer.Screen name='Report' component={Report}/>
+              <Drawer.Screen name='Notification' component={Notification}/>
+
             </Drawer.Navigator>
 
           </NavigationContainer>

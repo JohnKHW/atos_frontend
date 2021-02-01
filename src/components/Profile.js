@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   welcomeText: {
-    color: '#1E514A',
+    //color: '#1E514A',
+    color:"white",
     fontSize: 24,
     fontWeight: 'bold',
     shadowRadius: 6,

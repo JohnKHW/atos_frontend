@@ -7,6 +7,8 @@ export const componentStyles = StyleSheet.create({
       },
     header:{
       backgroundColor: "#FFC650",
+      borderBottomColor:"white",
+      borderBottomWidth:1,
     },
     footer: {
         //backgroundColor: '#defef3',

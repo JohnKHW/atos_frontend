@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet,Button, useWindowDimensions} from 'react-native';
+import {View, Text, Image,StyleSheet, TouchableOpacity} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
@@ -9,11 +9,15 @@ const Scan = ({navigation}) => {
   return (
      <>
         <HeaderIndex navigation={navigation}/>
-        <View style={{borderWidth:1,borderColor:"#F5F5F5"}}></View>
         <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
             <Text>Scan</Text>
             <View style={styles.scanContainer}>
-                
+                <Text style={styles.scanText}>Scan to earn net point </Text>
+                <Image style={styles.qrImage}source={require("src/assets/images/icon_QRcode.png")}></Image>
+                <TouchableOpacity style={styles.scanBtnContainer}>
+                  <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
+                  <Text style={styles.scanBtnText}>Photo Scan</Text>
+                </TouchableOpacity>
             </View>
         </View>
     <FooterIndex style={styles.footer} navigation={navigation}/>
@@ -29,13 +33,44 @@ const styles = StyleSheet.create({
     height: 84,
   },
   scanContainer: {
+      backgroundColor: "rgba(255, 255, 255,0.3)",
       borderColor:"white",
       borderWidth:2,
       borderRadius:50,
-      height:484,
+      height:557,
       marginTop: 50,
-      width:270,
-      
+      width:292,
+      alignItems: "center",
+      justifyContent: "center",
+  },
+  scanText: {
+    fontSize:18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#309397',
+    textTransform: 'uppercase',
+  },
+  scanBtnContainer:{
+    borderWidth:1,
+    borderRadius:50,
+    padding:10,
+    width:170,
+    backgroundColor:"#309397",
+    flexDirection : "row",
+    marginTop:50,
+    
+  },
+  scanBtnText:{
+    fontSize:16,
+    textAlign: 'center',
+    color: 'white',
+  },
+  scanCam:{
+    marginRight:10,
+    marginLeft:10,
+  },
+  qrImage:{
+    marginTop:50
   }
 });
 export default Scan;

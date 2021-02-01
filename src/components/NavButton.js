@@ -6,7 +6,7 @@ const NavButton = (props)=> {
     {
       switch(props.title){
         case "Logout":
-            await AsyncStorage.clear();
+            //await AsyncStorage.clear();
             
             return props.navigation.navigate("Login");
             
@@ -42,14 +42,18 @@ const styles = StyleSheet.create({
       height: 3,
     },
     shadowColor: '#9A9A9A',
+    
   },
   title: {
     fontSize: 17,
     marginLeft: 20,
     fontWeight: 'bold',
-    color: '#1E514A',
+    color: 'white',
     alignSelf: 'center',
   },
-  
+  image: {
+    tintColor:"white",
+  },
+
 });
 export default NavButton;

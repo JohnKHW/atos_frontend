@@ -32,7 +32,7 @@ const NavContainer = ({navigation}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.closeBtn} onPress={()=>navigation.closeDrawer()}>
-        <Image source={require('src/assets/images/icon_close.png')} />
+        <Image style={{tintColor:"white"}} source={require('src/assets/images/icon_close.png')} />
       </TouchableOpacity>
       <Profile contry={contry} username={username} />
       <View style={styles.btn_list}>

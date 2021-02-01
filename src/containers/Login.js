@@ -16,6 +16,8 @@ import {componentStyles} from 'src/common/containerStyles';
 import BaseButton from 'src/components/BaseButton';
 import DefaultContainer from "src/containers/DefaultContainer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadScreen from "src/containers/LoadScreen";
+
 const window = Dimensions.get("window");
 
 
@@ -40,6 +42,7 @@ const Login = ({navigation})=> {
         }
     };
     
+
     const authentication = () => {  
         /*
         if(data.length>0 && data.find((user,password)=> 
@@ -62,31 +65,49 @@ const Login = ({navigation})=> {
           password: password,
         })
       })
-      .then((response) => {
+        .then((response) => {
           if(response.status===200){
             return response.json();
           }
+          else{
+              return Alert.alert("fail");
+          }
         })
 //If response is in json then in success
-.then(async(data) => {
-    //Success 
-    Alert.alert(""+ JSON.stringify(data))
-    await AsyncStorage.setItem("isLoggedIn", "1");
-    navigation.navigate("DefaultContainer");
-})
-//If response is not in json then in error
-.catch((error) => {
-    //Error 
-    console.error(error);
-});
-       
-    }
-    
-   
-    return (
-        
-        <View style={[componentStyles.container_v2,{alignItems:"center"}]}>
+        .then(async(data) => {
+            //Success 
+            Alert.alert(""+ JSON.stringify(data))
+            await AsyncStorage.setItem("isLoggedIn", "1");
+         
+        })
+        //If response is not in json then in error
+        .catch((error) => {
            
+            //Error 
+            
+            navigation.navigate("Load");
+            
+            console.error(error);
+            
+        });
+    }
+
+    useEffect(() =>{
+        const clearData = navigation.addListener('focus' , () => {
+            setUsername("");
+            setPassword("");
+        })
+        return () => {
+            clearData;
+        }
+    },[navigation]);
+
+
+
+    
+    return (
+        <>
+        <View style={[componentStyles.container_v2,{alignItems:"center"}]}>
             <View>
                 <Image source={icon.loginIcon.img} style={styles.logo}/>
             </View>
@@ -117,9 +138,8 @@ const Login = ({navigation})=> {
                 </TouchableOpacity>
                 
             </View>
-             
         </View>
-      
+      </>
     );
 }
 
@@ -169,6 +189,9 @@ const styles = StyleSheet.create({
         width:170,
         padding:10,
         marginTop:20,
+    },
+    loadingScreen:{
+        
     }
 });
 

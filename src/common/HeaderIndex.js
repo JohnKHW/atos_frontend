@@ -28,7 +28,10 @@ const HeaderIndex = ({navigation}) => {
           <Image
           source={require('src/assets/images/icon_leading.png')} />
         </TouchableOpacity >
-        <Text style={styles.title}>{app.name}</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate("DefaultContainer")}>
+            <Text style={styles.title}>{app.name}</Text>
+        </TouchableOpacity>
+        
         <View style={styles.subcontainer}>
           <TouchableOpacity style={styles.subicon}>
             <Image
@@ -41,7 +44,9 @@ const HeaderIndex = ({navigation}) => {
           <TouchableOpacity style={styles.subicon}
            
           >
-            <Image  source={require('src/assets/images/icon_searching.png')} />
+            {
+              //<Image  source={require('src/assets/images/icon_searching.png')} />
+            }
           </TouchableOpacity>
         </View>
       </View>
@@ -68,6 +73,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: 30,
     tintColor:"#2d3436",
+    transform : [{translateX:20}]
   },
   leading: {
     marginTop: 30,
