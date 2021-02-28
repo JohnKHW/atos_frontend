@@ -1,6 +1,6 @@
 {
   "name": "atos_frontend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -10,21 +10,45 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.3",
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
+    "@react-navigation/drawer": "^5.11.5",
+    "@react-navigation/native": "^5.9.0",
+    "@react-navigation/stack": "^5.13.0",
+    "ios": "0.0.1",
     "react": "16.13.1",
-    "react-native": "0.63.4"
+    "react-native": "0.63.4",
+    "react-native-gesture-handler": "^1.9.0",
+    "react-native-reanimated": "^1.13.2",
+    "react-native-safe-area-context": "^3.1.9",
+    "react-native-screens": "^2.16.1",
+    "react-native-slideshow": "^1.0.1",
+    "react-navigation": "^4.4.3"
   },
   "devDependencies": {
-    "@babel/core": "7.12.10",
+    "@babel/core": "^7.12.10",
     "@babel/runtime": "7.12.5",
     "@react-native-community/eslint-config": "1.1.0",
     "babel-jest": "25.5.1",
     "eslint": "6.8.0",
     "jest": "25.5.4",
-    "metro-react-native-babel-preset": "0.59.0",
+    "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1"
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "```bash # install dependencies $ npm install",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnKHW/atos_frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JohnKHW/atos_frontend/issues"
+  },
+  "homepage": "https://github.com/JohnKHW/atos_frontend#readme"
 }
