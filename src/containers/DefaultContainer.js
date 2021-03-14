@@ -1,4 +1,4 @@
-import React ,{useState} from 'react';
+import React ,{useState,useEffect} from 'react';
 import {View, Text, StyleSheet,Button, useWindowDimensions, Image} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
@@ -6,11 +6,13 @@ import NavContainer from 'src/containers/NavContainer';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
+
 const Drawer = createDrawerNavigator();
 
-const username = "John Wong"
-
 const DefaultContainer = ({navigation}) => {
+  
+const [username, setUsername]= useState("John Wong");
+
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/>
@@ -24,8 +26,7 @@ const DefaultContainer = ({navigation}) => {
         </Text>
         <View style={styles.iconContain}>
           <Image style={styles.icon}
-            source={require("src/assets/images/icon_icon.png")}
-          >
+            source={require("src/assets/images/icon_icon.png")}>
             </Image> 
           <View style={styles.contry}>
             <Image source={require('src/assets/images/icon_hongkongFlag.png')} />

@@ -1,27 +1,19 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, StyleSheet,Alert} from 'react-native';
+import {Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const NavButton = (props)=> {
-  const goToScreen = async() => {
-    {
+  
+  const goToScreen = () => {
+    
       switch(props.title){
         case "Logout":
-            await AsyncStorage.clear();
-            
-            return props.navigation.navigate("Login");
-            
-      }
-    }
-
-      {/*
-      return ({
-        Logout: (props.title == "Logout") ? props.navigation.navigate("Login"): null , 
-        //DefaultContainer: (props.title == "Help") ? props.navigation.navigate("DefaultContainer"): null , 
-
-        }
-      );*/
+           // await AsyncStorage.clear();
+            return props.navigation.navigate("Logout");
+        case "Setting":
+            return props.navigation.navigate("Setting");
       }
     
+
   }
 
   return (
@@ -29,6 +21,7 @@ const NavButton = (props)=> {
       <Image style={styles.image} source={props.img} />
       <Text style={styles.title}>{props.title}</Text>
     </TouchableOpacity>
+   
   );
 };
 

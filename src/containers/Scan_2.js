@@ -5,7 +5,7 @@ import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 
-const Scan_2 = ({navigation}) => {
+const Scan_2 = ({navigation, route}) => {
 
     const [title, setTitle] = useState("Title");
     const [point, setPoint] = useState("Point");
@@ -63,7 +63,7 @@ const Scan_2 = ({navigation}) => {
                  
                 </View>
             </View>
-        <FooterIndex style={styles.footer} navigation={navigation}/>
+        <FooterIndex style={styles.footer} navigation={navigation}  />
         </>
     );
 };

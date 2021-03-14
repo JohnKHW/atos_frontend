@@ -1,11 +1,13 @@
-import React from 'react';
+import React , {useState}from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image,Alert} from 'react-native';
 import Profile from 'src/components/Profile';
 import NavButton from 'src/components/NavButton';
 
 const version = '1.0.0';
 const contry = 'Hong Kong';
-const username = 'John Wong';
+//const username = 'John Wong';
+
+
 const icon = {
   setting: {
     title: 'Setting',
@@ -29,6 +31,7 @@ const icon = {
   },
 };
 const NavContainer = ({navigation}) => {
+  const [username , setUsername] = useState(username);
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.closeBtn} onPress={()=>navigation.closeDrawer()}>
@@ -36,10 +39,10 @@ const NavContainer = ({navigation}) => {
       </TouchableOpacity>
       <Profile contry={contry} username={username} />
       <View style={styles.btn_list}>
-        <NavButton img={icon.setting.img} title={icon.setting.title} />
-        <NavButton img={icon.history.img} title={icon.history.title} />
+        <NavButton img={icon.setting.img} title={icon.setting.title} navigation={navigation}/>
+        <NavButton img={icon.history.img} title={icon.history.title} navigation={navigation}/>
         <NavButton img={icon.help.img} title={icon.help.title}  navigation={navigation}/>
-        <NavButton img={icon.about.img} title={icon.about.title} />
+        <NavButton img={icon.about.img} title={icon.about.title} navigation={navigation}/>
         <NavButton img={icon.logout.img} title={icon.logout.title} navigation={navigation} />
       </View>
       {/*

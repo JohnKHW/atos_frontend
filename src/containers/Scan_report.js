@@ -4,7 +4,7 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Scan_report = ({navigation}) => {
     const [reportText, setText] = useState("");
 
@@ -13,6 +13,7 @@ const Scan_report = ({navigation}) => {
             method: 'POST',
             body:JSON.stringify({
               reportText: reportText,
+              token: AsyncStorage.getItem("token"),
             })
           })
             .then((response) => {

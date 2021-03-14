@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 const ScreenHight = Dimensions.get('screen').height;
 //Alert.alert(""+ScreenHight);
-const Articles = ({navigation}) => {
+const Articles = ({navigation, route}) => {
    
     const text = [
         "HO",
@@ -52,7 +52,7 @@ const Articles = ({navigation}) => {
                
             
             
-        <FooterIndex style={styles.footer} navigation={navigation}/>
+        <FooterIndex style={styles.footer} navigation={navigation} points={5000} route={route}/>
         </>
     );
     };

@@ -5,7 +5,7 @@ import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 
-const Scan = ({navigation}) => {
+const Scan = ({navigation,route}) => {
   return (
      <>
         <HeaderIndex navigation={navigation}/>
@@ -14,7 +14,7 @@ const Scan = ({navigation}) => {
             <View style={styles.scanContainer}>
                 <Text style={styles.scanText}>Scan to earn net point </Text>
                 <Image style={styles.qrImage}source={require("src/assets/images/icon_QRcode.png")}></Image>
-                <TouchableOpacity style={styles.scanBtnContainer}>
+                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>navigation.navigate("ScanQR")}>
                   <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
                   <Text style={styles.scanBtnText}>Photo Scan</Text>
                 </TouchableOpacity>
@@ -23,7 +23,7 @@ const Scan = ({navigation}) => {
                 </TouchableOpacity>
             </View>
         </View>
-    <FooterIndex style={styles.footer} navigation={navigation}/>
+    <FooterIndex style={styles.footer} navigation={navigation} route={route}/>
     </>
   );
 };

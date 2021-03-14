@@ -1,0 +1,1 @@
+../../../../../node_modules/@t2tx/react-native-universal-pedometer/ios/BMDPedometer/BMDPedometer.h

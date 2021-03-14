@@ -37,6 +37,8 @@ import Congrats from "src/containers/Congrats";
 import Scan_2 from "src/containers/Scan_2";
 import Report from "src/containers/Scan_report";
 import Notification from "src/containers/Notification";
+import ScanQR from "src/containers/ScanQR";
+import Setting from "src/containers/Setting";
 
 const Drawer = createDrawerNavigator();
 
@@ -72,7 +74,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="AuthScreen"
+            initialRouteName="DefaultContainer"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"
@@ -91,6 +93,8 @@ const App = () => {
               <Drawer.Screen name='Scan_2' component={Scan_2}/>
               <Drawer.Screen name='Report' component={Report}/>
               <Drawer.Screen name='Notification' component={Notification}/>
+              <Drawer.Screen name='ScanQR' component={ScanQR}/>
+              <Drawer.Screen name='Setting' component={Setting}/>
 
             </Drawer.Navigator>
 

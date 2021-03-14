@@ -1,11 +1,23 @@
 import React ,{useState,useEffect} from 'react';
-import {View, Text, StyleSheet,Image,TouchableOpacity,Dimensions, Alert, Animated, Easing} from 'react-native';
+import {
+    View, 
+    Text, 
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    Dimensions, 
+    Alert, 
+    Animated, 
+    Easing,
+} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
-var pointText = "you have earned";
+
+const pointText = "you have earned";
+
 
 const MoveBackground = () => {
     return (
@@ -98,20 +110,23 @@ const moveX_C = movebg3.interpolate({
 
 const Transport = ({navigation}) => {
 
+
     const [hidden, setHidden] = useState(false);
     const [start, setStart] = useState(true);
     const [click, setClick] = useState(false);
 
     useEffect(() => {
+        
         const unsubscribe = navigation.addListener('focus', () => {
             setHidden(false);
             setStart(false);
             setClick(false);
             resetAM();
         });
-    
+
         return () => {
           unsubscribe;
+          
         };
       }, [navigation]);
 

@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
 import {View, Text, StyleSheet,Image} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
@@ -31,16 +31,20 @@ const RankUserContent = (props) =>{
 const Rank = ({navigation}) => {
 
   const rankTitle = "Regional Rank";
+  //const totalPoint = route.params.totalPoint;
+  //const [netPoint, setNetPoint] = useState(route.params.totalPoint);
+  //const total = setNetPoint(route.params);
+  //setNetPoint(route.params.totalPoint);
   return (
     <>
     <HeaderIndex navigation={navigation}/>
       <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
         
           <Text style={styles.rankTitle}>{rankTitle}</Text>
-          <RankUserContent no={1} name="Name" point="00000"/>
-          <RankUserContent no={2} name="Name" point="00000"/>
-          <RankUserContent no={3} name="Name" point="00000"/>
-          <RankUserContent no={'??'} name="You name" point="00000"/>
+          <RankUserContent no={1} name="Name" point={"00000"}/>
+          <RankUserContent no={2} name="Name" point={"00000"}/>
+          <RankUserContent no={3} name="Name" point={"00000"}/>
+          <RankUserContent no={'??'} name="You name" point={"00000"}/>
       </View>
       
       <FooterIndex style={styles.footer} navigation={navigation}/>

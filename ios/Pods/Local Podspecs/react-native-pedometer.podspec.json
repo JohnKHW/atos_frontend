@@ -1,0 +1,21 @@
+{
+  "name": "react-native-pedometer",
+  "version": "0.1.0",
+  "summary": "react native module for step counting on Android and IOS",
+  "homepage": "https://github.com/rimma-a//react-native-pedometer#readme",
+  "license": "MIT",
+  "authors": "Rimma-Koko <rimma@meetkoko.com> (https://github.com/rimma-a/)",
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "git": "https://github.com/rimma-a//react-native-pedometer.git",
+    "tag": "0.1.0"
+  },
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}

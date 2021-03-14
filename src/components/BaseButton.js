@@ -10,16 +10,23 @@ import {
 const BaseButton = (props) => {
   const [click, setClick] = useState(false);
 
+
   const goToScreen = () => {
     switch(props.title) {
       case "Articles": 
+       
         return props.navigation.navigate("Article");
       case "Transport":
+      
         return props.navigation.navigate("Transport");
       case "Scan":
+     
         return props.navigation.navigate("Scan");
       case "Rank":
-        return props.navigation.navigate("Rank");
+        
+          return props.navigation.navigate("Rank");
+        
+      
     }
   }
 

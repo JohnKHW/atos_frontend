@@ -1,4 +1,26 @@
 rootProject.name = 'atos_frontend'
+include ':@t2tx_react-native-universal-pedometer'
+project(':@t2tx_react-native-universal-pedometer').projectDir = new File(rootProject.projectDir, '../node_modules/@t2tx/react-native-universal-pedometer/android')
+include ':react-native-sensors'
+project(':react-native-sensors').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensors/android')
+include ':react-native-sensors'
+project(':react-native-sensors').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensors/android')
+include ':react-native-sensors'
+project(':react-native-sensors').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensors/android')
+include ':react-native-sensors'
+project(':react-native-sensors').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensors/android')
+include ':react-native-sensors'
+project(':react-native-sensors').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensors/android')
+include ':react-native-stepcounter-ios-android'
+project(':react-native-stepcounter-ios-android').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-stepcounter-ios-android/android')
+include ':react-native-stepcounter-ios-android'
+project(':react-native-stepcounter-ios-android').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-stepcounter-ios-android/android')
+include ':react-native-pedometer-ios-android'
+project(':react-native-pedometer-ios-android').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pedometer-ios-android/android')
+include ':react-native-permissions'
+project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':@react-native-community_async-storage'
 project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
 include ':@react-native-community_async-storage'

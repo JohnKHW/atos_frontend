@@ -1,0 +1,21 @@
+{
+  "name": "react-native-universal-pedometer",
+  "version": "2.0.3",
+  "summary": "React Native universal pedometer. This is a fork from @JWWon/react-native-universal-pedometer.",
+  "license": "MIT",
+  "authors": "t2isatx <t2isatx@gmail.com>",
+  "homepage": "https://github.com/t2tx/react-native-universal-pedometer#readme",
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "git": "https://github.com/t2tx/react-native-universal-pedometer.git",
+    "tag": "v2.0.3"
+  },
+  "source_files": "ios/**/*.{h,m}",
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}
