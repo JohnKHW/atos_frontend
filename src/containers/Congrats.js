@@ -16,7 +16,7 @@ const Congrats = ({navigation}) => {
                 </TouchableOpacity>
             </View>
             <FooterIndex style={styles.footer} navigation={navigation}/>
-
+            
         </>
     )
 }

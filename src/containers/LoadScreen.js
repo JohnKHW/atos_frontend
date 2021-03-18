@@ -8,44 +8,45 @@ const LoadScreen = ({navigation}) => {
 
 
     // First set up animation 
-
-    Animated.loop(
-      Animated.sequence([
+    const runAni = () => {
+      Animated.loop(
+        Animated.sequence([
+            Animated.timing(
+              spinValue,
+            {
+              toValue: 1,
+              duration: 1000,
+              easing: Easing.linear,
+              useNativeDriver: false,  // To make use of native driver for performance
+              
+            }
+          ),
+            Animated.timing(
+              spinValue,
+            {
+              toValue: 0,
+              duration: 1000,
+              easing: Easing.linear,
+              useNativeDriver: false,  // To make use of native driver for performance
+              
+            }
+          ),
           Animated.timing(
-            spinValue,
+            zoomValue,
           {
             toValue: 1,
             duration: 1000,
-            easing: Easing.linear,
+            easing: Easing.ease,
             useNativeDriver: false,  // To make use of native driver for performance
             
           }
-        ),
-          Animated.timing(
-            spinValue,
-          {
-            toValue: 0,
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: false,  // To make use of native driver for performance
-            
-          }
-        ),
-        Animated.timing(
-          zoomValue,
-        {
-          toValue: 1,
-          duration: 1000,
-          easing: Easing.ease,
-          useNativeDriver: false,  // To make use of native driver for performance
-          
-        }
-      )
-      ])
+        )
+        ])
+     
+      ).start();
+    }
    
-    ).start();
         
-    
     // Next, interpolate beginning and end values (in this case 0 and 1)
     const spin = spinValue.interpolate({
       inputRange: [0, 1],
@@ -61,12 +62,25 @@ const LoadScreen = ({navigation}) => {
       outputRange: [1,50]
     });
     
-      setTimeout(()=>{
-        //Alert.alert("OK");
-        //setStop(true);
-        navigation.navigate("DefaultContainer");
-      },3000);
+    useEffect(() =>{
 
+        const reRun = navigation.addListener('focus' , () => {
+            setTimeout(() => {
+            console.log('This will run after 3 second!')
+            navigation.navigate("DefaultContainer");
+        }, 3000);
+            runAni();
+            console.log("refill ag");
+           
+          });
+
+          return () => {
+            //clearTimeout(timer)
+            //reRun;
+          }
+    },[navigation])
+      
+    
   
   return ( 
 

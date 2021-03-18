@@ -6,13 +6,20 @@ import NavContainer from 'src/containers/NavContainer';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
-
+import ConfigSetup from "src/common/ConfigSetup";
 const Drawer = createDrawerNavigator();
 
 const DefaultContainer = ({navigation}) => {
   
-const [username, setUsername]= useState("John Wong");
-
+const [username, setUsername]= useState("Brian Wong");
+useEffect(() => {
+  const getName = navigation.addListener('focus' , () => {
+      //setUsername(ConfigSetup.getAPI());
+  })
+  return () => {
+    getName;
+  }
+},[navigation])
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/>

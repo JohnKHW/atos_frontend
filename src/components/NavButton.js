@@ -1,6 +1,7 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Image, Text, TouchableOpacity, StyleSheet,Alert} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ConfigSetup from "src/common/ConfigSetup";
 const NavButton = (props)=> {
   
   const goToScreen = () => {
@@ -10,7 +11,8 @@ const NavButton = (props)=> {
            // await AsyncStorage.clear();
             return props.navigation.navigate("Logout");
         case "Setting":
-            return props.navigation.navigate("Setting");
+            ConfigSetup.setAPI("Brian Wong");
+            Alert.alert(ConfigSetup.getAPI());
       }
     
 

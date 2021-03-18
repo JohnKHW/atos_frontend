@@ -39,6 +39,7 @@ import Report from "src/containers/Scan_report";
 import Notification from "src/containers/Notification";
 import ScanQR from "src/containers/ScanQR";
 import Setting from "src/containers/Setting";
+import Help from "src/containers/Help";
 
 const Drawer = createDrawerNavigator();
 
@@ -49,9 +50,13 @@ const AuthScreen = ({navigation}) =>{
       const isLoggedIn = await AsyncStorage.getItem("token");
       //Alert.alert(isLoggedIn);
       if(isLoggedIn)
-        navigation.navigate("DefaultContainer");
+        navigation.navigate("Help" , {
+          count:0
+        });
       else
-        navigation.navigate("Login");
+        navigation.navigate("Help",{
+          count:1
+        });
       //navigation.navigate((isLoggedIn !== 1) ? "Login": "DefaultContainer" );
     }catch(e){
       Alert.alert(e);
@@ -74,7 +79,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="DefaultContainer"
+            initialRouteName="Help"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"
@@ -95,7 +100,7 @@ const App = () => {
               <Drawer.Screen name='Notification' component={Notification}/>
               <Drawer.Screen name='ScanQR' component={ScanQR}/>
               <Drawer.Screen name='Setting' component={Setting}/>
-
+              <Drawer.Screen name='Help' component={Help}/>
             </Drawer.Navigator>
 
           </NavigationContainer>

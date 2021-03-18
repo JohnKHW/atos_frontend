@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Alert,
-  TouchableHigh
+  
 } from 'react-native';
 import {componentStyles} from 'src/common/containerStyles';
 

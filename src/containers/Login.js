@@ -17,7 +17,7 @@ import BaseButton from 'src/components/BaseButton';
 import DefaultContainer from "src/containers/DefaultContainer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadScreen from "src/containers/LoadScreen";
-
+import ConfigSetup from "src/common/ConfigSetup";
 const window = Dimensions.get("window");
 
 const Login = ({navigation})=> {
@@ -56,7 +56,7 @@ const Login = ({navigation})=> {
             Alert.alert("Your input username or password is incorrect!");
         }
         */
-       fetch(`http://42.2.228.35:8000/api/user/login?username=${username}&password=${password}`, {
+       fetch(`${ConfigSetup.get()}api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
       })
         .then((response) => {
