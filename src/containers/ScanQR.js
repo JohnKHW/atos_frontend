@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import {View, Text, Image,StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image,StyleSheet, TouchableOpacity, Alert,Linking} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
@@ -9,9 +9,12 @@ import { RNCamera } from 'react-native-camera';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const ScanQR = ({navigation}) => {
   const [QRdata, setQRData] = useState("");
-    const onSuccess = e => {
-             setQRData(e.data);
-        
+    const onSuccess = (e) => {
+             Alert.alert("OK");
+             //setQRData(e.data);
+             Linking.openURL(e.data).catch(err =>
+              console.error('An error occured', err)
+            );
       };
 
     const sendQRData = async() => {
@@ -50,10 +53,11 @@ const ScanQR = ({navigation}) => {
             <Text>ScanQR</Text>
             <View style={styles.scanContainer}>
                 <QRCodeScanner
+                    reactivate={true}
+                    reactivateTimeout={3000}
                     containerStyle={styles.qrScan}
-                    cameraStyle={{height:400,width:250}}
+                    cameraStyle={{height:200,width:200}}
                     onRead={onSuccess}
-                    flashMode={RNCamera.Constants.FlashMode.torch}
                     topContent={
                     <Text style={styles.centerText}>
                         
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
       borderColor:"white",
       borderWidth:2,
       borderRadius:50,
-      height:557,
+      height:450,
       marginTop: 50,
       width:292,
       alignItems: "center",

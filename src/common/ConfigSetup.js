@@ -9,9 +9,6 @@ class ConfigSetup {
         ConfigSetup.instance = this;
        
     }
-    
-   
-
 }
 const config = new ConfigSetup();
 Object.freeze(config);
