@@ -18,6 +18,8 @@ target 'atos_frontend' do
 
   pod 'react-native-universal-pedometer', :path => '../node_modules/@t2tx/react-native-universal-pedometer'
 
+  pod 'RNSensors', :path => '../node_modules/react-native-sensors'
+
   target 'atos_frontendTests' do
     inherit! :complete
     # Pods for testing

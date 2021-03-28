@@ -15,13 +15,13 @@ import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
-/*import {
+import {
     accelerometer,
     gyroscope,
     setUpdateIntervalForType,
     SensorTypes
   } from "react-native-sensors";
-  */
+  
 const pointText = "you have earned";
 
 
@@ -123,39 +123,41 @@ const Transport = ({navigation}) => {
     const [stepCount, setStepCount] = useState(0);
     const [magnitude,setMagnitude] = useState(0);
     const [delta,setDelta] = useState(0);
+    setUpdateIntervalForType(SensorTypes.accelerometer, 400);
     useEffect(() => {
         
-        //setUpdateIntervalForType(SensorTypes.accelerometer, 400);
-
         const unsubscribe = navigation.addListener('focus', () => {
             setHidden(false);
             setStart(false);
             setClick(false);
             resetAM();
         });
-/* 
-        const subscription = accelerometer.subscribe(({ x, y, z, timestamp }) =>
-            console.log({ x, y, z, timestamp }),
-            setMagnitude(Math.sqrt(x*x+y*y+z*z)),
-            setDelta(magnitude - MagnitudePrevious),
-            setMagnitudePrevious(magnitude),
-            delta > 6? setStepCount((stepCount)=>stepCount++):{},
-            Alert.alert(stepCount),
-        );
-        
+
+        const subscription = accelerometer.subscribe(({ x, y, z }) =>{
+            setMagnitude((Math.sqrt(x*x+y*y+z*z)).toString());
+    
+            setDelta(parseInt(magnitude) - parseInt(MagnitudePrevious));
+           
+            setMagnitudePrevious(magnitude);
+            setStepCount((stepCount)=>parseInt(delta)>1?stepCount++:1);
+            //Alert.alert(stepCount)
+            } );
+
         setTimeout(() => {
             // If it's the last subscription to accelerometer it will stop polling in the native API
             subscription.unsubscribe();
-          }, 1000);
-*/
+        }, 3000);
+
         return () => {
           unsubscribe;
           
         };
       }, [navigation]);
 
-
-
+      console.log("delta" , delta);
+      console.log("MaP" , MagnitudePrevious);
+      console.log(magnitude);
+      console.log(stepCount);
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/> 

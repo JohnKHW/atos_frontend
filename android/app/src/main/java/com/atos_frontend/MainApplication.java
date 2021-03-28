@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.sensors.RNSensorsPackage;
 import com.emesonsantana.BMDPedometer.BMDPedometer;
 import com.sensors.RNSensorsPackage;
 import com.sensors.RNSensorsPackage;

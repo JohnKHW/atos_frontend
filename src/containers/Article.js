@@ -4,12 +4,15 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import { useEffect } from 'react';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ScreenHight = Dimensions.get('screen').height;
 //Alert.alert(""+ScreenHight);
 const Articles = ({navigation, route}) => {
    
+    
+    const post = [];
+
     const text = [
         "HO",
         "Hi",
@@ -17,10 +20,47 @@ const Articles = ({navigation, route}) => {
     ];
     const [index , setIndex] = useState(0);
     const [currentText, setText] = useState(text[index]);
-  
+   /*
+    fetch('http://42.2.228.35:8000/api/user/login', {
+        method: 'POST',
+        body:JSON.stringify({
+            token: AsyncStorage.getItem("token"),
+        })
+      })
+        .then((response) => {
+          if(response.status===201){
+            return response.json();
+          }
+        })
+
+        .then((data) => {
+            setTitle(JSON.stringify(data.title));
+            setContent(JSON.stringify(data.content));
+            console.log(JSON.stringify(data));
+        })
+
+        .catch((error) => {
+            
+            console.error(error);
+            //navigation.navigate("Notification");
+        });   
+
+    */
+    const addSave = async() => {
+        try{
+            await AsyncStorage.setItem("post", index);
+        }catch(e){
+            console.error("there is something miss in getting post")
+        }
+    }
+
+    const write = () => { 
+        navigation.navigate("Write");
+    }
     useEffect(()=>{
         setText(text[index]);
         //Alert.alert(""+index);
+        
     },[index])
     return (
         <>
@@ -31,22 +71,32 @@ const Articles = ({navigation, route}) => {
                 <View style={styles.newsContainer}>
                       <Text style={styles.text}>{currentText}</Text>
                 </View>
-                    <TouchableOpacity onPress={()=>{
-                            setIndex(index=>(index<2)?index+1:index=0);
-                            setText(text[index]);
-                        }
-                        }>
-                        
-                            <Image style={styles.next} source={require("src/assets/images/icon_next.png")}></Image>
-                        </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{
+                <TouchableOpacity style={styles.nextArrowContainer} onPress={()=>{
+                        setIndex(index=>(index<2)?index+1:index=0);
+                        setText(text[index]);
+                        //Alert.alert(""+ index);
+                        console.log("" + index);
+                    }
+                }>
+                    
+                    <Image source={require("src/assets/images/icon_next.png")}></Image>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.backArrowContainer} onPress={()=>{
                     //Alert.alert(""+ index);
                     setIndex(index=>(index>0)?index-1:index=2);
-                
-                    }}>
-                    <Image style={styles.back} source={require("src/assets/images/icon_back.png")}></Image>
+                    //Alert.alert(""+ index);
+                    console.log("" + index);
+                }}>
+                    <Image source={require("src/assets/images/icon_back.png")}></Image>
                 </TouchableOpacity>
-          
+                <TouchableOpacity style={styles.favour} onPress={()=>addSave}>
+                    <Image source={require("src/assets/images/icon_favour.png")}></Image>
+            
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.write} onPress={()=>write()}>
+                    <Image source={require("src/assets/images/icon_favour.png")}></Image>
+            
+                </TouchableOpacity>
             </View>
             
                
@@ -73,8 +123,8 @@ const styles = StyleSheet.create({
         borderColor:"white",
         borderWidth:1,
         borderRadius:50,
-        height:484,
-        marginTop: 50,
+        height:450,
+        marginTop: 20,
         width:270,
         backgroundColor: 'rgba(255,255,255,0.5)',
         justifyContent: 'center',
@@ -83,16 +133,43 @@ const styles = StyleSheet.create({
     text:{
         fontSize:50,
     },
-    back:{
-       position: 'absolute',
-        right:160,
-        bottom:230
+
+    nextArrowContainer:{
+        borderWidth:3,
+        borderTopColor: 'black',
+        height:50,
+        width:50,
+        right:10,
+        top:Dimensions.get('window').height/3 + 50,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+    },
+    backArrowContainer:{
+        borderWidth:3,
+        borderTopColor: 'black',
+        height:50,
+        width:50,
+        left:10,
+        top:Dimensions.get('window').height/3 + 50,
+        justifyContent: 'center',
+        alignItems: "center",
+        position: "absolute",
+    },
+    favour:{
+        position: "absolute",
+        borderWidth:3,
+        borderColor:"black",
+        right:20,
+        top:500
         
     },
-    next:{
-        position: 'absolute',
-        left:160,
-        bottom:225
+    write:{
+        position: "absolute",
+        borderWidth:3,
+        borderColor:"black",
+        right:20,
+        top:50
     }
 });
 export default Articles;

@@ -11,14 +11,12 @@ const ScanQR = ({navigation}) => {
   const [QRdata, setQRData] = useState("");
     const onSuccess = (e) => {
              Alert.alert("OK");
-             //setQRData(e.data);
-             Linking.openURL(e.data).catch(err =>
-              console.error('An error occured', err)
-            );
-      };
+             setQRData(e.data);
+             sendQRData();
+      };å
 
     const sendQRData = async() => {
-      fetch('http://42.2.228.35:8000/api/user/login', {
+      fetch(`http://42.2.228.35:8000/cashier/cal/${QRdata}`, {
           method: 'POST',
           body:JSON.stringify({
             QRdata: QRdata,
