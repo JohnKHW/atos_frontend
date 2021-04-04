@@ -1,3 +1,6 @@
+import React from 'react';
+import {Alert} from 'react-native';
+
 class SavePost {
     constructor(){
         if(typeof SavePost.instance === 'object'){
@@ -9,11 +12,21 @@ class SavePost {
        
     }
     set(item){
-        this.post.push(item);
+        for(var i=0;i<this.post.length;i++){
+            if(item.id===this.post[i].id){
+                Alert.alert("This post added!");
+                console.log("Found");
+                return;
+            }
+            console.log("i = ", i);
+        }
+            this.post.push(item);
+            console.log("fail out");
     }
 
     setArray(items){
         for(var i=0; i<items.length; i++){
+          
             this.set(items[i]);
         }
     }

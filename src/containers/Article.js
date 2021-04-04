@@ -22,16 +22,19 @@ const Articles = ({navigation, route}) => {
         "id": 2,
         "title": "Demo Article2",
         "content": "Demo Content2",
-        }];
-
-    const text = [
-        "HO",
-        "Hi",
-        "test",
+        },
+        {
+            "id": 3,
+            "title": "Demo Article3sadsadddasasdas",
+            "content": "Demo Content3",
+            },
     ];
+
+    const text = testArt;
+    
     const [index , setIndex] = useState(0);
-    const [currentText, setText] = useState(text[index]);
-   
+    const [currentText, setText] = useState(text[index].title);
+    const [currentContent, setContent] = useState(text[index].content);
     fetch('http://42.2.228.35:8000/api/user/login', {
         method: 'POST',
         body:JSON.stringify({
@@ -57,7 +60,9 @@ const Articles = ({navigation, route}) => {
 
     const addSave = () => {
         try{
-            SavePost.setArray(testArt);
+            SavePost.set(testArt[index]);
+            console.log("ADDed ", SavePost.get());
+            
         }catch(e){
             console.error(e);
         }
@@ -67,7 +72,8 @@ const Articles = ({navigation, route}) => {
         navigation.navigate("Write");
     }
     useEffect(()=>{
-        setText(text[index]);
+        setText(text[index].title);
+        setContent(text[index].content);
         //Alert.alert(""+index);
         
     },[index])
@@ -78,11 +84,20 @@ const Articles = ({navigation, route}) => {
             <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text style={styles.newsTitle}>What's new today?</Text>
                 <View style={styles.newsContainer}>
+                    <View style={styles.titleContainer}>
                       <Text style={styles.text}>{currentText}</Text>
+                      <TouchableOpacity onPress={()=> addSave()}>
+                        <Image source={require("src/assets/images/icon_favour.png")}></Image>
+            
+                    </TouchableOpacity>
+                </View>
+                      <Text style={styles.content}>{currentContent}</Text>
+
                 </View>
                 <TouchableOpacity style={styles.nextArrowContainer} onPress={()=>{
                         setIndex(index=>(index<2)?index+1:index=0);
-                        setText(text[index]);
+                        setText(text[index].title);
+                        setContent(text[index].content);
                         //Alert.alert(""+ index);
                         console.log("" + index);
                     }
@@ -100,7 +115,6 @@ const Articles = ({navigation, route}) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.favour} 
                     onPress={()=>{
-                        addSave();
                         navigation.navigate("Save");
                     }
                     }>
@@ -139,14 +153,21 @@ const styles = StyleSheet.create({
         borderRadius:50,
         height:450,
         marginTop: 20,
+        padding:20,
         width:270,
         backgroundColor: 'rgba(255,255,255,0.5)',
-        justifyContent: 'center',
         alignItems:"center",
+       
     },
     text:{
-        fontSize:50,
+        fontSize:30,
+        fontWeight:'bold',
+        flexDirection: 'row'
     },
+    content:{
+        fontSize:25,
+    },
+
 
     nextArrowContainer:{
         borderWidth:3,
@@ -184,6 +205,10 @@ const styles = StyleSheet.create({
         borderColor:"black",
         right:20,
         top:50
-    }
+    },
+    titleContainer:{
+        flexDirection: 'row'
+    },
+    
 });
 export default Articles;

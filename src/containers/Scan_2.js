@@ -68,7 +68,7 @@ const Scan_2 = ({navigation, route}) => {
                     }
                 <FlatList
                     data={data}
-                    keyExtractor={({ id }, index) => id}
+                    keyExtractor={({ id }) => id.toString()}
                     renderItem={({ item }) => (
                         <View style={styles.scanContainer}>
                             <Text style={styles.foodTitle}>{item.title} +{item.point}</Text>

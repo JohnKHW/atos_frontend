@@ -1,50 +1,49 @@
 import React , {useState,useEffect}from 'react';
-import {View, Text, Image,StyleSheet, TouchableOpacity,ScrollView,FlatList} from 'react-native';
+import {View, Text, Image,StyleSheet,FlatList,Alert} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import SavePost from 'src/common/SavePost';
 const SaveCollection = ({navigation}) => {
-    const [data, setData] = useState(undefined);
-    const testData = SavePost.get();
-    const testArt = [{
-        "id": 1,
-        "title": "Demo Article",
-        "content": "Demo Content",
-    
-        },
-        {
-        "id": 2,
-        "title": "Demo Article2",
-        "content": "Demo Content2",
-    }];
-    useEffect(() =>{
-        setData(testData);
-        console.log("getted data", testData);
-    },[navigation])
+    const [data, setData] = useState({});
+    const [isFetching, setIsFetching] = useState(false);
+    const [testName, setTestName] = useState("Save Article");
 
+    useEffect(() =>{
+        
+        const reRun = navigation.addListener('focus' , () => {
+            setData(SavePost.get());
+           
+            Alert.alert(" " + JSON.stringify(data));
+        });
+        return reRun;
+        //console.log("getted data", testData);
+    },[navigation]);
+    
     return (
      <>
         <HeaderIndex navigation={navigation}/>
         <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
             <Image source={require("src/assets/images/icon_favour.png")}></Image>
-            <Text style={styles.title}>Saved Article</Text>
-            <ScrollView>
-             
-                {SavePost.get() === undefined?  <Text>No any saved</Text>:
+            <Text style={styles.title}>{testName}</Text>
+                    
                     <FlatList
+                        
                         data={data}
-                        keyExtractor={({ id }) => id}
+                        extraData={data.length}
+                        keyExtractor={({ id }) => id.toString()}
                         renderItem={({ item }) => (
+                            data === undefined? <Text>No any save post</Text>:
                             <View style={styles.saveContainer}>
                                 <Text style={styles.saveTitle}>{item.title}</Text>
                                 <Text style={styles.saveContent}>{item.content}</Text>
                             </View>
                         )}
                     />
-                }
-            </ScrollView>
+                        
+                
+           
         </View>
     <FooterIndex style={styles.footer} navigation={navigation}/>
     </>
