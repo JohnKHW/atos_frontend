@@ -14,6 +14,7 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
+import Step from 'src/components/Step';
 import NetPoint from 'src/components/NetPoint';
 import {
     accelerometer,
@@ -22,6 +23,8 @@ import {
     SensorTypes
   } from "react-native-sensors";
   import { map, filter } from "rxjs/operators";
+  import AsyncStorage from "@react-native-async-storage/async-storage";
+  import ConfigSetup from "src/common/ConfigSetup";
 const pointText = "you have earned";
 
 
@@ -119,37 +122,63 @@ const Transport = ({navigation}) => {
     const [hidden, setHidden] = useState(false);
     const [start, setStart] = useState(true);
     const [click, setClick] = useState(false);
-    const [subscription, setSubscription] = useState(0);
+    const [text, setText] = useState("");
+    const [subscription, setSubscription] = useState(undefined);
+    const [countVal, setCountVal] = useState(0);
     var magnitude;
     var delta;
     var MagnitudePrevious;
     var stepCount = 0;
-    const counter = () => {
-        setUpdateIntervalForType(SensorTypes.accelerometer, 400);
-
-        setSubscription(accelerometer.subscribe(({ x, y, z }) =>{
-                //console.log({ x, y, z })
-                const added = (Math.sqrt(x*x+y*y+z*z)).toString();
-                console.log(added);
     
-                magnitude = added;
-                
-               
-                //Alert.alert(stepCount) );
-                //const temp = magnitude;
-                //console.log("temp" , temp);
-
-                delta = magnitude - MagnitudePrevious;
-                MagnitudePrevious = magnitude;
-            
-                stepCount = delta>0.3? ++stepCount : stepCount;
-                console.log("mag = ", magnitude );
-                console.log("delta=" , delta);
-                console.log("MaP=" , MagnitudePrevious);
-                console.log("step= ", stepCount);
-            }));
-           
+    const sendData = () => {
+        fetch(ConfigSetup.getAPI()+'api/user/login', {
+            count:countVal,
+            token: AsyncStorage.getItem("token"),
+        }).then((response) => {
+            if(response.status===201){
+              return response.json();
+            }
+          
+          })
+  //If response is in json then in success
+          .then((data) => {
+              //Success 
+              navigation.navigate("Congrats");
+          })
+          //If response is not in json then in error
+          .catch((error) => {      
+              //Error 
+              navigation.navigate("Congrats");        
+              console.error(error);
+          });
     }
+
+    const counter = () => {
+        setUpdateIntervalForType(SensorTypes.accelerometer, 400);  
+        setSubscription(accelerometer.subscribe(({ x, y, z }) =>{
+            //console.log({ x, y, z })
+            const added = (Math.sqrt(x*x+y*y+z*z)).toString();
+            console.log(added);
+
+            magnitude = added;
+            
+           
+            //Alert.alert(stepCount) );
+            //const temp = magnitude;
+            //console.log("temp" , temp);
+
+            delta = magnitude - MagnitudePrevious;
+            MagnitudePrevious = magnitude;
+        
+            stepCount = delta>0.3? ++stepCount : stepCount;
+            setCountVal(stepCount);
+            console.log("mag = ", magnitude );
+            console.log("delta=" , delta);
+            console.log("MaP=" , MagnitudePrevious);
+            console.log("step= ", stepCount);
+        }));
+    }
+     
     useEffect(() => {
     
         const unsubscribe = navigation.addListener('focus', () => {
@@ -157,6 +186,11 @@ const Transport = ({navigation}) => {
             setStart(false);
             setClick(false);
             resetAM();
+            setCountVal(0);
+            magnitude= 0;
+            MagnitudePrevious = 0;
+            delta = 0;
+            stepCount = 0;
         });
          
         //console.log("mag = ", magnitude );
@@ -169,10 +203,14 @@ const Transport = ({navigation}) => {
 */      
         return () => {
           unsubscribe;
-          subscription.unsubscribe();
+          //subscription.unsubscribe();
         };
       }, [navigation]);
-
+      useEffect(() =>{
+        
+        setText(countVal);
+    
+      },[countVal])
       //console.log("delta" , delta);
       //console.log("MaP" , MagnitudePrevious);
       //console.log(magnitude);
@@ -193,15 +231,17 @@ const Transport = ({navigation}) => {
                 </TouchableOpacity>
         </View>
         <View style={hidden?styles.netpoint:styles.netpointHidden}>
-            <NetPoint netpoint="00000" text= {pointText}/>
+            <Step step={countVal} text="You have earned"/>
+            {/*
             <TouchableOpacity onPress={()=>{
                 setClick((click)=>{return !click});
                 stopAM();
-                
+                subscription.unsubscribe();
                 
                 }} style={click?styles.pauseBtnHidden:styles.pauseBtn}>
                 <Image source={require("src/assets/images/icon_pause.png")}></Image>
             </TouchableOpacity>
+            */}
             <TouchableOpacity onPress={()=>{
                 setClick((click)=>{return !click});
                 startAm();
@@ -211,7 +251,7 @@ const Transport = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{
                 setStart(false);
-                navigation.navigate("Congrats");
+                sendData();
               
             }} 
                 style={styles.stopBtn}>

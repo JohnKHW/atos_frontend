@@ -27,23 +27,32 @@ const Scan_2 = ({navigation, route}) => {
       }
     ]
     const [totalPoint, setTotalPoint] = useState(0);
-    const ScanedCotainer = () => {
-        return (
-            <>
-                <View style={styles.scanContainer}>
-                    <Text style={styles.foodTitle}>{title} +{point}</Text>
-                    <Text style={styles.foodContent}>content</Text>
-                </View>
-            </>
-        )
-    }
+    
+    fetch(ConfigSetup.getAPI()+'api/user/login', {
+        token: AsyncStorage.getItem("token"),
+    }).then((response) => {
+        if(response.status===201){
+          return response.json();
+        }
+      
+      })
+//If response is in json then in success
+      .then((data) => {
+          //Success 
+          setData(data);
+      })
+      //If response is not in json then in error
+      .catch((error) => {      
+          //Error         
+          console.error(error);
+      });
 
-    var list = [];
+
    
     useEffect(() =>{
         // for counting the point added to the total the user has
         setTotalPoint((totalPoint) => {totalPoint += point});
-        setData(titleobj);
+        //setData(titleobj);
         const clearData = () => {
             setTitle("");
             setPoint("");
