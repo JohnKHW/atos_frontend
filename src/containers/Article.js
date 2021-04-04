@@ -5,13 +5,24 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import { useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import SavePost from 'src/common/SavePost';
 const ScreenHight = Dimensions.get('screen').height;
 //Alert.alert(""+ScreenHight);
 const Articles = ({navigation, route}) => {
    
+    const [post,setPost] = useState("");
+
+    const testArt = [{
+        "id": 1,
+        "title": "Demo Article",
+        "content": "Demo Content",
     
-    const post = [];
+        },
+        {
+        "id": 2,
+        "title": "Demo Article2",
+        "content": "Demo Content2",
+        }];
 
     const text = [
         "HO",
@@ -20,7 +31,7 @@ const Articles = ({navigation, route}) => {
     ];
     const [index , setIndex] = useState(0);
     const [currentText, setText] = useState(text[index]);
-   /*
+   
     fetch('http://42.2.228.35:8000/api/user/login', {
         method: 'POST',
         body:JSON.stringify({
@@ -34,23 +45,21 @@ const Articles = ({navigation, route}) => {
         })
 
         .then((data) => {
-            setTitle(JSON.stringify(data.title));
-            setContent(JSON.stringify(data.content));
+            setPost(JSON.stringify(data));
             console.log(JSON.stringify(data));
         })
 
         .catch((error) => {
-            
+        
             console.error(error);
             //navigation.navigate("Notification");
         });   
 
-    */
-    const addSave = async() => {
+    const addSave = () => {
         try{
-            await AsyncStorage.setItem("post", index);
+            SavePost.setArray(testArt);
         }catch(e){
-            console.error("there is something miss in getting post")
+            console.error(e);
         }
     }
 
@@ -89,7 +98,12 @@ const Articles = ({navigation, route}) => {
                 }}>
                     <Image source={require("src/assets/images/icon_back.png")}></Image>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.favour} onPress={()=>addSave}>
+                <TouchableOpacity style={styles.favour} 
+                    onPress={()=>{
+                        addSave();
+                        navigation.navigate("Save");
+                    }
+                    }>
                     <Image source={require("src/assets/images/icon_favour.png")}></Image>
             
                 </TouchableOpacity>

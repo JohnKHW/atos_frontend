@@ -252,6 +252,8 @@ PODS:
     - React-Core
   - react-native-universal-pedometer (2.0.3):
     - React
+  - react-native-webview (11.3.2):
+    - React-Core
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -372,6 +374,7 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-universal-pedometer (from `../node_modules/@t2tx/react-native-universal-pedometer`)"
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -447,6 +450,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-universal-pedometer:
     :path: "../node_modules/@t2tx/react-native-universal-pedometer"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -516,6 +521,7 @@ SPEC CHECKSUMS:
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-universal-pedometer: 5ee0100c8f6b6e673b0a01bc3317f26ad3b5d97f
+  react-native-webview: 71567b6bf3d4e55914e580d720cc8f7df64af817
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -536,6 +542,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 590a5f117a56446b9be8552ef96d2e7d55b078c5
+PODFILE CHECKSUM: a0ec2c3f7583baa6a2c4aa78980b2ef623896eb8
 
 COCOAPODS: 1.10.1

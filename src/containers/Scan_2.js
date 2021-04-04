@@ -1,5 +1,5 @@
 import React , {useState, useEffect} from 'react';
-import {View, Text, Image,StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image,StyleSheet, TouchableOpacity,FlatList} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
@@ -9,6 +9,23 @@ const Scan_2 = ({navigation, route}) => {
 
     const [title, setTitle] = useState("Title");
     const [point, setPoint] = useState("Point");
+    const [data, setData] = useState(undefined);
+    const titleobj = [{
+        id:'1',
+        title:'Chicken',
+        point:'50'
+      },
+      {
+        id:'2',
+          title:'Local',
+          point:'25'
+      },
+      {
+        id:'3',
+          title:'No Plastic',
+          point:'50'
+      }
+    ]
     const [totalPoint, setTotalPoint] = useState(0);
     const ScanedCotainer = () => {
         return (
@@ -21,11 +38,12 @@ const Scan_2 = ({navigation, route}) => {
         )
     }
 
-    var list = [{},{}];
+    var list = [];
+   
     useEffect(() =>{
         // for counting the point added to the total the user has
         setTotalPoint((totalPoint) => {totalPoint += point});
-       
+        setData(titleobj);
         const clearData = () => {
             setTitle("");
             setPoint("");
@@ -42,11 +60,24 @@ const Scan_2 = ({navigation, route}) => {
             <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text>Scan2</Text>
                 <View style={styles.scanedCotainer} > 
-                    {
+                    {/*
                         list.map(function(){
                             return <ScanedCotainer/>
                         })
+                        */
                     }
+                <FlatList
+                    data={data}
+                    keyExtractor={({ id }, index) => id}
+                    renderItem={({ item }) => (
+                        <View style={styles.scanContainer}>
+                            <Text style={styles.foodTitle}>{item.title} +{item.point}</Text>
+                            <Text style={styles.foodContent}>content</Text>
+                        </View>
+                    )}
+                 />
+
+
                     <View style={{alignItems: "center"}}>
                         <TouchableOpacity style={styles.scanBtnContainer}>
                         

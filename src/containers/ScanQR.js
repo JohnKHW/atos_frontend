@@ -13,7 +13,7 @@ const ScanQR = ({navigation}) => {
              Alert.alert("OK");
              setQRData(e.data);
              sendQRData();
-      };å
+      };
 
     const sendQRData = async() => {
       fetch(`http://42.2.228.35:8000/cashier/cal/${QRdata}`, {

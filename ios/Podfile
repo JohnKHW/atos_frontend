@@ -20,6 +20,8 @@ target 'atos_frontend' do
 
   pod 'RNSensors', :path => '../node_modules/react-native-sensors'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'atos_frontendTests' do
     inherit! :complete
     # Pods for testing

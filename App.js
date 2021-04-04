@@ -41,6 +41,7 @@ import ScanQR from "src/containers/ScanQR";
 import Setting from "src/containers/Setting";
 import Help from "src/containers/Help";
 import Write from "src/containers/WriteArticle"
+import Save from "src/containers/SaveCollection"
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{
@@ -102,6 +103,7 @@ const App = () => {
               <Drawer.Screen name='Setting' component={Setting}/>
               <Drawer.Screen name='Help' component={Help}/>
               <Drawer.Screen name='Write' component={Write}/>
+              <Drawer.Screen name='Save' component={Save}/>
             </Drawer.Navigator>
 
           </NavigationContainer>

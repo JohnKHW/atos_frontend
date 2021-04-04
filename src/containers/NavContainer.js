@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   closeBtn: {
-    paddingVertical: 75,
+    paddingVertical: 40,
     alignSelf: 'flex-end',
     marginRight: 10,
   },

@@ -1,4 +1,4 @@
-import React ,{useState} from 'react';
+import React ,{useState,useEffect} from 'react';
 import {
     View, 
     Text, 
@@ -7,18 +7,22 @@ import {
     Image, 
     Alert, 
     TextInput,
+    ScrollView,
+    KeyboardAvoidingView,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
-import {useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
+import {actions,customIcon,RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+import { WebView } from 'react-native-webview';
 const WriteArticle = ({navigation}) => {
 
     const [title,setTitle] = useState("");
     const [content, setContent] = useState("");
+ 
 
     const send = () => {
         fetch('http://42.2.228.35:8000/api/user/login', {
@@ -48,9 +52,35 @@ const WriteArticle = ({navigation}) => {
             });    
 
     }
+/*
+    const [richText,setRichText] = useState(React.createRef() || useRef());
+    const onEditorInitialized = () => {
+        richText.current?.registerToolbar(function (items) {
+            // console.log('Toolbar click, selected items (insert end callback):', items);
+        });
+    }
+
+    const handleChange = (html) => {
+        setContent(html);
+    }
+    const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+    const onKeyShow = () => setKeyboardStatus("Keyboard Shown");
+    const onKeyHide = () => setKeyboardStatus("Keyboard Hidden");
+    */
+    useEffect(() =>{
+        const clearData = navigation.addListener('focus' , () => {
+
+            setContent('');
+        })
+
+        return () => {
+            clearData;
+        }
+    },[navigation]);
 
     return (
         <>
+        
          <View style={styles.header}>
             <Text style={styles.writeTitle}>Write Your Artile</Text>
         </View>
@@ -61,31 +91,47 @@ const WriteArticle = ({navigation}) => {
         <TouchableOpacity style={styles.send}>
             <Text style={styles.sendText}>Send</Text>
         </TouchableOpacity>
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={componentStyles.container_v2}>
            
            <View style={styles.titleContainer}>
-            <TextInput
-                style={styles.inputTitle}
-                placeholder="Title"
-                autoCapitalize = "none"
-                onChangeText = {title => setTitle(title)}
-                value = {title}
-            >
-            </TextInput>
+                <TextInput
+                    style={styles.inputTitle}
+                    placeholder="Title"
+                    autoCapitalize = "none"
+                    onChangeText = {title => setTitle(title)}
+                    value = {title}
+                >
+                </TextInput>       
             </View>
             <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.inputContent}
-                placeholder="Content"
-                autoCapitalize = "none"
-                onChangeText = {content => setContent(content)}
-                value = {content}
-            >
-            </TextInput>
+                <TextInput
+                    style={styles.inputContent}
+                    placeholder="Content"
+                    autoCapitalize = "none"
+                    onChangeText = {content => setContent(content)}
+                    value = {content}
+                >
+                </TextInput>       
             </View>
-        </View>
+            {/*
+                <View style={styles.inputContainer} keyboardDismissMode={'none'}>
+                    <RichEditor
+                        ref={(r) => setRichText(r)}
         
+                        placeholder={'Content'}
+                        style={styles.inputContent}
+                        onChange={handleChange}
+                        editorInitializedCallback={() => onEditorInitialized()}
+                    />
+                  
+                    <Text>This is {content}</Text>
+                </View>
+               */} 
+        </View>
+            
+        </TouchableWithoutFeedback>
+      
     </>
 
     )
@@ -98,7 +144,7 @@ const styles = StyleSheet.create({
     },
     inputTitle: {
         fontSize:20,
-
+        
     },
     header:{
         backgroundColor: "grey",
@@ -114,16 +160,16 @@ const styles = StyleSheet.create({
     },
     titleContainer:{
         borderBottomWidth:1,
-        padding:10
+        padding:10,
     },
     inputContent:{
         fontSize:20,
-
     },
     inputContainer:{
         borderBottomWidth:1,
+        height: '75%',
         padding:10,
-        height:700
+        flex:1,
     },
     send:{
         position: "absolute",
@@ -136,7 +182,8 @@ const styles = StyleSheet.create({
     },
     sendText:{
         fontSize:20,
-    }
+    },
+
 })
 
 export default WriteArticle;

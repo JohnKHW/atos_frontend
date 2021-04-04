@@ -21,7 +21,7 @@ import {
     setUpdateIntervalForType,
     SensorTypes
   } from "react-native-sensors";
-  
+  import { map, filter } from "rxjs/operators";
 const pointText = "you have earned";
 
 
@@ -119,45 +119,64 @@ const Transport = ({navigation}) => {
     const [hidden, setHidden] = useState(false);
     const [start, setStart] = useState(true);
     const [click, setClick] = useState(false);
-    const [MagnitudePrevious,setMagnitudePrevious] = useState(0);
-    const [stepCount, setStepCount] = useState(0);
-    const [magnitude,setMagnitude] = useState(0);
-    const [delta,setDelta] = useState(0);
-    setUpdateIntervalForType(SensorTypes.accelerometer, 400);
+    const [subscription, setSubscription] = useState(0);
+    var magnitude;
+    var delta;
+    var MagnitudePrevious;
+    var stepCount = 0;
+    const counter = () => {
+        setUpdateIntervalForType(SensorTypes.accelerometer, 400);
+
+        setSubscription(accelerometer.subscribe(({ x, y, z }) =>{
+                //console.log({ x, y, z })
+                const added = (Math.sqrt(x*x+y*y+z*z)).toString();
+                console.log(added);
+    
+                magnitude = added;
+                
+               
+                //Alert.alert(stepCount) );
+                //const temp = magnitude;
+                //console.log("temp" , temp);
+
+                delta = magnitude - MagnitudePrevious;
+                MagnitudePrevious = magnitude;
+            
+                stepCount = delta>0.3? ++stepCount : stepCount;
+                console.log("mag = ", magnitude );
+                console.log("delta=" , delta);
+                console.log("MaP=" , MagnitudePrevious);
+                console.log("step= ", stepCount);
+            }));
+           
+    }
     useEffect(() => {
-        
+    
         const unsubscribe = navigation.addListener('focus', () => {
             setHidden(false);
             setStart(false);
             setClick(false);
             resetAM();
         });
-
-        const subscription = accelerometer.subscribe(({ x, y, z }) =>{
-            setMagnitude((Math.sqrt(x*x+y*y+z*z)).toString());
-    
-            setDelta(parseInt(magnitude) - parseInt(MagnitudePrevious));
-           
-            setMagnitudePrevious(magnitude);
-            setStepCount((stepCount)=>parseInt(delta)>1?stepCount++:1);
-            //Alert.alert(stepCount)
-            } );
-
-        setTimeout(() => {
-            // If it's the last subscription to accelerometer it will stop polling in the native API
-            subscription.unsubscribe();
-        }, 3000);
-
+         
+        //console.log("mag = ", magnitude );
+        //console.log("delta=" , delta);
+        //console.log("MaP=" , MagnitudePrevious);
+        //onsole.log(magnitude);
+        //console.log("step= ", stepCount);
+        /*  
+        
+*/      
         return () => {
           unsubscribe;
-          
+          subscription.unsubscribe();
         };
       }, [navigation]);
 
-      console.log("delta" , delta);
-      console.log("MaP" , MagnitudePrevious);
-      console.log(magnitude);
-      console.log(stepCount);
+      //console.log("delta" , delta);
+      //console.log("MaP" , MagnitudePrevious);
+      //console.log(magnitude);
+      //console.log(stepCount);
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/> 
@@ -168,6 +187,7 @@ const Transport = ({navigation}) => {
                     setHidden(true);
                     startAm();
                     setStart(true);
+                    counter();
                 }}>
                     <Text style={{fontSize:31, textAlign:"center", color:"white",padding:5}}>Start</Text>
                 </TouchableOpacity>
@@ -192,6 +212,7 @@ const Transport = ({navigation}) => {
             <TouchableOpacity onPress={()=>{
                 setStart(false);
                 navigation.navigate("Congrats");
+              
             }} 
                 style={styles.stopBtn}>
                 <Image source={require("src/assets/images/icon_stop.png")}></Image>
