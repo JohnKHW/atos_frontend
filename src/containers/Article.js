@@ -26,7 +26,7 @@ const Articles = ({navigation, route}) => {
         {
             "id": 3,
             "title": "Demo Article3sadsadddasasdas",
-            "content": "Demo Content3",
+            "content": "Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3",
             },
     ];
 
@@ -91,8 +91,14 @@ const Articles = ({navigation, route}) => {
             
                     </TouchableOpacity>
                 </View>
+                    <View style={{height:250,width:250}}>
                       <Text style={styles.content}>{currentContent}</Text>
-
+                      <TouchableOpacity onPress={()=> addSave()}>
+                        <Text style={{textAlign:'center',fontSize:25,color:'#2676ff'}}>
+                            More...
+                        </Text>
+                    </TouchableOpacity>
+                    </View>
                 </View>
                 <TouchableOpacity style={styles.nextArrowContainer} onPress={()=>{
                         setIndex(index=>(index<2)?index+1:index=0);

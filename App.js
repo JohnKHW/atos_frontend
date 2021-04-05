@@ -42,6 +42,7 @@ import Setting from "src/containers/Setting";
 import Help from "src/containers/Help";
 import Write from "src/containers/WriteArticle"
 import Save from "src/containers/SaveCollection"
+import ArticleDetail from "src/containers/ArticleDetail"
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{

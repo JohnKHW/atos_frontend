@@ -7,34 +7,60 @@ import {componentStyles} from 'src/common/containerStyles';
 import SavePost from 'src/common/SavePost';
 const SaveCollection = ({navigation}) => {
     const [data, setData] = useState({});
-    const [isFetching, setIsFetching] = useState(false);
-    const [testName, setTestName] = useState("Save Article");
+    const [currentTime, setTime] = useState(0);
+
+    var mytime;
+    useEffect(() =>{
+        const reRun = navigation.addListener('focus' , () => {
+             
+            setTime(Date.now().toString());
+            
+            console.log("focus");
+        });
+        mytime = setTimeout(() => {
+            setTime(Date.now().toString());
+            //Alert.alert("Time " + currentTime);
+        }, 3000);
+       
+
+        const unsubscribe = navigation.addListener('blur' , () => {
+            clearTimeout(mytime);
+            console.log("I done clear")
+        })
+        return () => {
+            unsubscribe;
+            reRun;
+        }
+    })
 
     useEffect(() =>{
         
         const reRun = navigation.addListener('focus' , () => {
             setData(SavePost.get());
-           
-            Alert.alert(" " + JSON.stringify(data));
         });
-        return reRun;
+
+    
+        return () =>{
+            reRun;
+            
+        }
         //console.log("getted data", testData);
     },[navigation]);
-    
+  
     return (
      <>
         <HeaderIndex navigation={navigation}/>
         <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
             <Image source={require("src/assets/images/icon_favour.png")}></Image>
-            <Text style={styles.title}>{testName}</Text>
+            <Text style={styles.title}>Save Article</Text>
                     
                     <FlatList
                         
                         data={data}
-                        extraData={data.length}
+                        extraData={currentTime}
                         keyExtractor={({ id }) => id.toString()}
                         renderItem={({ item }) => (
-                            data === undefined? <Text>No any save post</Text>:
+                            data === null? <Text>No any save post</Text>:
                             <View style={styles.saveContainer}>
                                 <Text style={styles.saveTitle}>{item.title}</Text>
                                 <Text style={styles.saveContent}>{item.content}</Text>
