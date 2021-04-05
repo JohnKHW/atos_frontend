@@ -12,22 +12,25 @@ const Articles = ({navigation, route}) => {
    
     const [post,setPost] = useState("");
 
-    const testArt = [{
-        "id": 1,
-        "title": "Demo Article",
-        "content": "Demo Content",
-    
+    const testArt = [
+        {
+            "id": 1,
+            "title": "Demo Article",
+            "content": "Demo Content",
+            "author" : "Brian Wong"
         },
         {
-        "id": 2,
-        "title": "Demo Article2",
-        "content": "Demo Content2",
+            "id": 2,
+            "title": "Demo Article2",
+            "content": "Demo Content2",
+            "author" : "Brian Wong"
         },
         {
             "id": 3,
-            "title": "Demo Article3sadsadddasasdas",
-            "content": "Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3Demo Content3",
-            },
+            "title": "Demo Article3sadsadddasasdasadadadsads",
+            "content": "Seee",
+            "author" : "Brian Wong"
+        },
     ];
 
     const text = testArt;
@@ -77,6 +80,9 @@ const Articles = ({navigation, route}) => {
         //Alert.alert(""+index);
         
     },[index])
+
+
+
     return (
         <>
             <HeaderIndex navigation={navigation}/>
@@ -93,7 +99,18 @@ const Articles = ({navigation, route}) => {
                 </View>
                     <View style={{height:250,width:250}}>
                       <Text style={styles.content}>{currentContent}</Text>
-                      <TouchableOpacity onPress={()=> addSave()}>
+                      <TouchableOpacity 
+                        onPress={()=>{
+                            console.log("now passing title ", text[index].title);
+                            console.log("now passing content ", text[index].content);
+                            navigation.navigate("ArticleDetail",{
+                                title: text[index].title,
+                                content: text[index].content,
+                                author: text[index].author
+                            })
+                        }
+
+                        }>
                         <Text style={{textAlign:'center',fontSize:25,color:'#2676ff'}}>
                             More...
                         </Text>
@@ -119,14 +136,7 @@ const Articles = ({navigation, route}) => {
                 }}>
                     <Image source={require("src/assets/images/icon_back.png")}></Image>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.favour} 
-                    onPress={()=>{
-                        navigation.navigate("Save");
-                    }
-                    }>
-                    <Image source={require("src/assets/images/icon_favour.png")}></Image>
-            
-                </TouchableOpacity>
+         
                 <TouchableOpacity style={styles.write} onPress={()=>write()}>
                     <Image source={require("src/assets/images/icon_favour.png")}></Image>
             

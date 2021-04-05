@@ -9,10 +9,12 @@ const NavButton = (props)=> {
       switch(props.title){
         case "Logout":
            // await AsyncStorage.clear();
-            return props.navigation.navigate("Logout");
+            return props.navigation.navigate("Login");
         case "Setting":
-            ConfigSetup.setAPI("Brian Wong");
-            Alert.alert(ConfigSetup.getAPI());
+            //ConfigSetup.setAPI("Brian Wong");
+            return Alert.alert(ConfigSetup.getAPI());
+        case "Help":
+            return props.navigation.navigate("Help");
       }
     
 

@@ -6,20 +6,41 @@ import NavContainer from 'src/containers/NavContainer';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
-import ConfigSetup from "src/common/ConfigSetup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SavePost from 'src/common/SavePost';
 const Drawer = createDrawerNavigator();
 
 const DefaultContainer = ({navigation}) => {
   
 const [username, setUsername]= useState("Brian Wong");
-useEffect(() => {
-  const getName = navigation.addListener('focus' , () => {
-      //setUsername(ConfigSetup.getAPI());
+const [countSave, setCountSave] = useState(0);
+const updateSavedPost = async() =>{
+  if(SavePost.get().length===0){
+    console.log("it is null");
+    const savedPost = JSON.parse(await AsyncStorage.getItem("SavedPost"));
+    console.log("Saved post in storage", JSON.parse(await AsyncStorage.getItem("SavedPost")));
+    SavePost.setSave(savedPost);
+    console.log("done");
+    console.log("Saved post ", SavePost.get());
+    setCountSave((countSave) => countSave++);
+  }
+  else{
+    console.log("nothing happened " , SavePost.get());
+    
+  }
+}
+
+useEffect(() =>{ 
+  const add = navigation.addListener('focus' , () => {
+    if(countSave===0){
+      updateSavedPost();
+    }
   })
   return () => {
-    getName;
+      add;
   }
 },[navigation])
+
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={navigation}/>

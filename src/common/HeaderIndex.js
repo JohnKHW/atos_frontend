@@ -38,8 +38,8 @@ const HeaderIndex = ({navigation}) => {
               source={require('src/assets/images/icon_notification.png')}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.subicon}>
-            <Image source={require('src/assets/images/icon_sharing.png')} />
+          <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>navigation.navigate("Save")}>
+            <Image source={require('src/assets/images/icon_favour.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.subicon}
            

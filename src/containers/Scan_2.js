@@ -47,8 +47,6 @@ const Scan_2 = ({navigation, route}) => {
           console.error(error);
       });
 
-
-   
     useEffect(() =>{
         // for counting the point added to the total the user has
         setTotalPoint((totalPoint) => {totalPoint += point});

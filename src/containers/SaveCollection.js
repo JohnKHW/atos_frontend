@@ -1,10 +1,11 @@
 import React , {useState,useEffect}from 'react';
-import {View, Text, Image,StyleSheet,FlatList,Alert} from 'react-native';
+import {View, Text, Image,StyleSheet,FlatList,Alert,TouchableOpacity} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import SavePost from 'src/common/SavePost';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const SaveCollection = ({navigation}) => {
     const [data, setData] = useState({});
     const [currentTime, setTime] = useState(0);
@@ -35,8 +36,15 @@ const SaveCollection = ({navigation}) => {
 
     useEffect(() =>{
         
-        const reRun = navigation.addListener('focus' , () => {
+        const reRun = navigation.addListener('focus' , async() => {
             setData(SavePost.get());
+            /*
+            try{
+                setData(JSON.parse(await AsyncStorage.getItem("SavedPost")));
+            }catch(e){
+                console.error(e);
+            }
+            */
         });
 
     
@@ -61,10 +69,20 @@ const SaveCollection = ({navigation}) => {
                         keyExtractor={({ id }) => id.toString()}
                         renderItem={({ item }) => (
                             data === null? <Text>No any save post</Text>:
-                            <View style={styles.saveContainer}>
-                                <Text style={styles.saveTitle}>{item.title}</Text>
-                                <Text style={styles.saveContent}>{item.content}</Text>
-                            </View>
+                                <TouchableOpacity onPress={()=>
+                                    navigation.navigate("ArticleDetail",{
+                                        title:item.title,
+                                        content:item.content,
+                                        author:item.author,
+                                    })
+                                
+                                }>
+                                    <View style={styles.saveContainer}>
+                                    
+                                        <Text style={styles.saveTitle}>{item.title}</Text>
+                                        
+                                    </View>
+                                </TouchableOpacity>  
                         )}
                     />
                         
@@ -95,6 +113,7 @@ const styles = StyleSheet.create({
         height:115,
         marginTop: 20,
         width:298,
+        flexDirection:'column',
     },
     saveTitle:{
         textAlign: 'center',

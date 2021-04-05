@@ -81,7 +81,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="Help"
+            initialRouteName="DefaultContainer"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"
@@ -105,6 +105,7 @@ const App = () => {
               <Drawer.Screen name='Help' component={Help}/>
               <Drawer.Screen name='Write' component={Write}/>
               <Drawer.Screen name='Save' component={Save}/>
+              <Drawer.Screen name='ArticleDetail' component={ArticleDetail}/>
             </Drawer.Navigator>
 
           </NavigationContainer>
