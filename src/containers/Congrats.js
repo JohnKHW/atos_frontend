@@ -31,7 +31,7 @@ const Congrats = ({navigation}) => {
 
     return (
         <>
-            <HeaderIndex/>
+            <HeaderIndex navigation={navigation} backgroundColor={"#FFC650"}/>
             <View style = {[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text style={{fontSize:40,textTransform: 'uppercase',transform:[{translateY:50}],color:"#FF6319", fontWeight:"bold", marginTop:50,marginBottom:50}}>Conratulations!!</Text>
                 <NetPoint netpoint={netPoint} text="you have earned"/>

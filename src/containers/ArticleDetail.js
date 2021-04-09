@@ -33,7 +33,7 @@ const ArticleDetail = (props) => {
 
     return (
         <>
-            <HeaderIndex navigation={props.navigation}/>
+            <HeaderIndex navigation={navigation} backgroundColor={"#FFC650"}/>
                 <View  style={[componentStyles.container_v2,{alignItems: "center"}]}> 
                      <Text style={styles.title}>{title}</Text>
                      <View style={styles.authorContainer}>

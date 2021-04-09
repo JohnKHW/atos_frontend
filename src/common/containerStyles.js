@@ -6,12 +6,13 @@ export const componentStyles = StyleSheet.create({
         height: '100%',
       },
     header:{
-      backgroundColor: "#FFC650",
+      backgroundColor:"#FFC650",
       borderBottomColor:"white",
       borderBottomWidth:1,
     },
     footer: {
         //backgroundColor: '#defef3',
+        
         position: 'absolute',
         bottom: 0,
         width: '100%',

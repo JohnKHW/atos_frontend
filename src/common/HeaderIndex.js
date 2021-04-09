@@ -11,24 +11,27 @@ import {
 } from 'react-native';
 import {componentStyles} from 'src/common/containerStyles';
 
-const HeaderIndex = ({navigation}) => {
+const HeaderIndex = (props) => {
   const app = {
     name: 'Carbonet',
   };
 
   const Menu = () => {
-    navigation.openDrawer();
+    props.navigation.openDrawer();
   }
-
   
   return (
+    <>
+       <View style={{width:"100%",height:"100%",backgroundColor:props.backgroundColor,position:"absolute"}}></View>
     <SafeAreaView style={componentStyles.header}>
+      
       <View style={[styles.container,componentStyles.header]}>
+        
         <TouchableOpacity style={styles.leading} onPress={Menu}>
           <Image
-          source={require('src/assets/images/icon_leading.png')} />
+            source={require('src/assets/images/icon_leading.png')} />
         </TouchableOpacity >
-        <TouchableOpacity onPress={()=>navigation.navigate("DefaultContainer")}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate("DefaultContainer")}>
             <Text style={styles.title}>{app.name}</Text>
         </TouchableOpacity>
         
@@ -38,7 +41,7 @@ const HeaderIndex = ({navigation}) => {
               source={require('src/assets/images/icon_notification.png')}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>navigation.navigate("Save")}>
+          <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>props.navigation.navigate("Save")}>
             <Image source={require('src/assets/images/icon_favour.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.subicon}
@@ -49,8 +52,12 @@ const HeaderIndex = ({navigation}) => {
             }
           </TouchableOpacity>
         </View>
+        
       </View>
+      
     </SafeAreaView>
+ 
+    </>
   );
 };
 

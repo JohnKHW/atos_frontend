@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { set } from 'react-native-reanimated';
+
 class SavePost {
     constructor(){
         if(typeof SavePost.instance === 'object'){
@@ -39,11 +39,18 @@ class SavePost {
         }
     }
     setSave(items){
-        if(this.post.length === 0){
-            for(var i=0; i<items.length; i++){
-                this.set(items[i]);
-            }
+        if(items === null){
+            return;
+        }
 
+        if(this.post.length === 0){
+            try{
+                for(var i=0; i<items.length; i++){
+                    this.set(items[i]);
+                }
+            }catch(e){
+                console.error(e);
+            }
             console.log("in class, it added ", this.post);
         }
         else{

@@ -6,12 +6,14 @@ import {componentStyles} from 'src/common/containerStyles';
 import { useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
+import TutorBox from 'src/components/TutorBox';
 const ScreenHight = Dimensions.get('screen').height;
+
 //Alert.alert(""+ScreenHight);
-const Articles = ({navigation, route}) => {
+const Articles = (props) => {
    
     const [post,setPost] = useState("");
-
+    const [helpCount, setHelpCount] = useState(undefined);
     const testArt = [
         {
             "id": 1,
@@ -72,7 +74,7 @@ const Articles = ({navigation, route}) => {
     }
 
     const write = () => { 
-        navigation.navigate("Write");
+        props.navigation.navigate("Write");
     }
     useEffect(()=>{
         setText(text[index].title);
@@ -80,22 +82,30 @@ const Articles = ({navigation, route}) => {
         //Alert.alert(""+index);
         
     },[index])
-
+    useEffect(() =>{
+        if(props.route.params){
+            setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
+        }
+        
+    })
 
 
     return (
         <>
-            <HeaderIndex navigation={navigation}/>
+            <HeaderIndex navigation={props.navigation}/>
         
             <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text style={styles.newsTitle}>What's new today?</Text>
                 <View style={styles.newsContainer}>
                     <View style={styles.titleContainer}>
                       <Text style={styles.text}>{currentText}</Text>
-                      <TouchableOpacity onPress={()=> addSave()}>
-                        <Image source={require("src/assets/images/icon_favour.png")}></Image>
-            
-                    </TouchableOpacity>
+                        <View style={{borderWidth:1, position:"absolute",right:0}}>  
+                            <TouchableOpacity onPress={()=> addSave()}>
+                            <Image source={require("src/assets/images/icon_favour.png")}></Image>
+                
+                            </TouchableOpacity>
+                        </View>
+                    
                 </View>
                     <View style={{height:250,width:250}}>
                       <Text style={styles.content}>{currentContent}</Text>
@@ -103,7 +113,7 @@ const Articles = ({navigation, route}) => {
                         onPress={()=>{
                             console.log("now passing title ", text[index].title);
                             console.log("now passing content ", text[index].content);
-                            navigation.navigate("ArticleDetail",{
+                            props.navigation.navigate("ArticleDetail",{
                                 title: text[index].title,
                                 content: text[index].content,
                                 author: text[index].author
@@ -146,7 +156,67 @@ const Articles = ({navigation, route}) => {
                
             
             
-        <FooterIndex style={styles.footer} navigation={navigation} points={5000} route={route}/>
+        <FooterIndex style={styles.footer} navigation={props.navigation} points={5000} route={props.route}/>
+        <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+                {helpCount===undefined?
+                    <TutorBox
+                                    mouseNum={1}
+                                    text={"You can read the latest article about decarbonization here!"}
+                                    mouse1left={20}
+                                    mouse1top={800}
+                                    circle={1}
+                                    navigation={props.navigation}
+                                    isPlace={1}  
+                                    place ={"Article"}
+                                    boxtop={100}
+                                    haveCount={1}
+                                    nowCount={1}
+                    />
+
+                    :helpCount===1?
+                    <TutorBox
+                        mouseNum={1}
+                        text={"Also pressing the heart to save the article you like"}
+                        mouse1left={280}
+                        mouse1top={240}
+                        circle={1}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Article"}
+                        boxtop={100}
+                        haveCount={1}
+                        nowCount={2}
+
+                    />:helpCount===2?
+                    <TutorBox
+                    mouseNum={1}
+                    text={"You can read the article you have saved by passing here."}
+                    mouse1left={Dimensions.get("screen").width-70}
+                    mouse1top={65}
+                    circle={1}
+                    navigation={props.navigation}
+                    isPlace={1}  
+                    place ={"Article"}
+                    boxtop={100}
+                    haveCount={1}
+                    nowCount={3}
+                    />:
+                    <TutorBox
+                        mouseNum={1}
+                        text={"You can write your own article tips to the others here."}
+                        mouse1left={Dimensions.get("screen").width-130}
+                        mouse1top={250}
+                        circle={1}
+                        navigation={props.navigation}
+                        isPlace={1} 
+                        place ={"Save"}
+                        boxtop={100}
+                        haveCount={0}
+                        
+                    />
+                }
+
+
         </>
     );
     };
@@ -168,11 +238,12 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderRadius:50,
         height:450,
-        marginTop: 20,
-        padding:20,
+        marginVertical:50,
+        marginHorizontal:5,
+        padding:15,
         width:270,
         backgroundColor: 'rgba(255,255,255,0.5)',
-        alignItems:"center",
+        alignItems:"stretch"
        
     },
     text:{
@@ -223,7 +294,7 @@ const styles = StyleSheet.create({
         top:50
     },
     titleContainer:{
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     
 });

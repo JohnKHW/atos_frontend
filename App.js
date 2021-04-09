@@ -43,6 +43,7 @@ import Help from "src/containers/Help";
 import Write from "src/containers/WriteArticle"
 import Save from "src/containers/SaveCollection"
 import ArticleDetail from "src/containers/ArticleDetail"
+import ScanFood from "src/containers/ScanFood"
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{
@@ -106,6 +107,7 @@ const App = () => {
               <Drawer.Screen name='Write' component={Write}/>
               <Drawer.Screen name='Save' component={Save}/>
               <Drawer.Screen name='ArticleDetail' component={ArticleDetail}/>
+              <Drawer.Screen name='ScanFood' component={ScanFood}/>
             </Drawer.Navigator>
 
           </NavigationContainer>

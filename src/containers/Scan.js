@@ -1,11 +1,12 @@
-import React from 'react';
+import React , {useState}from 'react';
 import {View, Text, Image,StyleSheet, TouchableOpacity} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
-
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 const Scan = ({navigation,route}) => {
+
   return (
      <>
         <HeaderIndex navigation={navigation}/>
@@ -16,11 +17,17 @@ const Scan = ({navigation,route}) => {
                 <Image style={styles.qrImage}source={require("src/assets/images/icon_QRcode.png")}></Image>
                 <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>navigation.navigate("ScanQR")}>
                   <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
-                  <Text style={styles.scanBtnText}>Photo Scan</Text>
+                  <Text style={styles.scanBtnText}>Scan QR code</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>navigation.navigate("Scan_2")}>
-                  <Text style={styles.scanBtnText}>Test Result</Text>
+                <TouchableOpacity style={styles.scanBtnContainer} 
+                    onPress={()=> 
+                        navigation.navigate("ScanFood")
+                    }
+                    
+                >
+                  <Text style={styles.scanBtnText}>Scan Food</Text>
                 </TouchableOpacity>
+              
             </View>
         </View>
     <FooterIndex style={styles.footer} navigation={navigation} route={route}/>
@@ -60,7 +67,8 @@ const styles = StyleSheet.create({
     width:170,
     backgroundColor:"#309397",
     flexDirection : "row",
-    marginTop:50,
+    marginTop:30,
+    justifyContent: "center"
     
   },
   scanBtnText:{

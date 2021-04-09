@@ -4,12 +4,17 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
-
+import ConfigSetup from "src/common/ConfigSetup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RankUserContent = (props) =>{
 
   const [name, setName] = useState(props.name);
   const [netPoint, setNetPoint] = useState(props.point);
+  
+
+
+
   return (
     <View style={styles.rankContent}>
         <View style={styles.rankNo}>
@@ -31,6 +36,31 @@ const RankUserContent = (props) =>{
 const Rank = ({navigation}) => {
 
   const rankTitle = "Regional Rank";
+  const [data , setData] = useState({});
+  const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
+    token:  AsyncStorage.getItem("token"),
+  }).then((response) => {
+    if(response.status===201){
+      return response.json();
+    }
+  
+  })
+//If response is in json then in success
+  .then((data) => {
+      //Success 
+      setData(data);
+  })
+  //If response is not in json then in error
+  .catch((error) => {      
+      //Error         
+      console.error(error);
+  });
+}
+  useEffect(() =>{
+    fetchingData();
+  },[navigation])
+
+
   //const totalPoint = route.params.totalPoint;
   //const [netPoint, setNetPoint] = useState(route.params.totalPoint);
   //const total = setNetPoint(route.params);

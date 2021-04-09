@@ -8,6 +8,7 @@ import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
+import TutorBox from 'src/components/TutorBox';
 const Drawer = createDrawerNavigator();
 
 const DefaultContainer = ({navigation}) => {
@@ -43,7 +44,7 @@ useEffect(() =>{
 
   return (
     <View style={componentStyles.container_v2}>
-      <HeaderIndex navigation={navigation}/>
+      <HeaderIndex navigation={navigation} />
 
       <View>
         <Text style={[styles.welcomeText,{marginTop:50}]}>
@@ -64,7 +65,22 @@ useEffect(() =>{
         <NetPoint netpoint="00000" text="you now have earned"/>
       </View>
       <FooterIndex style={styles.footer} navigation={navigation}/>
-
+      <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+              <TutorBox
+                            mouseNum={2}
+                            text={"You can set your information and see the current net points here!"}
+                            mouse1left={65}
+                            mouse1top={45}
+                            mouse2left={300}
+                            mouse2top={500}
+                            circle={0}
+                            navigation={navigation}
+                            isPlace={1}  
+                            place ={"Article"}
+                            haveCount={0}
+                            boxtop = {0}
+                            
+              />
     </View>
   );
 };

@@ -4,7 +4,8 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
-
+import ConfigSetup from "src/common/ConfigSetup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Scan_2 = ({navigation, route}) => {
 
     const [title, setTitle] = useState("Title");
@@ -28,8 +29,9 @@ const Scan_2 = ({navigation, route}) => {
     ]
     const [totalPoint, setTotalPoint] = useState(0);
     
-    fetch(ConfigSetup.getAPI()+'api/user/login', {
-        token: AsyncStorage.getItem("token"),
+
+    const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
+        token:  AsyncStorage.getItem("token"),
     }).then((response) => {
         if(response.status===201){
           return response.json();
@@ -46,15 +48,17 @@ const Scan_2 = ({navigation, route}) => {
           //Error         
           console.error(error);
       });
+    }
 
     useEffect(() =>{
         // for counting the point added to the total the user has
         setTotalPoint((totalPoint) => {totalPoint += point});
-        //setData(titleobj);
-        const clearData = () => {
+        setData(titleobj);
+        //fetchingData();
+        const clearData =  navigation.addListener("focus", () =>  {
             setTitle("");
             setPoint("");
-        }
+        })
         return () => {
             clearData;
         }

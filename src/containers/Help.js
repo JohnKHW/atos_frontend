@@ -1,15 +1,17 @@
 import React , {useEffect,useState} from 'react';
-import {View, Text,StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text,StyleSheet, TouchableOpacity,SafeAreaView} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
-import TutorBox from 'src/components/tutorBox';
 import ConfigSetup from "src/common/ConfigSetup";
+import TurtorBox from "src/components/TutorBox";
+
 const Help = ({navigation,route}) => {
-  const countValue = JSON.stringify(route.params);
+  
   const [getAPI,setAPI] = useState(ConfigSetup.getAPI());
- 
+
+  const countValue = 1;
   useEffect(() =>{
       const getData = navigation.addListener('focus' , () => {
           console.log(ConfigSetup.getAPI());
@@ -21,14 +23,17 @@ const Help = ({navigation,route}) => {
     }
   
   },[navigation])
-
-  if(countValue === 0)
-      navigation.navigate("DefaultContainer");
-  else{
+ 
+    
         return (
           <>
+
+    
+               
                 <HeaderIndex navigation={navigation}/>
+                
                 <View style={[componentStyles.container_v2,{alignItems: "center"}]}> 
+                
                     <Text>Help</Text>
                     <View style={styles.helpContainer}>
                         <Text style={styles.helpText}>Welcome to the community of CarboNet!</Text>
@@ -37,7 +42,7 @@ const Help = ({navigation,route}) => {
                         </View>
                         <TouchableOpacity style={styles.helpBtnContainer} 
                             onPress={()=>navigation.navigate("DefaultContainer",{
-                                count: countValue, 
+                                countHelp: countValue, 
                             })
                         }>
             
@@ -46,20 +51,20 @@ const Help = ({navigation,route}) => {
                         <TouchableOpacity style={[styles.helpBtnContainer,{backgroundColor:"transparent"}]} 
                         
                           onPress={()=>navigation.navigate("DefaultContainer",{
-                            count:0
+                            countHelp:0
                           })}>
                           <Text style={[styles.helpBtnText,{color:"#309397"}]}>Skip</Text>
                         </TouchableOpacity>
                     </View>
-                    <TutorBox text={getAPI}/>
+                 
                 </View> 
                 
               <FooterIndex style={styles.footer} navigation={navigation} route={route}/> 
-        
+              
         
                 </>    
         );
-  }
+  
 };
 
 const styles = StyleSheet.create({
@@ -105,5 +110,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
   },
+  wholeContainer:{
+    width: 200,
+    height:300,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    
+}
 });
 export default Help;

@@ -248,6 +248,8 @@ PODS:
     - React-Core
   - react-native-geolocation (2.0.2):
     - React
+  - react-native-image-picker (3.3.2):
+    - React-Core
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - react-native-universal-pedometer (2.0.3):
@@ -372,6 +374,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-universal-pedometer (from `../node_modules/@t2tx/react-native-universal-pedometer`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -446,6 +449,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-universal-pedometer:
@@ -519,6 +524,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-camera: eb89d59d50a3fc124b067134b688bccbff0ee841
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-image-picker: b42940647478bf106ad3c491d6f5d9d40916d865
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-universal-pedometer: 5ee0100c8f6b6e673b0a01bc3317f26ad3b5d97f
   react-native-webview: 71567b6bf3d4e55914e580d720cc8f7df64af817
