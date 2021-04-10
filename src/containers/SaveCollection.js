@@ -50,13 +50,21 @@ const SaveCollection = (props) => {
         });
 
     
+    
         return () =>{
             reRun;
             
         }
         //console.log("getted data", testData);
     },[props.navigation]);
-  
+    useEffect(() =>{
+        const clearData = props.navigation.addListener("blur" , () => {
+            
+            setHasNext(0);
+
+        })
+        return clearData;
+    },[props.navigation])
 
     useEffect(() =>{
         if(props.route.params){

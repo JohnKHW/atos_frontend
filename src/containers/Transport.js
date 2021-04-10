@@ -233,7 +233,14 @@ const Transport = (props) => {
        
     })
 
+    useEffect(() =>{
+        const clearData = props.navigation.addListener("blur" , () => {
+            setHelpCount(undefined);
+            setHasNext(0);
 
+        })
+        return clearData;
+    },[props.navigation])
       //console.log("delta" , delta);
       //console.log("MaP" , MagnitudePrevious);
       //console.log(magnitude);

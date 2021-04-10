@@ -40,7 +40,14 @@ const Congrats = (props) => {
         }
        
     })
+    useEffect(() =>{
+        const clearData = props.navigation.addListener("blur" , () => {
+           
+            setHasNext(0);
 
+        })
+        return clearData;
+    },[props.navigation])
     return (
         <>
             <HeaderIndex/>

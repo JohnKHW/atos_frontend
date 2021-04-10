@@ -24,7 +24,14 @@ const Scan = (props) => {
     }
    
 })
+useEffect(() =>{
+  const clearData = props.navigation.addListener("blur" , () => {
+      setHelpCount(undefined);
+      setHasNext(0);
 
+  })
+  return clearData;
+},[props.navigation])
   return (
      <>
         <HeaderIndex navigation={props.navigation}/>

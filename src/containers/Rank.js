@@ -12,7 +12,7 @@ const RankUserContent = (props) =>{
   const [name, setName] = useState(props.name);
   const [netPoint, setNetPoint] = useState(props.point);
   
-  const [hasNext, setHasNext] = useState(undefined);
+
 
 
   return (
@@ -33,9 +33,10 @@ const RankUserContent = (props) =>{
 }
 
 
-const Rank = ({navigation}) => {
+const Rank = (props) => {
 
   const rankTitle = "Regional Rank";
+  const [hasNext, setHasNext] = useState(undefined);
   const [data , setData] = useState({});
   const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
     token:  AsyncStorage.getItem("token"),
@@ -58,16 +59,34 @@ const Rank = ({navigation}) => {
 }
   useEffect(() =>{
     fetchingData();
-  },[navigation])
+  },[props.navigation])
 
+  useEffect(() =>{
+    if(props.route.params){
+       
+        if(props.route.params.countHelp){
+            
+            setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+        }
+        
+    }
+   
+})
+useEffect(() =>{
+  const clearData = props.navigation.addListener("blur" , () => {
+      
+      setHasNext(0);
 
+  })
+  return clearData;
+},[props.navigation])
   //const totalPoint = route.params.totalPoint;
   //const [netPoint, setNetPoint] = useState(route.params.totalPoint);
   //const total = setNetPoint(route.params);
   //setNetPoint(route.params.totalPoint);
   return (
     <>
-    <HeaderIndex navigation={navigation}/>
+    <HeaderIndex navigation={props.navigation}/>
       <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
         
           <Text style={styles.rankTitle}>{rankTitle}</Text>
@@ -77,7 +96,27 @@ const Rank = ({navigation}) => {
           <RankUserContent no={'??'} name="You name" point={"00000"}/>
       </View>
       
-      <FooterIndex style={styles.footer} navigation={navigation}/>
+      <FooterIndex style={styles.footer} navigation={props.navigation}/>
+      {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {hasNext===1&&
+                   
+                    <TutorBox
+                        mouseNum={1}
+                        text={"You can see the rank of your region here."}
+                        mouse1left={340}
+                        mouse1top={800}
+                        circle={1}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"FinishTutor"}
+                        boxtop={100}
+                        haveCount={0}
+                        hasNext={1}
+                        
+                    />
+                }
     </>
   );
 };
