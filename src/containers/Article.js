@@ -90,26 +90,41 @@ const Articles = (props) => {
             setHasNext(0);
 
         })
+
+        const add = props.navigation.addListener('focus' , () => {
+            
+        })
         return clearData;
     },[props.navigation])
 
 
     useEffect(() =>{
+        console.log("has ", props.route.params );
+        console.log("has ", hasNext);
         if(props.route.params){
             
             if(props.route.params.helpCount){
-                
-                setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
+                console.log("has enter helpCount");
+                setHelpCount((helpCount)=>helpCount = parseInt(JSON.stringify(props.route.params.helpCount)));
             
+            }
+            else{
+                setHelpCount(undefined);
+                console.log("nothing has enter helpCount");
             }
            
             if(props.route.params.countHelp){
-                
-                setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+                console.log("has enter hasNext");
+                setHasNext((hasNext)=> hasNext = parseInt(JSON.stringify(props.route.params.countHelp)))
+            }
+            else{
+                setHasNext(0);
+                console.log("nothing has enter hasNext");
             }
             
         }
-       
+        console.log("has add", hasNext);
+        console.log("has add", helpCount);
     })
 
 
@@ -229,7 +244,7 @@ const Articles = (props) => {
                     haveCount={0}
                     hasNext={1}
                     />
-                    :
+                    :helpCount===3&&
                     <TutorBox
                         mouseNum={1}
                         text={"You can write your own article tips to the others here."}

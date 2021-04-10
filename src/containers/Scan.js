@@ -15,19 +15,23 @@ const Scan = (props) => {
                 
         setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
     
+    }else{
+      setHelpCount(undefined);
     }
         if(props.route.params.countHelp){
             
             setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
         }
-        
+        else{
+          setHasNext(0);
+        }
     }
    
 })
 useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
       setHelpCount(undefined);
-      setHasNext(0);
+      setHasNext(undefined);
 
   })
   return clearData;
@@ -40,7 +44,7 @@ useEffect(() =>{
             <View style={styles.scanContainer}>
                 <Text style={styles.scanText}>Scan to earn net point </Text>
                 <Image style={styles.qrImage}source={require("src/assets/images/icon_QRcode.png")}></Image>
-                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>navigation.navigate("ScanQR")}>
+                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>props.navigation.navigate("ScanQR")}>
                   <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
                   <Text style={styles.scanBtnText}>Scan QR code</Text>
                 </TouchableOpacity>
@@ -88,7 +92,7 @@ useEffect(() =>{
                         haveCount={0}
                         hasNext={1}
                         
-                    />:
+                    />:helpCount===3&&
                     <TutorBox
                         mouseNum={1}
                         text={"You can also use the photo scan to take a photo of the food directly"}

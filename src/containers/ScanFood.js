@@ -59,6 +59,8 @@ const ScanFood = (props) => {
         if(props.route.params.countHelp){
             
             setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+        }else{
+            setHasNext(0);
         }
         
     }

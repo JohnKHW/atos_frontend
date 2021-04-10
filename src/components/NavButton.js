@@ -12,7 +12,7 @@ const NavButton = (props)=> {
             return props.navigation.navigate("Login");
         case "Setting":
             //ConfigSetup.setAPI("Brian Wong");
-            return Alert.alert(ConfigSetup.getAPI());
+            return props.navigation.navigate("Setting");
         case "Help":
             return props.navigation.navigate("Help");
       }

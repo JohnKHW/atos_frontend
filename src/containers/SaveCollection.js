@@ -72,6 +72,8 @@ const SaveCollection = (props) => {
             if(props.route.params.countHelp){
                 
                 setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }else{
+                hasNext(0);
             }
             
         }

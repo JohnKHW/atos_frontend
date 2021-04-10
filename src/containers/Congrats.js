@@ -35,6 +35,8 @@ const Congrats = (props) => {
             if(props.route.params.countHelp){
                 
                 setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }else{
+                setHasNext(0);
             }
             
         }
@@ -50,7 +52,7 @@ const Congrats = (props) => {
     },[props.navigation])
     return (
         <>
-            <HeaderIndex/>
+            <HeaderIndex navigation={props.navigation}/>
             <View style = {[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text style={{fontSize:40,textTransform: 'uppercase',transform:[{translateY:50}],color:"#FF6319", fontWeight:"bold", marginTop:50,marginBottom:50}}>Conratulations!!</Text>
                 <NetPoint netpoint={netPoint} text="you have earned"/>

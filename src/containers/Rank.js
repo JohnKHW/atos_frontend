@@ -7,6 +7,7 @@ import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
+
 const RankUserContent = (props) =>{
 
   const [name, setName] = useState(props.name);
@@ -63,10 +64,12 @@ const Rank = (props) => {
 
   useEffect(() =>{
     if(props.route.params){
-       
+        console.log("",props.route.params)
         if(props.route.params.countHelp){
             
             setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+        }else{
+            setHasNext(0);
         }
         
     }
@@ -74,8 +77,9 @@ const Rank = (props) => {
 })
 useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
-      
-      setHasNext(0);
+      console.log("clear!");
+      setHasNext((hasNext)=> hasNext=0);
+      console.log("clear ", hasNext );
 
   })
   return clearData;

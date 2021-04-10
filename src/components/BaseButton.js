@@ -15,16 +15,32 @@ const BaseButton = (props) => {
     switch(props.title) {
       case "Articles": 
        
-        return props.navigation.navigate("Article");
+        return props.navigation.navigate("Article",{
+          helpCount:0,
+          hasNext:0,
+          countHelp:0
+        });
       case "Transport":
       
-        return props.navigation.navigate("Transport");
+        return props.navigation.navigate("Transport",{
+          helpCount:0,
+          hasNext:0,
+          countHelp:0
+        });
       case "Scan":
      
-        return props.navigation.navigate("Scan");
+        return props.navigation.navigate("Scan",{
+          helpCount:0,
+          hasNext:0,
+          countHelp:0
+        });
       case "Rank":
         
-          return props.navigation.navigate("Rank");
+          return props.navigation.navigate("Rank",{
+            helpCount:0,
+            hasNext:0,
+            countHelp:0
+          });
         
       
     }

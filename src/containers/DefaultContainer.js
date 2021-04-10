@@ -17,7 +17,14 @@ const [username, setUsername]= useState("Brian Wong");
 const [countSave, setCountSave] = useState(0);
 const [countHelp, setCountHelp] = useState(0);
 
-
+const getUserName = async() => {
+  try{
+    setUsername(await AsyncStorage.getItem("username"));
+  }
+  catch(e){
+    console.error(e);
+  }
+}
 const updateSavedPost = async() =>{
   if(SavePost.get().length===0){
     console.log("it is null");
@@ -51,7 +58,9 @@ useEffect(() =>{
   }
   else{
     Alert.alert("nothing");
+    setCountHelp(0);
   }
+  getUserName();
 })
   return (
     <View style={componentStyles.container_v2}>

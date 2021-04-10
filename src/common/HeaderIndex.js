@@ -22,7 +22,7 @@ const HeaderIndex = (props) => {
   
   return (
     <>
-       <View style={{width:"100%",height:"100%",backgroundColor:props.backgroundColor,position:"absolute"}}></View>
+
     <SafeAreaView style={componentStyles.header}>
       
       <View style={[styles.container,componentStyles.header]}>
@@ -36,9 +36,9 @@ const HeaderIndex = (props) => {
         </TouchableOpacity>
         
         <View style={styles.subcontainer}>
-          <TouchableOpacity style={styles.subicon}>
+          <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("Gift")}>
             <Image
-              source={require('src/assets/images/icon_notification.png')}
+              source={require('src/assets/images/icon_gift.png')}
             />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>props.navigation.navigate("Save")}>

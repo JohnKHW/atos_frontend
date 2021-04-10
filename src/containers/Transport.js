@@ -223,10 +223,16 @@ const Transport = (props) => {
                 setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
             
             }
+            else{
+                setHelpCount(undefined);
+            }
            
             if(props.route.params.countHelp){
                 
                 setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }
+            else{
+                setHasNext(0);
             }
             
         }

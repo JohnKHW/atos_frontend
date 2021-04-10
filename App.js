@@ -45,6 +45,8 @@ import Save from "src/containers/SaveCollection"
 import ArticleDetail from "src/containers/ArticleDetail"
 import ScanFood from "src/containers/ScanFood"
 import FinishTutor from "src/containers/FinishTutor"
+import Gift from "src/containers/Gift"
+import GiftDetail from "src/containers/GiftDetail"
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{
@@ -83,7 +85,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="Help"
+            initialRouteName="Gift"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"
@@ -110,6 +112,8 @@ const App = () => {
               <Drawer.Screen name='ArticleDetail' component={ArticleDetail}/>
               <Drawer.Screen name='ScanFood' component={ScanFood}/>
               <Drawer.Screen name='FinishTutor' component={FinishTutor}/>
+              <Drawer.Screen name='Gift' component={Gift}/>
+              <Drawer.Screen name='GiftDetail' component={GiftDetail}/>
             </Drawer.Navigator>
 
           </NavigationContainer>
