@@ -6,11 +6,14 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const Scan_2 = ({navigation, route}) => {
+import TutorBox from 'src/components/TutorBox';
+const Scan_2 = (props) => {
 
     const [title, setTitle] = useState("Title");
     const [point, setPoint] = useState("Point");
     const [data, setData] = useState(undefined);
+    const [hasNext, setHasNext] = useState(undefined);
+
     const titleobj = [{
         id:'1',
         title:'Chicken',
@@ -55,19 +58,29 @@ const Scan_2 = ({navigation, route}) => {
         setTotalPoint((totalPoint) => {totalPoint += point});
         setData(titleobj);
         //fetchingData();
-        const clearData =  navigation.addListener("focus", () =>  {
+        const clearData =  props.navigation.addListener("focus", () =>  {
             setTitle("");
             setPoint("");
         })
         return () => {
             clearData;
         }
-    },[navigation]);
-
+    },[props.navigation]);
+    useEffect(() =>{
+      if(props.route.params){
+         
+          if(props.route.params.countHelp){
+              
+              setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+          }
+          
+      }
+     
+  })
     
     return (
         <>
-            <HeaderIndex navigation={navigation}/>
+            <HeaderIndex navigation={props.navigation}/>
             <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
                 <Text>Scan2</Text>
                 <View style={styles.scanedCotainer} > 
@@ -95,7 +108,7 @@ const Scan_2 = ({navigation, route}) => {
                         <Text style={styles.scanBtnText}>Scan Again</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.reportBtnContainer}
-                            onPress={() => navigation.navigate("Report")}
+                            onPress={() => props.navigation.navigate("Report")}
                         >
     
                         <Text style={styles.reportText}>Report Problem</Text>
@@ -105,7 +118,27 @@ const Scan_2 = ({navigation, route}) => {
                  
                 </View>
             </View>
-        <FooterIndex style={styles.footer} navigation={navigation}  />
+        <FooterIndex style={styles.footer} navigation={props.navigation}  />
+        {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {hasNext===1&&
+                   
+                    <TutorBox
+                        mouseNum={1}
+                        text={"Both method will tell you the net point you earned and the reason."}
+                        mouse1left={200}
+                        mouse1top={200}
+                        circle={0}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Rank"}
+                        boxtop={100}
+                        haveCount={0}
+                        hasNext={1}
+                        
+                    />
+                }
         </>
     );
 };

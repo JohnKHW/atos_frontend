@@ -6,13 +6,13 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import TutorBox from 'src/components/TutorBox';
 const RankUserContent = (props) =>{
 
   const [name, setName] = useState(props.name);
   const [netPoint, setNetPoint] = useState(props.point);
   
-
+  const [hasNext, setHasNext] = useState(undefined);
 
 
   return (

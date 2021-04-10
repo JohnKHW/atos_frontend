@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect} from 'react';
 import {View, Text, Image,StyleSheet, TouchableOpacity, Alert,Linking} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
@@ -7,8 +7,10 @@ import {componentStyles} from 'src/common/containerStyles';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const ScanQR = ({navigation}) => {
+import TutorBox from 'src/components/TutorBox';
+const ScanQR = (props) => {
   const [QRdata, setQRData] = useState("");
+  const [hasNext, setHasNext] = useState(undefined);
     const onSuccess = (e) => {
              Alert.alert("OK");
              setQRData(e.data);
@@ -31,22 +33,32 @@ const ScanQR = ({navigation}) => {
 
           .then((data) => {
               Alert.alert(""+ JSON.stringify(data))
-              navigation.navigate("Scan_2");
+              props.navigation.navigate("Scan_2");
           })
 
           .catch((error) => {
               
               console.error(error);
-              //navigation.navigate("Notification");
+              //props.navigation.navigate("Notification");
           });    
   }
-  
-
+  useEffect(() =>{
+    if(props.route.params){
+       
+        if(props.route.params.countHelp){
+            
+            setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+        }
+        
+    }
+   
+})
+ 
 
 
     return (
      <>
-        <HeaderIndex navigation={navigation}/>
+        <HeaderIndex navigation={props.navigation}/>
         <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
             <Text>ScanQR</Text>
             <View style={styles.scanContainer}>
@@ -71,7 +83,27 @@ const ScanQR = ({navigation}) => {
                 />
             </View>
         </View>
-    <FooterIndex style={styles.footer} navigation={navigation}/>
+    <FooterIndex style={styles.footer} navigation={props.navigation}/>
+    {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {hasNext===1&&
+                   
+                    <TutorBox
+                        mouseNum={1}
+                        text={"You can scan the QR code here"}
+                        mouse1left={300}
+                        mouse1top={500}
+                        circle={0}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Scan"}
+                        boxtop={-50}
+                        haveCount={1}
+                        nowCount={3}
+                        
+                    />
+                }
     </>
   );
 };

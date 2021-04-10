@@ -82,7 +82,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="DefaultContainer"
+            initialRouteName="Help"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"

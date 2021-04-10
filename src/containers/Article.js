@@ -14,6 +14,7 @@ const Articles = (props) => {
    
     const [post,setPost] = useState("");
     const [helpCount, setHelpCount] = useState(undefined);
+    const [hasNext, setHasNext] = useState(undefined);
     const testArt = [
         {
             "id": 1,
@@ -84,9 +85,20 @@ const Articles = (props) => {
     },[index])
     useEffect(() =>{
         if(props.route.params){
-            setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
+            
+            if(props.route.params.helpCount){
+                
+                setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
+            
+            }
+           
+            if(props.route.params.countHelp){
+                
+                setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }
+            
         }
-        
+       
     })
 
 
@@ -157,8 +169,11 @@ const Articles = (props) => {
             
             
         <FooterIndex style={styles.footer} navigation={props.navigation} points={5000} route={props.route}/>
-        <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
-                {helpCount===undefined?
+        {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {helpCount===undefined&&hasNext===1?
+                   
                     <TutorBox
                                     mouseNum={1}
                                     text={"You can read the latest article about decarbonization here!"}
@@ -171,6 +186,7 @@ const Articles = (props) => {
                                     boxtop={100}
                                     haveCount={1}
                                     nowCount={1}
+                                 
                     />
 
                     :helpCount===1?
@@ -186,6 +202,7 @@ const Articles = (props) => {
                         boxtop={100}
                         haveCount={1}
                         nowCount={2}
+                       
 
                     />:helpCount===2?
                     <TutorBox
@@ -196,11 +213,12 @@ const Articles = (props) => {
                     circle={1}
                     navigation={props.navigation}
                     isPlace={1}  
-                    place ={"Article"}
+                    place ={"Save"}
                     boxtop={100}
-                    haveCount={1}
-                    nowCount={3}
-                    />:
+                    haveCount={0}
+                    hasNext={1}
+                    />
+                    :
                     <TutorBox
                         mouseNum={1}
                         text={"You can write your own article tips to the others here."}
@@ -209,13 +227,14 @@ const Articles = (props) => {
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1} 
-                        place ={"Save"}
+                        place ={"Write"}
                         boxtop={100}
                         haveCount={0}
-                        
+                        hasNext={1}
                     />
+                    
                 }
-
+           
 
         </>
     );

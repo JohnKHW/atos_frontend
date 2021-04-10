@@ -18,11 +18,12 @@ import {componentStyles} from 'src/common/containerStyles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {actions,customIcon,RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 import { WebView } from 'react-native-webview';
-const WriteArticle = ({navigation}) => {
+import TutorBox from 'src/components/TutorBox';
+const WriteArticle = (props) => {
 
     const [title,setTitle] = useState("");
     const [content, setContent] = useState("");
- 
+    const [hasNext, setHasNext] = useState(undefined);
 
     const send = () => {
         fetch('http://42.2.228.35:8000/api/user/login', {
@@ -42,7 +43,7 @@ const WriteArticle = ({navigation}) => {
             .then((data) => {
                // Alert.alert(""+ JSON.stringify(data))
                 console.log(JSON.stringify(data));
-                navigation.navigate("Notification");
+                props.navigation.navigate("Notification");
             })
 
             .catch((error) => {
@@ -68,7 +69,7 @@ const WriteArticle = ({navigation}) => {
     const onKeyHide = () => setKeyboardStatus("Keyboard Hidden");
     */
     useEffect(() =>{
-        const clearData = navigation.addListener('focus' , () => {
+        const clearData = props.navigation.addListener('focus' , () => {
 
             setContent('');
         })
@@ -76,15 +77,26 @@ const WriteArticle = ({navigation}) => {
         return () => {
             clearData;
         }
-    },[navigation]);
+    },[props.navigation]);
 
+    useEffect(() =>{
+        if(props.route.params){
+           
+            if(props.route.params.countHelp){
+                
+                setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }
+            
+        }
+       
+    })
     return (
         <>
         
          <View style={styles.header}>
             <Text style={styles.writeTitle}>Write Your Artile</Text>
         </View>
-        <TouchableOpacity style={styles.backArrow} onPress={()=>navigation.goBack()}>
+        <TouchableOpacity style={styles.backArrow} onPress={()=>props.navigation.goBack()}>
                     <Image source={require("src/assets/images/icon_back.png")}></Image>
         </TouchableOpacity>
 
@@ -131,7 +143,26 @@ const WriteArticle = ({navigation}) => {
         </View>
             
         </TouchableWithoutFeedback>
-      
+        {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {hasNext===1&&
+                   
+                    <TutorBox
+                        mouseNum={1}
+                        text={"You can write your article and send to us here."}
+                        mouse1left={200}
+                        mouse1top={200}
+                        circle={0}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Transport"}
+                        boxtop={100}
+                        haveCount={0}
+                        hasNext={1}
+                        
+                    />
+                }
     </>
 
     )

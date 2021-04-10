@@ -16,6 +16,7 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import Step from 'src/components/Step';
 import NetPoint from 'src/components/NetPoint';
+import TutorBox from 'src/components/TutorBox';
 import {
     accelerometer,
     gyroscope,
@@ -117,8 +118,10 @@ const moveX_C = movebg3.interpolate({
     outputRange: [1100,0]
 });
 
-const Transport = ({navigation}) => {
-    
+const Transport = (props) => {
+    const [hasNext, setHasNext] = useState(undefined);
+    const [helpCount, setHelpCount] = useState(undefined);
+
     const [hidden, setHidden] = useState(false);
     const [start, setStart] = useState(true);
     const [click, setClick] = useState(false);
@@ -143,12 +146,12 @@ const Transport = ({navigation}) => {
   //If response is in json then in success
           .then((data) => {
               //Success 
-              navigation.navigate("Congrats");
+              props.navigation.navigate("Congrats");
           })
           //If response is not in json then in error
           .catch((error) => {      
               //Error 
-              navigation.navigate("Congrats");        
+              props.navigation.navigate("Congrats");        
               console.error(error);
           });
     }
@@ -181,7 +184,7 @@ const Transport = ({navigation}) => {
      
     useEffect(() => {
     
-        const unsubscribe = navigation.addListener('focus', () => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
             setHidden(false);
             setStart(false);
             setClick(false);
@@ -205,19 +208,39 @@ const Transport = ({navigation}) => {
           unsubscribe;
           //subscription.unsubscribe();
         };
-      }, [navigation]);
+      }, [props.navigation]);
       useEffect(() =>{
         
         setText(countVal);
     
       },[countVal])
+
+      useEffect(() =>{
+        if(props.route.params){
+           
+            if(props.route.params.helpCount){
+                
+                setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
+            
+            }
+           
+            if(props.route.params.countHelp){
+                
+                setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
+            }
+            
+        }
+       
+    })
+
+
       //console.log("delta" , delta);
       //console.log("MaP" , MagnitudePrevious);
       //console.log(magnitude);
       //console.log(stepCount);
   return (
     <View style={componentStyles.container_v2}>
-      <HeaderIndex navigation={navigation}/> 
+      <HeaderIndex navigation={props.navigation}/> 
       
       <View style={hidden? styles.startContainerHidden :styles.startContainer}>
             <Text style={styles.title}>Read To Walk the day?</Text>
@@ -269,8 +292,27 @@ const Transport = ({navigation}) => {
                     <MoveBackground/>
             </Animated.View>
        </View>
-      <FooterIndex style={styles.footer} navigation={navigation}/>
-
+      <FooterIndex style={styles.footer} navigation={props.navigation}/>
+      {hasNext===1&&
+            <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
+         }
+                {helpCount===undefined&&hasNext===1&&
+                   
+                    <TutorBox
+                        mouseNum={1}
+                        text={"You can earn net points by walking more here."}
+                        mouse1left={140}
+                        mouse1top={800}
+                        circle={1}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Congrats"}
+                        boxtop={100}
+                        haveCount={0}
+                        hasNext={1}
+                        
+                    />
+                }
     </View>
   );
 };

@@ -41,18 +41,22 @@ const Help = ({navigation,route}) => {
                           <Text style={styles.helpText}>This is a tutorial to help you get familar with the application.</Text>
                         </View>
                         <TouchableOpacity style={styles.helpBtnContainer} 
-                            onPress={()=>navigation.navigate("DefaultContainer",{
-                                countHelp: countValue, 
-                            })
+                            onPress={()=>{
+                              navigation.navigate("DefaultContainer",{
+                                countHelp: 1
+                            });
+                          }
                         }>
             
                           <Text style={styles.helpBtnText}>Start</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.helpBtnContainer,{backgroundColor:"transparent"}]} 
                         
-                          onPress={()=>navigation.navigate("DefaultContainer",{
+                          onPress={()=>{
+                            navigation.navigate("DefaultContainer",{
                             countHelp:0
-                          })}>
+                          });
+                          }}>
                           <Text style={[styles.helpBtnText,{color:"#309397"}]}>Skip</Text>
                         </TouchableOpacity>
                     </View>

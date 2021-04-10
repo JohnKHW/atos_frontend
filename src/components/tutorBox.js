@@ -16,7 +16,7 @@ const TutorBox = (props) => {
     const circle = props.circle;
     const isPlace = props.isPlace;
     const isCount = props.haveCount;
-
+    const hasNext = props.hasNext;
     return (
        <>
           
@@ -32,13 +32,20 @@ const TutorBox = (props) => {
                                 props.navigation.openDrawer();
                             }
                             if(isCount===1){
-                                Alert.alert(""+props.nowCount);
+                               
                                 props.navigation.navigate(props.place,{
-                                    helpCount:props.nowCount
+                                    helpCount:props.nowCount,
+                                    countHelp:1
                                 });
                                 
+                            }    
+                            else if(hasNext===1){
+                                
+                                props.navigation.navigate(props.place,{
+                                    countHelp:hasNext
+                                });
                             }
-                        
+                           
                         }
                     }
                 >

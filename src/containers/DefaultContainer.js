@@ -1,5 +1,5 @@
 import React ,{useState,useEffect} from 'react';
-import {View, Text, StyleSheet,Button, useWindowDimensions, Image} from 'react-native';
+import {View, Text, StyleSheet,Button, useWindowDimensions, Image,Alert} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import NavContainer from 'src/containers/NavContainer';
@@ -11,10 +11,13 @@ import SavePost from 'src/common/SavePost';
 import TutorBox from 'src/components/TutorBox';
 const Drawer = createDrawerNavigator();
 
-const DefaultContainer = ({navigation}) => {
+const DefaultContainer = (props) => {
   
 const [username, setUsername]= useState("Brian Wong");
 const [countSave, setCountSave] = useState(0);
+const [countHelp, setCountHelp] = useState(0);
+
+
 const updateSavedPost = async() =>{
   if(SavePost.get().length===0){
     console.log("it is null");
@@ -32,7 +35,7 @@ const updateSavedPost = async() =>{
 }
 
 useEffect(() =>{ 
-  const add = navigation.addListener('focus' , () => {
+  const add = props.navigation.addListener('focus' , () => {
     if(countSave===0){
       updateSavedPost();
     }
@@ -40,11 +43,18 @@ useEffect(() =>{
   return () => {
       add;
   }
-},[navigation])
-
+},[props.navigation])
+useEffect(() =>{
+  if(props.route.params){
+    setCountHelp(parseInt(JSON.stringify(props.route.params.countHelp)));
+  }
+  else{
+    Alert.alert("nothing");
+  }
+})
   return (
     <View style={componentStyles.container_v2}>
-      <HeaderIndex navigation={navigation} />
+      <HeaderIndex navigation={props.navigation} />
 
       <View>
         <Text style={[styles.welcomeText,{marginTop:50}]}>
@@ -64,9 +74,12 @@ useEffect(() =>{
         </View>
         <NetPoint netpoint="00000" text="you now have earned"/>
       </View>
-      <FooterIndex style={styles.footer} navigation={navigation}/>
+      <FooterIndex style={styles.footer} navigation={props.navigation}/>
+      {countHelp===1&&
       <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
-              <TutorBox
+      }
+             {countHelp===1&&
+      <TutorBox
                             mouseNum={2}
                             text={"You can set your information and see the current net points here!"}
                             mouse1left={65}
@@ -74,13 +87,16 @@ useEffect(() =>{
                             mouse2left={300}
                             mouse2top={500}
                             circle={0}
-                            navigation={navigation}
+                            navigation={props.navigation}
                             isPlace={1}  
                             place ={"Article"}
                             haveCount={0}
                             boxtop = {0}
+                            hasNext = {countHelp}
+                           
                             
               />
+             }
     </View>
   );
 };
