@@ -14,11 +14,9 @@ import {
   View,
   Dimensions,
   StatusBar,
-  Text,
-  Button,
+
   Alert,
-  Animated,
-  Easing
+
 } from 'react-native';
 import DefaultContainer from 'src/containers/DefaultContainer';
 import LoginPage from 'src/containers/Login';
@@ -47,28 +45,28 @@ import ScanFood from "src/containers/ScanFood"
 import FinishTutor from "src/containers/FinishTutor"
 import Gift from "src/containers/Gift"
 import GiftDetail from "src/containers/GiftDetail"
+import SignUp from "src/containers/SignUp"
 const Drawer = createDrawerNavigator();
 
 const AuthScreen = ({navigation}) =>{
 
   const loadData = async() =>{
     try{
-      const isLoggedIn = await AsyncStorage.getItem("token");
-      //Alert.alert(isLoggedIn);
-      if(isLoggedIn)
-        navigation.navigate("Help" , {
-          count:0
-        });
+      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      Alert.alert(isLoggedIn);
+      if(isLoggedIn==="1")
+        navigation.navigate("Help");
       else
-        navigation.navigate("Help",{
-          count:1
-        });
+        navigation.navigate("Login")
       //navigation.navigate((isLoggedIn !== 1) ? "Login": "DefaultContainer" );
     }catch(e){
       Alert.alert(e);
     }
   };
-  loadData();
+  useEffect(() =>{
+    loadData();
+  })
+  
   return (
     <>
     </>
@@ -85,7 +83,7 @@ const App = () => {
           
           <NavigationContainer>
             <Drawer.Navigator //initialRouteName="AuthScreen"
-            initialRouteName="Gift"
+            initialRouteName="AuthScreen"
             drawerStyle={{
               width:"100%",
               backgroundColor: "rgba(0, 0, 0,0.6)"
@@ -114,6 +112,7 @@ const App = () => {
               <Drawer.Screen name='FinishTutor' component={FinishTutor}/>
               <Drawer.Screen name='Gift' component={Gift}/>
               <Drawer.Screen name='GiftDetail' component={GiftDetail}/>
+              <Drawer.Screen name='SignUp' component={SignUp}/>
             </Drawer.Navigator>
 
           </NavigationContainer>

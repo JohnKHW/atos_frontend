@@ -20,9 +20,11 @@ const [countHelp, setCountHelp] = useState(0);
 const getUserName = async() => {
   try{
     setUsername(await AsyncStorage.getItem("username"));
+    Alert.alert("added");
   }
   catch(e){
     console.error(e);
+    
   }
 }
 const updateSavedPost = async() =>{
@@ -46,7 +48,7 @@ useEffect(() =>{
     if(countSave===0){
       updateSavedPost();
     }
-    
+    getUserName();
   })
   return () => {
       add;
@@ -60,7 +62,7 @@ useEffect(() =>{
     Alert.alert("nothing");
     setCountHelp(0);
   }
-  getUserName();
+  
 })
   return (
     <View style={componentStyles.container_v2}>

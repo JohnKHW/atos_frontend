@@ -41,12 +41,12 @@ const Login = ({navigation})=> {
     };
     
 
-    const authentication = () => {  
-        /*
-        if(data.length>0 && data.find((user,password)=> 
-            username === user.username && password === password.password)){
+    const authentication = async() => {  
+        
+        if(username === user.user && password === user.password){
             try{
                 await AsyncStorage.setItem("isLoggedIn", "1");
+                await AsyncStorage.setItem("username", username);
                 navigation.navigate("DefaultContainer");
             }catch(e){
 
@@ -55,8 +55,8 @@ const Login = ({navigation})=> {
          else {
             Alert.alert("Your input username or password is incorrect!");
         }
-        */
-       fetch(`${ConfigSetup.get()}api/user/login?username=${username}&password=${password}`, {
+        
+       fetch(`${ConfigSetup.getAPI()}api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
       })
         .then((response) => {
@@ -71,6 +71,7 @@ const Login = ({navigation})=> {
             Alert.alert(""+ JSON.stringify(data.token));
             //await AsyncStorage.setItem("isLoggedIn", "1");
             await AsyncStorage.setItem("token", JSON.stringify(data.token));
+            await AsyncStorage.setItem("LoggedIn", 1);
             navigation.navigate("Load");
         })
         //If response is not in json then in error
@@ -109,7 +110,7 @@ const Login = ({navigation})=> {
                 />
                 <TextInput style={styles.input}
                     placeholder = "Password"
-                    secureTextEntry = "true"
+                    secureTextEntry = {true}
                     autoCapitalize = "none"
                     onChangeText = {password => setPassword(password)}
                     value = {password}
@@ -121,6 +122,7 @@ const Login = ({navigation})=> {
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style={styles.Register}
+                    onPress={()=>navigation.navigate("SignUp")}
                     >
                         <Text style={styles.LoginText}>Register Now</Text> 
                 </TouchableOpacity>

@@ -55,14 +55,21 @@ const Setting = ({navigation}) => {
                 onPress={async()=>{
                   changeNewName();
                   try{
-                    Alert.alert("changed", AsyncStorage.getItem("username"));
+                    
                     await AsyncStorage.removeItem("username");
-                   
-                   
+                    Alert.alert("removed")
                   }
                   catch(e){
                       console.error(e);
                   }
+
+                  try{
+                    await AsyncStorage.setItem("username", username);
+                    Alert.alert("changed", await AsyncStorage.getItem("username") )
+                  }catch(e){
+                    console.error(e);
+                  }
+                  
                 
                 }}
               
