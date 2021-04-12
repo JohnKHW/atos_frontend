@@ -9,6 +9,7 @@ import NetPoint from 'src/components/NetPoint';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
 import TutorBox from 'src/components/TutorBox';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const Drawer = createDrawerNavigator();
 
 const DefaultContainer = (props) => {
@@ -20,7 +21,7 @@ const [countHelp, setCountHelp] = useState(0);
 const getUserName = async() => {
   try{
     setUsername(await AsyncStorage.getItem("username"));
-    Alert.alert("added");
+    //Alert.alert("added");
   }
   catch(e){
     console.error(e);
@@ -59,7 +60,7 @@ useEffect(() =>{
     setCountHelp(parseInt(JSON.stringify(props.route.params.countHelp)));
   }
   else{
-    Alert.alert("nothing");
+   //Alert.alert("nothing");
     setCountHelp(0);
   }
   
@@ -122,18 +123,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: 84,
+    height: hp('10%'),
   },
   loca:{
-    fontSize: 14,
+    fontSize: hp('1.8%'),
     alignSelf: 'center',
     color: '#676767',  
   },
   iconContain: {
     margin: 6,
     alignSelf: 'center',
-    width: 200,
-    height: 200,
+    width: wp('50%'),
+    height: hp('23%'),
     backgroundColor: '#EFEFEF',
     borderRadius: 500,
     shadowRadius: 6,
@@ -147,13 +148,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     height: '100%',
-    borderRadius: 500,
+    borderRadius: 50,
   },
   contry: {
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    width: 174,
+    width: wp('45%'),
     fontSize: 14,
     paddingHorizontal: 25,
     paddingVertical: 5,

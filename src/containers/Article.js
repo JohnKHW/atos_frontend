@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
 import TutorBox from 'src/components/TutorBox';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const ScreenHight = Dimensions.get('screen').height;
 
 //Alert.alert(""+ScreenHight);
@@ -145,7 +146,7 @@ const Articles = (props) => {
                         </View>
                     
                 </View>
-                    <View style={{height:250,width:250}}>
+                    <View>
                       <Text style={styles.content}>{currentContent}</Text>
                       <TouchableOpacity 
                         onPress={()=>{
@@ -271,43 +272,43 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: 84,
+        height: hp('10%'),
     },
     newsTitle:{
         marginTop:40,
-        fontSize:25,
+        fontSize:hp('3.5%'),
         color: "#f5f5f5",
     },
     newsContainer: {
         borderColor:"white",
         borderWidth:1,
         borderRadius:50,
-        height:450,
+        height:hp('58%'),
         marginVertical:50,
         marginHorizontal:5,
         padding:15,
-        width:270,
+        width:wp('65%'),
         backgroundColor: 'rgba(255,255,255,0.5)',
         alignItems:"stretch"
        
     },
     text:{
-        fontSize:30,
+        fontSize:hp('3.5%'),
         fontWeight:'bold',
         flexDirection: 'row'
     },
     content:{
-        fontSize:25,
+        fontSize:hp('2.7%'),
     },
 
 
     nextArrowContainer:{
         borderWidth:3,
         borderTopColor: 'black',
-        height:50,
-        width:50,
-        right:10,
-        top:Dimensions.get('window').height/3 + 50,
+        height:hp('5.5%'),
+        width:wp('12%'),
+        right:wp('2%'),
+        top:hp('40%'),
         alignItems: "center",
         justifyContent: "center",
         position: "absolute",
@@ -315,28 +316,20 @@ const styles = StyleSheet.create({
     backArrowContainer:{
         borderWidth:3,
         borderTopColor: 'black',
-        height:50,
-        width:50,
-        left:10,
-        top:Dimensions.get('window').height/3 + 50,
+        height:hp('5.5%'),
+        width:wp('12%'),
+        left:wp('2%'),
+        top:hp('40%'),
         justifyContent: 'center',
         alignItems: "center",
         position: "absolute",
-    },
-    favour:{
-        position: "absolute",
-        borderWidth:3,
-        borderColor:"black",
-        right:20,
-        top:500
-        
     },
     write:{
         position: "absolute",
         borderWidth:3,
         borderColor:"black",
-        right:20,
-        top:50
+        right:hp('3%'),
+        top:hp('4.5%'),
     },
     titleContainer:{
         flexDirection: 'row',

@@ -126,7 +126,7 @@ const Transport = (props) => {
     const [start, setStart] = useState(true);
     const [click, setClick] = useState(false);
     const [text, setText] = useState("");
-    const [subscription, setSubscription] = useState(undefined);
+    //const [subscription, setSubscription] = useState(undefined);
     const [countVal, setCountVal] = useState(0);
     var magnitude;
     var delta;
@@ -158,7 +158,7 @@ const Transport = (props) => {
 
     const counter = () => {
         setUpdateIntervalForType(SensorTypes.accelerometer, 400);  
-        setSubscription(accelerometer.subscribe(({ x, y, z }) =>{
+        const subscription = accelerometer.subscribe(({ x, y, z }) =>{
             //console.log({ x, y, z })
             const added = (Math.sqrt(x*x+y*y+z*z)).toString();
             console.log(added);
@@ -179,11 +179,12 @@ const Transport = (props) => {
             console.log("delta=" , delta);
             console.log("MaP=" , MagnitudePrevious);
             console.log("step= ", stepCount);
-        }));
+        });
+        return subscription;
     }
      
     useEffect(() => {
-    
+        const subscription = counter();
         const unsubscribe = props.navigation.addListener('focus', () => {
             setHidden(false);
             setStart(false);
@@ -206,7 +207,7 @@ const Transport = (props) => {
 */      
         return () => {
           unsubscribe;
-          //subscription.unsubscribe();
+          subscription.unsubscribe();
         };
       }, [props.navigation]);
       useEffect(() =>{
