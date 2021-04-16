@@ -53,9 +53,13 @@ const AuthScreen = ({navigation}) =>{
   const loadData = async() =>{
     try{
       const isLoggedIn = await AsyncStorage.getItem("LoggedIn");
+      const first = await AsyncStorage.getItem("first");
       Alert.alert(isLoggedIn);
-      if(isLoggedIn==="1")
+      console.log("first",first);
+      if(first === "1"&& isLoggedIn=== "1")
         navigation.navigate("Help");
+      else if(isLoggedIn==="1")
+        navigation.navigate("DefaultContainer");
       else
         navigation.navigate("Login")
       //navigation.navigate((isLoggedIn !== 1) ? "Login": "DefaultContainer" );

@@ -56,7 +56,7 @@ const ScanFood = (props) => {
   
   useEffect(() =>{
     if(props.route.params){
-       
+        console.log(props.route.params);
         if(props.route.params.countHelp){
             
             setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
@@ -69,6 +69,15 @@ const ScanFood = (props) => {
 })
 useEffect(() =>{
     const clearData = props.navigation.addListener("blur" , () => {
+        
+        setHasNext(0);
+
+    })
+    return clearData;
+},[props.navigation])
+
+useEffect(() =>{
+    const clearData = props.navigation.addListener("focus" , () => {
         
         setHasNext(0);
 
@@ -112,7 +121,6 @@ useEffect(() =>{
                     <Text style={styles.scanBtnText}>Take photo</Text>
                     
                 </TouchableOpacity>
-                <Text> This is response {JSON.stringify(response)}</Text>
                 <TouchableOpacity style={styles.scanBtnContainer}
                     onPress={()=>{
                         if(!didCancel){

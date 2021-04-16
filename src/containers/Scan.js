@@ -5,24 +5,29 @@ import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import TutorBox from 'src/components/TutorBox';
 const Scan = (props) => {
   const [hasNext, setHasNext] = useState(undefined);
   const [helpCount, setHelpCount] = useState(undefined);
+  
   useEffect(() =>{
     if(props.route.params){
+      console.log(props.route.params);
       if(props.route.params.helpCount){
-                
+        console.log("setted");
         setHelpCount(parseInt(JSON.stringify(props.route.params.helpCount)));
     
     }else{
+      console.log("it is zero");
       setHelpCount(undefined);
     }
         if(props.route.params.countHelp){
-            
+          console.log("setted");
             setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
         }
         else{
+          console.log("it is zero");
           setHasNext(0);
         }
     }
@@ -32,7 +37,10 @@ useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
       setHelpCount(undefined);
       setHasNext(undefined);
-
+      props.navigation.setParams({
+        helpCount:null,
+        hasNext:null,
+        countHelp:null})
   })
   return clearData;
 },[props.navigation])
@@ -44,13 +52,15 @@ useEffect(() =>{
             <View style={styles.scanContainer}>
                 <Text style={styles.scanText}>Scan to earn net point </Text>
                 <Image style={styles.qrImage}source={require("src/assets/images/icon_QRcode.png")}></Image>
-                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>props.navigation.navigate("ScanQR")}>
+                <TouchableOpacity style={styles.scanBtnContainer} onPress={()=>props.navigation.navigate("ScanQR",{countHelp:0})}>
                   <Image style={styles.scanCam} source={require("src/assets/images/icon_scanQR_camera.png")}></Image>
                   <Text style={styles.scanBtnText}>Scan QR code</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.scanBtnContainer} 
                     onPress={()=> 
-                        props.navigation.navigate("ScanFood")
+                        props.navigation.navigate("ScanFood",{
+                          countHelp:0
+                        })
                     }
                     
                 >
@@ -69,7 +79,7 @@ useEffect(() =>{
                         mouseNum={1}
                         text={"You can scan the QR code and food here"}
                         mouse1left={250}
-                        mouse1top={800}
+                        mouse1top={hp('90%')}
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1}  
@@ -83,7 +93,7 @@ useEffect(() =>{
                         mouseNum={1}
                         text={"You can also scan QR code to get your net points"}
                         mouse1left={300}
-                        mouse1top={500}
+                        mouse1top={hp('58%')}
                         circle={0}
                         navigation={props.navigation}
                         isPlace={1}  
@@ -97,7 +107,7 @@ useEffect(() =>{
                         mouseNum={1}
                         text={"You can also use the photo scan to take a photo of the food directly"}
                         mouse1left={300}
-                        mouse1top={600}
+                        mouse1top={hp('66%')}
                         circle={0}
                         navigation={props.navigation}
                         isPlace={1}  
@@ -126,9 +136,9 @@ const styles = StyleSheet.create({
       borderColor:"white",
       borderWidth:2,
       borderRadius:50,
-      height:557,
+      height:hp('60%'),
       marginTop: 50,
-      width:292,
+      width:wp('80%'),
       alignItems: "center",
       justifyContent: "center",
   },

@@ -21,7 +21,7 @@ const Articles = (props) => {
         {
             "id": 1,
             "title": "Demo Article",
-            "content": "Demo ContentDemo ContenDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContenttDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo Content",
+            "content": "Demo ContentDemContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemooContentDemContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoContenDemoo ContenDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContenttDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo Content",
             "author" : "Brian Wong"
         },
         {
@@ -90,12 +90,13 @@ const Articles = (props) => {
         const clearData = props.navigation.addListener("blur" , () => {
             setHelpCount(undefined);
             setHasNext(0);
-
+            props.navigation.setParams({
+                helpCount:null,
+                hasNext:null,
+                countHelp:null})
         })
 
-        const add = props.navigation.addListener('focus' , () => {
-            
-        })
+       
         return clearData;
     },[props.navigation])
 
@@ -104,7 +105,7 @@ const Articles = (props) => {
         console.log("has ", props.route.params );
         console.log("has ", hasNext);
         if(props.route.params){
-            
+            console.log(props.route.params)
             if(props.route.params.helpCount){
                 console.log("has enter helpCount");
                 setHelpCount((helpCount)=>helpCount = parseInt(JSON.stringify(props.route.params.helpCount)));
@@ -138,7 +139,9 @@ const Articles = (props) => {
                 <Text style={styles.newsTitle}>What's new today?</Text>
                 <View style={styles.newsContainer}>
                     <View style={styles.titleContainer}>
-                      <Text style={styles.text}>{currentText}</Text>
+                  
+                        <Text style={styles.text}>{currentText}</Text>
+                  
                         <View style={{borderWidth:1, position:"absolute",right:0}}>  
                             <TouchableOpacity onPress={()=> addSave()}>
                             <Image source={require("src/assets/images/icon_favour.png")}></Image>
@@ -147,7 +150,7 @@ const Articles = (props) => {
                         </View>
                     
                 </View>
-                    <View>
+                    <View style={styles.newsContext}>
                       <Text style={styles.content}>{currentContent}</Text>
                       <TouchableOpacity 
                         onPress={()=>{
@@ -203,17 +206,17 @@ const Articles = (props) => {
                 {helpCount===undefined&&hasNext===1?
                    
                     <TutorBox
-                                    mouseNum={1}
-                                    text={"You can read the latest article about decarbonization here!"}
-                                    mouse1left={20}
-                                    mouse1top={800}
-                                    circle={1}
-                                    navigation={props.navigation}
-                                    isPlace={1}  
-                                    place ={"Article"}
-                                    boxtop={100}
-                                    haveCount={1}
-                                    nowCount={1}
+                        mouseNum={1}
+                        text={"You can read the latest article about decarbonization here!"}
+                        mouse1left={wp('2%')}
+                        mouse1top={hp('52%')}
+                        circle={1}
+                        navigation={props.navigation}
+                        isPlace={1}  
+                        place ={"Article"}
+                        boxtop={100}
+                        haveCount={1}
+                        nowCount={1}
                                  
                     />
 
@@ -222,7 +225,7 @@ const Articles = (props) => {
                         mouseNum={1}
                         text={"Also pressing the heart to save the article you like"}
                         mouse1left={280}
-                        mouse1top={240}
+                        mouse1top={hp('28%')}
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1}  
@@ -237,7 +240,7 @@ const Articles = (props) => {
                     mouseNum={1}
                     text={"You can read the article you have saved by passing here."}
                     mouse1left={Dimensions.get("screen").width-70}
-                    mouse1top={65}
+                    mouse1top={hp('5.5%')}
                     circle={1}
                     navigation={props.navigation}
                     isPlace={1}  
@@ -251,7 +254,7 @@ const Articles = (props) => {
                         mouseNum={1}
                         text={"You can write your own article tips to the others here."}
                         mouse1left={Dimensions.get("screen").width-130}
-                        mouse1top={250}
+                        mouse1top={hp('28%')}
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1} 
@@ -284,11 +287,12 @@ const styles = StyleSheet.create({
         borderColor:"white",
         borderWidth:1,
         borderRadius:50,
-        height:hp('58%'),
+        
         marginVertical:50,
         marginHorizontal:5,
         padding:15,
         width:wp('65%'),
+        height:hp('58%'),
         backgroundColor: 'rgba(255,255,255,0.5)',
         alignItems:"stretch"
        
@@ -333,7 +337,11 @@ const styles = StyleSheet.create({
     },
     titleContainer:{
         flexDirection: 'row',
+       
     },
-    
+    newsContext:{
+     
+        height:hp('40%')
+    }
 });
 export default Articles;

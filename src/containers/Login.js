@@ -75,6 +75,7 @@ const Login = ({navigation})=> {
             //await AsyncStorage.setItem("LoggedIn", "1");
             await AsyncStorage.setItem("token", JSON.stringify(data.token));
             await AsyncStorage.setItem("LoggedIn", "1");
+            await AsyncStorage.setItem("first", "1");
             navigation.navigate("Load");
         })
         //If response is not in json then in error
@@ -88,7 +89,7 @@ const Login = ({navigation})=> {
         const clearData = navigation.addListener('focus' , () => {
             setUsername("");
             setPassword("");
-            ;
+            
 
         })
         return () => {

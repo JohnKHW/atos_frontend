@@ -61,7 +61,10 @@ const SaveCollection = (props) => {
         const clearData = props.navigation.addListener("blur" , () => {
             
             setHasNext(0);
-
+            props.navigation.setParams({
+                helpCount:0,
+                hasNext:0,
+                countHelp:0})
         })
         return clearData;
     },[props.navigation])

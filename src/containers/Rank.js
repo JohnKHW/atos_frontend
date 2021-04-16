@@ -7,7 +7,7 @@ import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const RankUserContent = (props) =>{
 
   const [name, setName] = useState(props.name);
@@ -93,12 +93,13 @@ useEffect(() =>{
     <>
     <HeaderIndex navigation={props.navigation}/>
       <View style={[componentStyles.container_v2,{alignItems: "center"}]}>
-        
-          <Text style={styles.rankTitle}>{rankTitle}</Text>
-          <RankUserContent no={1} name="Name" point={"00000"}/>
-          <RankUserContent no={2} name="Name" point={"00000"}/>
-          <RankUserContent no={3} name="Name" point={"00000"}/>
-          <RankUserContent no={'??'} name="You name" point={"00000"}/>
+          <View style={styles.context}>
+            <Text style={styles.rankTitle}>{rankTitle}</Text>
+            <RankUserContent no={1} name="Name" point={"00000"}/>
+            <RankUserContent no={2} name="Name" point={"00000"}/>
+            <RankUserContent no={3} name="Name" point={"00000"}/>
+            <RankUserContent no={'??'} name="You name" point={"00000"}/>
+          </View>
       </View>
       
       <FooterIndex style={styles.footer} navigation={props.navigation}/>
@@ -111,7 +112,7 @@ useEffect(() =>{
                         mouseNum={1}
                         text={"You can see the rank of your region here."}
                         mouse1left={340}
-                        mouse1top={800}
+                        mouse1top={hp('90%')}
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1}  
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
   rankContent:{
     borderWidth:2,
     borderRadius:20,
-    width:289,
-    height:121,
+    width:wp('80%'),
+    height:hp('13%'),
     borderColor:"#FF6319",
     flexDirection: 'row',
     marginVertical:10
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     width:30,
     height:30,
-    marginVertical:45,
+    marginVertical:hp('5%'),
     marginHorizontal:20,
     borderColor:"#FF6319",
   },
@@ -167,9 +168,8 @@ const styles = StyleSheet.create({
   rankUserRing:{
     borderWidth:2,
     borderRadius:50,
-    width:80,
-    height:80,
-    marginVertical:20,
+    padding:19,
+    marginVertical:hp('1%'),
     alignItems: "center",
     justifyContent: "center"
   },
@@ -182,7 +182,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color:"#FF6319",
     fontWeight: 'bold',
-  }
+  },
+
   
 });
 export default Rank;

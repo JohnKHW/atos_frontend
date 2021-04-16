@@ -165,37 +165,39 @@ const Transport = (props) => {
             setUpdateIntervalForType(SensorTypes.accelerometer, 400);  
             const subscription = accelerometer.subscribe(({ x, y, z }) =>{
                 //console.log({ x, y, z })
-                const added = (Math.sqrt(x*x+y*y+z*z)).toString();
-                console.log(added);
-
-                magnitude = added;
                 
-            
-                //Alert.alert(stepCount) );
-                //const temp = magnitude;
-                //console.log("temp" , temp);
+                    if(!leave){
+                        const added = (Math.sqrt(x*x+y*y+z*z)).toString();
+                        console.log(added);
 
-                delta = magnitude - MagnitudePrevious;
-                MagnitudePrevious = magnitude;
-            
-                stepCount = delta>0.3? ++stepCount : stepCount;
-                setCountVal(stepCount);
-                console.log("mag = ", magnitude );
-                console.log("delta=" , delta);
-                console.log("MaP=" , MagnitudePrevious);
-                console.log("step= ", stepCount);
+                        magnitude = added;
+                        
+                    
+                        //Alert.alert(stepCount) );
+                        //const temp = magnitude;
+                        //console.log("temp" , temp);
+
+                        delta = magnitude - MagnitudePrevious;
+                        MagnitudePrevious = magnitude;
+                    
+                        stepCount = delta>0.1? ++stepCount : stepCount;
+                        setCountVal(stepCount);
+                        console.log("mag = ", magnitude );
+                        console.log("delta=" , delta);
+                        console.log("MaP=" , MagnitudePrevious);
+                        console.log("step= ", stepCount);
+                        console.log("leave = ", leave );
+                        console.log("click = ", click );
+                    }
+               
             });
             
             
                 //console.log("clear");
                 if(leave){
-                    
-                    //subscription.unsubscribe();
-                        //props.navigation.navigate("Congrats"); 
-                    accelerometer.stopUpdates();
-                    console.log("clear3");
-                    
-                }               
+                    subscription.unsubscribe();
+                    props.navigation.navigate("Congrats"); 
+                }
                 //return subscription;            
         }
     }
@@ -204,10 +206,11 @@ const Transport = (props) => {
 
     useEffect(() => {
     
-            const leave = props.navigation.addListener('focus' , () => {
+            const add = props.navigation.addListener('focus' , () => {
                 setHidden(false);
                 setStart(false);
                 resetAM();
+                setLeave(false);
                 setCountVal(0);
                 setClick(false);
                 magnitude= 0;
@@ -216,22 +219,28 @@ const Transport = (props) => {
                 stepCount = 0;
                 
             })
+           
             return () => {
                 //unsubscribe;
-                leave;
+                add;
+                
             };
 
-       
-        //console.log("mag = ", magnitude );
-        //console.log("delta=" , delta);
-        //console.log("MaP=" , MagnitudePrevious);
-        //onsole.log(magnitude);
-        //console.log("step= ", stepCount);
-        /*  
-        
-*/      
-       
       }, [props.navigation]);
+      useEffect(() =>{
+        const clearData = props.navigation.addListener('blur', () => {
+            console.log("I leave in transport");
+            props.navigation.setParams({
+                helpCount:null,
+                hasNext:null,
+                countHelp:null})
+        })
+        return () => {
+            clearData;
+        }
+      },[props.navigation])
+
+
       useEffect(() =>{
         
         setText(countVal);
@@ -271,7 +280,7 @@ const Transport = (props) => {
         //const subscription = counter(click);
         const out = props.navigation.addListener('blur', () =>{
             console.log("counter leave");
-           
+            
             //subscription.unsubscribe();
         })
         return () => {
@@ -357,7 +366,7 @@ const Transport = (props) => {
                         mouseNum={1}
                         text={"You can earn net points by walking more here."}
                         mouse1left={140}
-                        mouse1top={800}
+                        mouse1top={hp('90%')}
                         circle={1}
                         navigation={props.navigation}
                         isPlace={1}  

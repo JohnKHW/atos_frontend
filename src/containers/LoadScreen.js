@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import {View , Text, StyleSheet, Animated, Easing} from 'react-native';
 import {componentStyles} from 'src/common/containerStyles';
+
 const LoadScreen = ({navigation}) => {
     
     const spinValue = new Animated.Value(0);

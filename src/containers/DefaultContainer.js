@@ -95,10 +95,10 @@ useEffect(() =>{
       <TutorBox
                             mouseNum={2}
                             text={"You can set your information and see the current net points here!"}
-                            mouse1left={65}
-                            mouse1top={45}
-                            mouse2left={300}
-                            mouse2top={500}
+                            mouse1left={wp('15%')}
+                            mouse1top={hp('4%')}
+                            mouse2left={wp('70%')}
+                            mouse2top={hp('55%')}
                             circle={0}
                             navigation={props.navigation}
                             isPlace={1}  

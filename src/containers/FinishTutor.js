@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {componentStyles} from 'src/common/containerStyles';
 const FinishTutor = (props) => {
     return (
@@ -19,7 +19,9 @@ const FinishTutor = (props) => {
                           <Text style={styles.helpText}>Hope you can enjoy the journey of decarbonization. </Text>
                         </View>
                         <TouchableOpacity style={styles.helpBtnContainer} 
-                            onPress={()=>{
+                            onPress={async()=>{
+                              await AsyncStorage.removeItem("first");
+
                               props.navigation.navigate("DefaultContainer",{
                                   countHelp:0
                               });

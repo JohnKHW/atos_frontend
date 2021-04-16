@@ -80,6 +80,17 @@ const WriteArticle = (props) => {
     },[props.navigation]);
 
     useEffect(() =>{
+        const clear = props.navigation.addListener('blur' , () => {
+            props.navigation.setParams({
+                helpCount:null,
+                hasNext:null,
+                countHelp:null})
+        })
+        return clear;
+       
+    },[props.navigation])
+
+    useEffect(() =>{
         if(props.route.params){
            
             if(props.route.params.countHelp){

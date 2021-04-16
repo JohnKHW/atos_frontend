@@ -32,7 +32,7 @@ const TutorBox = (props) => {
                                 props.navigation.openDrawer();
                             }
                             if(isCount===1){
-                               
+                                console.log("has is count in turtor", isCount);
                                 props.navigation.navigate(props.place,{
                                     helpCount:props.nowCount,
                                     countHelp:1
@@ -40,7 +40,7 @@ const TutorBox = (props) => {
                                 
                             }    
                             else if(hasNext===1){
-                                
+                                console.log("has has Next in turtor", hasNext);
                                 props.navigation.navigate(props.place,{
                                     countHelp:hasNext
                                 });

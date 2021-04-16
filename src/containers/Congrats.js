@@ -7,6 +7,7 @@ import FooterIndex from 'src/common/FooterIndex';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const Congrats = (props) => {
     const [hasNext, setHasNext] = useState(undefined);
     const [netPoint, setNetPoint] = useState("");
@@ -43,13 +44,17 @@ const Congrats = (props) => {
        
     })
     useEffect(() =>{
-        const clearData = props.navigation.addListener("blur" , () => {
-           
+        const clearData = props.navigation.addListener("blur" , () => {   
             setHasNext(0);
-
+            props.navigation.setParams({
+                helpCount:null,
+                hasNext:null,
+                countHelp:null})
+            console.log("HERE!!!!!",props.route.params);
         })
         return clearData;
     },[props.navigation])
+    
     return (
         <>
             <HeaderIndex navigation={props.navigation}/>
@@ -70,7 +75,7 @@ const Congrats = (props) => {
                         mouseNum={1}
                         text={"We will tell you net points you have earned through the walk and you can start again at anytime."}
                         mouse1left={200}
-                        mouse1top={200}
+                        mouse1top={hp('20%')}
                         circle={0}
                         navigation={props.navigation}
                         isPlace={1}  
