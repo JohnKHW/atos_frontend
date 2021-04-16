@@ -31,14 +31,8 @@ const SignUp = (props)=> {
 
     const setupData = async() => {  
        if(cPassword === password){
-            fetch(ConfigSetup.get()+"api/user/login", {
-                method: 'POST',
-                body:JSON.stringify({
-                    token:await AsyncStorage.getItem("token"),
-                    email:email,
-                    username: username,
-                    password: password,
-                })
+            fetch(`${ConfigSetup.get()}"api/user/register?username=${username}&password=${password}`, {
+                method: 'POST'
             })
                 .then((response) => {
                 if(response.status===201){
@@ -56,8 +50,6 @@ const SignUp = (props)=> {
                     //Error         
                     console.error(error);
                 });
-        }else{
-            Alert.alert("Your password is invalid");
         }
     }
 

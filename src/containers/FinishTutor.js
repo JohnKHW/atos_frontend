@@ -7,7 +7,7 @@ import {componentStyles} from 'src/common/containerStyles';
 const FinishTutor = (props) => {
     return (
         <>
-        <HeaderIndex/>
+        <HeaderIndex navigation={props.navigation}/>
             <View style = {[componentStyles.container_v2,{alignItems: "center"}]}>
                
             <View style={styles.helpContainer}>

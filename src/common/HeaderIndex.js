@@ -31,17 +31,29 @@ const HeaderIndex = (props) => {
           <Image
             source={require('src/assets/images/icon_leading.png')} />
         </TouchableOpacity >
-        <TouchableOpacity onPress={()=>props.navigation.navigate("DefaultContainer")}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate("DefaultContainer",{
+          helpCount:0,
+          hasNext:0,
+          countHelp:0
+        })}>
             <Text style={styles.title}>{app.name}</Text>
         </TouchableOpacity>
         
         <View style={styles.subcontainer}>
-          <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("Gift")}>
+          <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("Gift",{
+            helpCount:0,
+            hasNext:0,
+            countHelp:0
+          })}>
             <Image
               source={require('src/assets/images/icon_gift.png')}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>props.navigation.navigate("Save")}>
+          <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>props.navigation.navigate("Save",{
+            helpCount:0,
+            hasNext:0,
+            countHelp:0
+          })}>
             <Image source={require('src/assets/images/icon_favour.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.subicon}

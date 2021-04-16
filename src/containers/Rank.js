@@ -39,27 +39,28 @@ const Rank = (props) => {
   const rankTitle = "Regional Rank";
   const [hasNext, setHasNext] = useState(undefined);
   const [data , setData] = useState({});
-  const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
-    token:  AsyncStorage.getItem("token"),
-  }).then((response) => {
-    if(response.status===201){
-      return response.json();
-    }
-  
-  })
-//If response is in json then in success
-  .then((data) => {
-      //Success 
-      setData(data);
-  })
-  //If response is not in json then in error
-  .catch((error) => {      
-      //Error         
-      console.error(error);
-  });
+  const fetchingUsers = async() => {
+      fetch(ConfigSetup.getAPI()+'api/rank/users/all', {
+        token:  AsyncStorage.getItem("token"),
+      }).then((response) => {
+        if(response.status===201){
+          return response.json();
+        }
+      
+      })
+    //If response is in json then in success
+      .then((data) => {
+          //Success 
+          setData(data);
+      })
+      //If response is not in json then in error
+      .catch((error) => {      
+          //Error         
+          console.error(error);
+      });
 }
   useEffect(() =>{
-    fetchingData();
+    fetchingUsers();
   },[props.navigation])
 
   useEffect(() =>{

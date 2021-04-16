@@ -8,7 +8,7 @@ const NavButton = (props)=> {
     
       switch(props.title){
         case "Logout":
-            await AsyncStorage.removeItem("isLoggedIn");
+            await AsyncStorage.removeItem("LoggedIn");
             return props.navigation.navigate("Login");
         case "Setting":
             //ConfigSetup.setAPI("Brian Wong");

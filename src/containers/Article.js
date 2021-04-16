@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
 import TutorBox from 'src/components/TutorBox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import ConfigSetup from "src/common/ConfigSetup";
 const ScreenHight = Dimensions.get('screen').height;
 
 //Alert.alert(""+ScreenHight);
@@ -20,7 +21,7 @@ const Articles = (props) => {
         {
             "id": 1,
             "title": "Demo Article",
-            "content": "Demo Content",
+            "content": "Demo ContentDemo ContenDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContenttDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo ContentDemo Content",
             "author" : "Brian Wong"
         },
         {
@@ -42,7 +43,7 @@ const Articles = (props) => {
     const [index , setIndex] = useState(0);
     const [currentText, setText] = useState(text[index].title);
     const [currentContent, setContent] = useState(text[index].content);
-    fetch('http://42.2.228.35:8000/api/user/login', {
+    fetch(ConfigSetup.getAPI()+'api/articles', {
         method: 'POST',
         body:JSON.stringify({
             token: AsyncStorage.getItem("token"),
@@ -293,14 +294,13 @@ const styles = StyleSheet.create({
        
     },
     text:{
-        fontSize:hp('3.5%'),
+        fontSize:hp('3.3%'),
         fontWeight:'bold',
         flexDirection: 'row'
     },
     content:{
         fontSize:hp('2.7%'),
     },
-
 
     nextArrowContainer:{
         borderWidth:3,

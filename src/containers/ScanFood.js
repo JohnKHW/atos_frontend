@@ -8,6 +8,7 @@ import {componentStyles} from 'src/common/containerStyles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import TutorBox from 'src/components/TutorBox';
+import ConfigSetup from "src/common/ConfigSetup";
 const ScanFood = (props) => {
     const [response, setResponse] = useState(null);
     const [didCancel, setDidCancel] = useState(true);
@@ -30,7 +31,7 @@ const ScanFood = (props) => {
     }
 
     const sendFoodData = async() => {
-      fetch(`http://42.2.228.35:8000/cashier/cal`, {
+      fetch(`${ConfigSetup.getAPI()}cashier/cal`, {
           method: 'POST',
           body:createData(response, await AsyncStorage.getItem("token"))
           

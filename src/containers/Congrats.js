@@ -21,7 +21,7 @@ const Congrats = (props) => {
 //If response is in json then in success
       .then((data) => {
           //Success 
-          setNetPoint(JSON.stringify(data.netPoint));
+          //setNetPoint(JSON.stringify(data.netPoint));
       })
       //If response is not in json then in error
       .catch((error) => {      

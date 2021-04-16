@@ -1,15 +1,17 @@
 import React ,{useEffect, useState}from 'react';
-import {View, Text, Image,StyleSheet, ScrollView} from 'react-native';
+import {View, Text, Image,StyleSheet, ScrollView, Animated} from 'react-native';
 import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
+const scrollY = new Animated.Value(0);
 const ArticleDetail = (props) => {
+
     const [title,setTitle] =  useState(props.route.params.title);
     const [content,setContent] = useState(props.route.params.content);
     const [author, setAuthor] = useState(props.route.params.author);
     console.log("passed title ", props.route.params.title);
     console.log("passed content ", props.route.params.content);
-
+   
     useEffect(() =>{
             setTitle(props.route.params.title);
             setContent(props.route.params.content);
@@ -40,12 +42,22 @@ const ArticleDetail = (props) => {
                         <Text style={{fontWeight:'bold',fontSize:20}}>Author: </Text>
                         <Text style={{fontSize:20}}>{author}</Text>
                     </View>
-                    <ScrollView 
-                        bounces ={false}
-                        style={styles.contentContainer}
-                    >
-                        <Text style={styles.content}>{content}</Text>
-                    </ScrollView>
+                 
+                             <Animated.ScrollView
+                            
+                               style={styles.contentContainer}
+                               onScroll={(e)=>{
+                                   scrollY.setValue(e.nativeEvent.contentOffset.y);
+                               }}
+                                scrollEventThrottle={16}
+                             >
+                                <Text style={styles.content}>{content}</Text>
+
+                             </Animated.ScrollView>
+                            
+                        
+                  
+                  
                 </View>
             <FooterIndex style={styles.footer} navigation={props.navigation}/>
         </>
@@ -69,7 +81,13 @@ const styles = StyleSheet.create({
         fontSize:25
     },
     contentContainer:{
-        padding:5
+        padding:5,
+        height:500,
+        transform : [
+            {
+                translateY:scrollY
+            }
+        ]
     },
     authorContainer:{
         flexDirection: 'row',

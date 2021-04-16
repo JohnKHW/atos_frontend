@@ -26,17 +26,20 @@ import {
   import { map, filter } from "rxjs/operators";
   import AsyncStorage from "@react-native-async-storage/async-storage";
   import ConfigSetup from "src/common/ConfigSetup";
+  import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const pointText = "you have earned";
 
 
 const MoveBackground = () => {
     return (
         <>
-            
+      
+          
             <Image style={styles.tree1} source={require("src/assets/images/icon_tree1.png")}></Image>
             <Image style={styles.tree2} source={require("src/assets/images/icon_tree2.png")}></Image>
             <Image style={styles.tree3} source={require("src/assets/images/icon_tree3.png")}></Image>
-            
+         
+
             <Image 
                 source={require("src/assets/images/icon_transport_boy.png") }
                 style={styles.boy}>
@@ -46,10 +49,8 @@ const MoveBackground = () => {
                 source={require("src/assets/images/icon_transport_girl.png") }
                 style={styles.girl}>
             </Image>
-
-                <View style={styles.line}>
-                </View>
-                
+        
+         
         </>
     )
 }
@@ -111,11 +112,11 @@ const moveX = movebg.interpolate({
     
 const moveX_B = movebg2.interpolate({
     inputRange: [0,1],
-    outputRange: [550,-500]
+    outputRange: [500,-500]
 });
 const moveX_C = movebg3.interpolate({
     inputRange: [0,1],
-    outputRange: [1100,0]
+    outputRange: [1000,0]
 });
 
 const Transport = (props) => {
@@ -128,6 +129,7 @@ const Transport = (props) => {
     const [text, setText] = useState("");
     //const [subscription, setSubscription] = useState(undefined);
     const [countVal, setCountVal] = useState(0);
+    const [leave, setLeave] = useState(false);
     var magnitude;
     var delta;
     var MagnitudePrevious;
@@ -146,57 +148,80 @@ const Transport = (props) => {
   //If response is in json then in success
           .then((data) => {
               //Success 
-              props.navigation.navigate("Congrats");
+              //props.navigation.navigate("Congrats");
           })
           //If response is not in json then in error
           .catch((error) => {      
               //Error 
-              props.navigation.navigate("Congrats");        
+             // props.navigation.navigate("Congrats");        
               console.error(error);
           });
     }
 
-    const counter = () => {
-        setUpdateIntervalForType(SensorTypes.accelerometer, 400);  
-        const subscription = accelerometer.subscribe(({ x, y, z }) =>{
-            //console.log({ x, y, z })
-            const added = (Math.sqrt(x*x+y*y+z*z)).toString();
-            console.log(added);
+    const counter = (click,leave) => {
+        console.log("click", click);
+        console.log('leave', leave);
+        if(click){
+            setUpdateIntervalForType(SensorTypes.accelerometer, 400);  
+            const subscription = accelerometer.subscribe(({ x, y, z }) =>{
+                //console.log({ x, y, z })
+                const added = (Math.sqrt(x*x+y*y+z*z)).toString();
+                console.log(added);
 
-            magnitude = added;
+                magnitude = added;
+                
             
-           
-            //Alert.alert(stepCount) );
-            //const temp = magnitude;
-            //console.log("temp" , temp);
+                //Alert.alert(stepCount) );
+                //const temp = magnitude;
+                //console.log("temp" , temp);
 
-            delta = magnitude - MagnitudePrevious;
-            MagnitudePrevious = magnitude;
-        
-            stepCount = delta>0.3? ++stepCount : stepCount;
-            setCountVal(stepCount);
-            console.log("mag = ", magnitude );
-            console.log("delta=" , delta);
-            console.log("MaP=" , MagnitudePrevious);
-            console.log("step= ", stepCount);
-        });
-        return subscription;
+                delta = magnitude - MagnitudePrevious;
+                MagnitudePrevious = magnitude;
+            
+                stepCount = delta>0.3? ++stepCount : stepCount;
+                setCountVal(stepCount);
+                console.log("mag = ", magnitude );
+                console.log("delta=" , delta);
+                console.log("MaP=" , MagnitudePrevious);
+                console.log("step= ", stepCount);
+            });
+            
+            
+                //console.log("clear");
+                if(leave){
+                    
+                    //subscription.unsubscribe();
+                        //props.navigation.navigate("Congrats"); 
+                    accelerometer.stopUpdates();
+                    console.log("clear3");
+                    
+                }               
+                //return subscription;            
+        }
     }
-     
+
+
+
     useEffect(() => {
-        const subscription = counter();
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            setHidden(false);
-            setStart(false);
-            setClick(false);
-            resetAM();
-            setCountVal(0);
-            magnitude= 0;
-            MagnitudePrevious = 0;
-            delta = 0;
-            stepCount = 0;
-        });
-         
+    
+            const leave = props.navigation.addListener('focus' , () => {
+                setHidden(false);
+                setStart(false);
+                resetAM();
+                setCountVal(0);
+                setClick(false);
+                magnitude= 0;
+                MagnitudePrevious = 0;
+                delta = 0;
+                stepCount = 0;
+                
+            })
+            return () => {
+                //unsubscribe;
+                leave;
+            };
+
+       
         //console.log("mag = ", magnitude );
         //console.log("delta=" , delta);
         //console.log("MaP=" , MagnitudePrevious);
@@ -205,10 +230,7 @@ const Transport = (props) => {
         /*  
         
 */      
-        return () => {
-          unsubscribe;
-          subscription.unsubscribe();
-        };
+       
       }, [props.navigation]);
       useEffect(() =>{
         
@@ -241,6 +263,23 @@ const Transport = (props) => {
     })
 
     useEffect(() =>{
+        
+        console.log("Hi");
+        console.log("click 3", click);
+        console.log("leave h", leave);
+        counter(click,leave);
+        //const subscription = counter(click);
+        const out = props.navigation.addListener('blur', () =>{
+            console.log("counter leave");
+           
+            //subscription.unsubscribe();
+        })
+        return () => {
+            out;
+        }
+    },[click,leave])
+
+    useEffect(() =>{
         const clearData = props.navigation.addListener("blur" , () => {
             setHelpCount(undefined);
             setHasNext(0);
@@ -259,28 +298,30 @@ const Transport = (props) => {
       <View style={hidden? styles.startContainerHidden :styles.startContainer}>
             <Text style={styles.title}>Read To Walk the day?</Text>
                 <TouchableOpacity style={styles.StartBtn} onPress={()=>{
+                    setClick((click)=>{return !click});
+                    
                     setHidden(true);
                     startAm();
                     setStart(true);
-                    counter();
                 }}>
                     <Text style={{fontSize:31, textAlign:"center", color:"white",padding:5}}>Start</Text>
                 </TouchableOpacity>
         </View>
         <View style={hidden?styles.netpoint:styles.netpointHidden}>
             <Step step={countVal} text="You have earned"/>
-            {/*
+            {
             <TouchableOpacity onPress={()=>{
-                setClick((click)=>{return !click});
+                setClick((click)=>{click = !click});
                 stopAM();
-                subscription.unsubscribe();
+                
                 
                 }} style={click?styles.pauseBtnHidden:styles.pauseBtn}>
                 <Image source={require("src/assets/images/icon_pause.png")}></Image>
             </TouchableOpacity>
-            */}
+            }
+
             <TouchableOpacity onPress={()=>{
-                setClick((click)=>{return !click});
+                setClick((click)=>{click = !click});
                 startAm();
                 
                 }} style={click?styles.playBtn:styles.playBtnHidden}>
@@ -288,8 +329,8 @@ const Transport = (props) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{
                 setStart(false);
-                sendData();
-              
+                setLeave((leave) => {return !leave});
+                sendData();              
             }} 
                 style={styles.stopBtn}>
                 <Image source={require("src/assets/images/icon_stop.png")}></Image>
@@ -336,40 +377,43 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: 84,
+        height: '10%',
         
     },
     tree1:{
-        transform : [{translateX: -125}],
+        transform : [{translateX: wp('-35%')}],
         position: 'absolute',
-        marginTop:-70,
+        top:hp('3%'),
+        left:wp('-6%'),
         zIndex:4,
     },
     tree2:{
         zIndex:3,
         position: "absolute",
-        marginTop:80,
-        transform : [{translateX: -10}],
+        top:hp('19%'),
+        transform : [{translateX: -12}],
+
     },
     tree3:{
         zIndex:2,
         position:"absolute",
-        marginTop:150,
-        transform : [{translateX: 110}],
+        top:hp('27.5%'),
+        transform : [{translateX: 90}],
     },
+    /*
     line:{
         position: 'absolute',
         borderBottomColor: "black",
         borderBottomWidth: 2,
-        marginTop: -100,
         width: 1000,
-        transform : [{translateY: 550}],
+        bottom:hp('5%')
     },
+    */
     title: {
         color: '#f5f5f5',
         textAlign: 'center',
         fontSize: 24,
-        marginTop:40
+        marginTop:hp('2%')
     },
     startContainerHidden:{
         opacity:0,
@@ -385,40 +429,51 @@ const styles = StyleSheet.create({
     },
     StartBtn:{
         backgroundColor:"#309397",
-        width:206,
-        height:48,
+        width:wp('50%'),
+        height:hp('6.5%'),
         borderRadius:50,
         marginTop: 20,
     },
     boy:{
-        zIndex:4,
-        transform : [{translateX:50},{translateY:250}]
+        position: 'absolute',
+        zIndex:10,
+        top:hp('28%'),
+        left:wp('5%')
     },
     girl: {
-        transform : [{translateX:300}]
+        position: 'absolute',
+        zIndex:12,
+        top:hp('40%'),
+        right:wp('0%')
     },
     netpoint:{
-        transform : [{translateX:(Dimensions.get("window").width)/2-110},{translateY:75}],
+        transform : [{translateX:wp('25%')},{translateY:hp('5%')}],
         position: 'absolute',
         zIndex:5,
         display: "flex"
     },
     netpointHidden:{
-        transform : [{translateX:(Dimensions.get("window").width)/2-110},{translateY:75}],
+        transform : [{translateX:wp('25%')},{translateY:hp('5%')}],
         position: 'absolute',
         zIndex:5,
         display: "none"
     },
     moveA:{
-         transform : [{translateX:moveX}]
+         transform : [{translateX:moveX}],
+         zIndex:5,
+         position: 'absolute',
      },
 
     moveB:{
-       transform : [{translateY:-448},{translateX:moveX_B}],
+       transform : [{translateX:moveX_B}],
         //transform : [{translateX:moveX}]
+        zIndex:5,
+        position: 'absolute',
     },
     moveC:{
-        transform : [{translateY:-896},{translateX:moveX_C}]
+        transform : [{translateX:moveX_C}],
+        zIndex:5,
+        position: 'absolute',
     },
     stopBtn:{
         position: 'absolute',

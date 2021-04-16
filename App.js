@@ -52,7 +52,7 @@ const AuthScreen = ({navigation}) =>{
 
   const loadData = async() =>{
     try{
-      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+      const isLoggedIn = await AsyncStorage.getItem("LoggedIn");
       Alert.alert(isLoggedIn);
       if(isLoggedIn==="1")
         navigation.navigate("Help");
@@ -89,7 +89,10 @@ const App = () => {
               backgroundColor: "rgba(0, 0, 0,0.6)"
             }
             }
-            drawerContent={({navigation})=> (<MyDrawer navigation={navigation}/>)}>
+            drawerContent={({navigation})=> 
+              (<MyDrawer navigation={navigation}/>)}
+            screenOptions={{swipeEnabled:false}}
+              >
               <Drawer.Screen name="DefaultContainer" component={DefaultContainer}/>
               <Drawer.Screen name='Login' component={LoginPage}/>
               <Drawer.Screen name='AuthScreen' component={AuthScreen}/>
@@ -113,6 +116,8 @@ const App = () => {
               <Drawer.Screen name='Gift' component={Gift}/>
               <Drawer.Screen name='GiftDetail' component={GiftDetail}/>
               <Drawer.Screen name='SignUp' component={SignUp}/>
+
+
             </Drawer.Navigator>
 
           </NavigationContainer>

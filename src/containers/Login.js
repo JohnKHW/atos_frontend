@@ -42,7 +42,7 @@ const Login = ({navigation})=> {
     
 
     const authentication = async() => {  
-        
+        /*
         if(username === user.user && password === user.password){
             try{
                 await AsyncStorage.setItem("isLoggedIn", "1");
@@ -55,12 +55,15 @@ const Login = ({navigation})=> {
          else {
             Alert.alert("Your input username or password is incorrect!");
         }
-        
+        */
+       console.log("username " , username);
+       console.log("password ", password);
+
        fetch(`${ConfigSetup.getAPI()}api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
       })
         .then((response) => {
-          if(response.status===201){
+          if(response.status===200){
             return response.json();
           }
         
@@ -69,9 +72,9 @@ const Login = ({navigation})=> {
         .then(async(data) => {
             //Success 
             Alert.alert(""+ JSON.stringify(data.token));
-            //await AsyncStorage.setItem("isLoggedIn", "1");
+            //await AsyncStorage.setItem("LoggedIn", "1");
             await AsyncStorage.setItem("token", JSON.stringify(data.token));
-            await AsyncStorage.setItem("LoggedIn", 1);
+            await AsyncStorage.setItem("LoggedIn", "1");
             navigation.navigate("Load");
         })
         //If response is not in json then in error
@@ -85,6 +88,8 @@ const Login = ({navigation})=> {
         const clearData = navigation.addListener('focus' , () => {
             setUsername("");
             setPassword("");
+            ;
+
         })
         return () => {
             clearData;

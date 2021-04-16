@@ -69,11 +69,10 @@ const SaveCollection = (props) => {
     useEffect(() =>{
         if(props.route.params){
            
-            if(props.route.params.countHelp){
-                
+            if(props.route.params.countHelp){               
                 setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)))
             }else{
-                hasNext(0);
+                setHasNext(0);
             }
             
         }

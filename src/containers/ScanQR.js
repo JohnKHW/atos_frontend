@@ -8,6 +8,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
+import ConfigSetup from "src/common/ConfigSetup";
 const ScanQR = (props) => {
   const [QRdata, setQRData] = useState("");
   const [hasNext, setHasNext] = useState(undefined);
@@ -18,7 +19,7 @@ const ScanQR = (props) => {
       };
 
     const sendQRData = async() => {
-      fetch(`http://42.2.228.35:8000/cashier/cal/${QRdata}`, {
+      fetch(`${ConfigSetup.getAPI()}cashier/cal/${QRdata}`, {
           method: 'POST',
           body:JSON.stringify({
             QRdata: QRdata,

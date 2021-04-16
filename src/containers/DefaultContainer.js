@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
   iconContain: {
     margin: 6,
     alignSelf: 'center',
-    width: wp('50%'),
-    height: hp('23%'),
+    width: wp('45%'),
+    height: hp('21.5%'),
     backgroundColor: '#EFEFEF',
     borderRadius: 500,
     shadowRadius: 6,
