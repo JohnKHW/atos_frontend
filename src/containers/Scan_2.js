@@ -34,7 +34,7 @@ const Scan_2 = (props) => {
     const [totalPoint, setTotalPoint] = useState(0);
     
 //fetching data
-    const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
+    const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/cal', {
         token:  AsyncStorage.getItem("token"),
     }).then((response) => {
         if(response.status===201){

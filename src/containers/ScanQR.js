@@ -12,31 +12,42 @@ import ConfigSetup from "src/common/ConfigSetup";
 // here is for QR code scan 
 const ScanQR = (props) => {
   // fields
-  const [QRdata, setQRData] = useState("");
+  //const [QRdata, setQRData] = useState("");
+  let QRdata = "";
   const [hasNext, setHasNext] = useState(undefined);
   // scan well , then ok and send data
     const onSuccess = (e) => {
-             Alert.alert("OK");
-             setQRData(e.data);
+             Alert.alert("OK", e.data);
+             //setQRData((QRdata) => {return e.data});
+             QRdata = e.data;
+            console.log("QR code scan" , e.data);
+            console.log("set QR code data" , QRdata);
              sendQRData();
       };
       // send data
     const sendQRData = async() => {
-      fetch(`${ConfigSetup.getAPI()}cashier/cal/${QRdata}`, {
-          method: 'POST',
-          body:JSON.stringify({
-            QRdata: QRdata,
-            token: AsyncStorage.getItem("token"),
-          })
+      console.log("QR code" ,QRdata);
+      const token = await AsyncStorage.getItem("token");
+      console.log("token ", token);
+      console.log(`${ConfigSetup.getAPI()}api/cashiers/cal/${QRdata}`);
+      fetch(`${ConfigSetup.getAPI()}api/cashiers/cal/${QRdata}`, {
+          method: 'GET',
+          headers:{
+         
+            Authorization: "Bearer " + token
+          }
         })
           .then((response) => {
-            if(response.status===201){
+            if(response.status===200){
+              //console.log("response", response);
               return response.json();
             }
           })
 
           .then((data) => {
-              Alert.alert(""+ JSON.stringify(data))
+              //Alert.alert(""+ data );
+              //Alert.alert(""+ data );
+              console.log("data", JSON.stringify(data));
               props.navigation.navigate("Scan_2");
           })
 

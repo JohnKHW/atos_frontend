@@ -48,6 +48,8 @@ const SignUp = (props)=> {
                     //Success 
                     console.log(JSON.stringify(data));
                     await AsyncStorage.setItem("first","1")
+                    props.navigation.navigate("Login");
+                    
                 })
                 //If response is not in json then in error
                 .catch((error) => {      

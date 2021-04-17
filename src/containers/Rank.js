@@ -34,25 +34,33 @@ const RankUserContent = (props) =>{
 }
 
 // for ranking page
-const Rank = (props) => {
+ const  Rank =  (props) => {
   //feilds
   const rankTitle = "Regional Rank";
   const [hasNext, setHasNext] = useState(undefined);
   const [data , setData] = useState({});
   // fetching data
   const fetchingUsers = async() => {
-      fetch(ConfigSetup.getAPI()+'api/rank/users/all', {
-        token:  AsyncStorage.getItem("token"),
+    const TOKEN = await AsyncStorage.getItem("token")
+    console.log('TOKEN', TOKEN);
+    fetch(ConfigSetup.getAPI()+'api/rank/users/all', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + TOKEN
+        },
+        
       }).then((response) => {
-        if(response.status===201){
-          return response.json();
+          //console.log("response", response);
+          if(response.status===200){
+            return response.json();
         }
       
       })
 
       .then((data) => {
           //Success 
-          setData(data);
+          //setData(data.da);
+          console.log("data", JSON.stringify(data));
       })
       
       .catch((error) => {      

@@ -4,7 +4,7 @@ class ConfigSetup {
         if(typeof ConfigSetup.instance === 'object'){
             return ConfigSetup.instance;
         }
-        let api = "http://168.70.3.116:8000/";
+        let api = "http://175.159.75.26:8000/";
         this.setAPI = (val) => api = val;
         this.getAPI = () => api;
         ConfigSetup.instance = this;

@@ -46,6 +46,7 @@ const Login = ({navigation})=> {
         // fetching data
        fetch(`${ConfigSetup.getAPI()}api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
+        
       })
         .then((response) => {
           if(response.status===200){
@@ -61,6 +62,9 @@ const Login = ({navigation})=> {
             await AsyncStorage.setItem("token", JSON.stringify(data.token));
             await AsyncStorage.setItem("LoggedIn", "1");
             await AsyncStorage.setItem("first", "1");
+            await AsyncStorage.setItem("username", username);
+            const test = await AsyncStorage.getItem("username");
+            Alert.alert("test"+ test);
             navigation.navigate("Load");
         })
         //If response is not in json then in error

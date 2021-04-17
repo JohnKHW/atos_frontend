@@ -74,7 +74,10 @@ const AuthScreen = ({navigation}) =>{
     loadData();
   })
   
-
+  return (
+    <>
+    </>
+  )
 }
 
 
