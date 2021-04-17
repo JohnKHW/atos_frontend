@@ -5,14 +5,14 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 
 const ArticleDetail = (props) => {
-
+    //article feilds
     const [title,setTitle] =  useState(props.route.params.title);
     const [content,setContent] = useState(props.route.params.content);
     const [author, setAuthor] = useState(props.route.params.author);
     console.log("passed title ", props.route.params.title);
     console.log("passed content ", props.route.params.content);
  
-  
+    // get params pass from article page
     useEffect(() =>{
             setTitle(props.route.params.title);
             setContent(props.route.params.content);
@@ -22,7 +22,7 @@ const ArticleDetail = (props) => {
             console.log("now content ", content);
         
     })
-
+    //clear data when go to next page
     useEffect(() =>{
         const unsubscribe = props.navigation.addListener('blur' , ()=>{
             setTitle("");

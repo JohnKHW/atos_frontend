@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  Alert,
+
   
 } from 'react-native';
 import {componentStyles} from 'src/common/containerStyles';
-
+// this is for the common header
 const HeaderIndex = (props) => {
   const app = {
     name: 'Carbonet',

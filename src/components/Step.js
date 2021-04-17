@@ -1,6 +1,8 @@
 import React from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 
+// this is for step box call
+// must have text and step props
 const Step = (props) => {
     return (
         <>

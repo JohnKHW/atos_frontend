@@ -7,10 +7,12 @@ import {componentStyles} from 'src/common/containerStyles';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import TutorBox from 'src/components/TutorBox';
+// here is scan page to select scan qr code or food
 const Scan = (props) => {
+  // fields
   const [hasNext, setHasNext] = useState(undefined);
   const [helpCount, setHelpCount] = useState(undefined);
-  
+    //any params in route, set value
   useEffect(() =>{
     if(props.route.params){
       console.log(props.route.params);
@@ -33,6 +35,7 @@ const Scan = (props) => {
     }
    
 })
+//clear data
 useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
       setHelpCount(undefined);

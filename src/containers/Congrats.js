@@ -8,9 +8,13 @@ import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
+//Here is the congrats page
 const Congrats = (props) => {
+    //congrats fields
     const [hasNext, setHasNext] = useState(undefined);
     const [netPoint, setNetPoint] = useState("");
+    //fetching data
     fetch(ConfigSetup.getAPI()+'api/user/login', {
         token: AsyncStorage.getItem("token"),
     }).then((response) => {
@@ -19,17 +23,17 @@ const Congrats = (props) => {
         }
       
       })
-//If response is in json then in success
       .then((data) => {
           //Success 
           //setNetPoint(JSON.stringify(data.netPoint));
       })
-      //If response is not in json then in error
       .catch((error) => {      
           //Error         
           console.error(error);
       });
 
+
+      // any params in route then set value
       useEffect(() =>{
         if(props.route.params){
            
@@ -43,6 +47,7 @@ const Congrats = (props) => {
         }
        
     })
+    // clear data change screen
     useEffect(() =>{
         const clearData = props.navigation.addListener("blur" , () => {   
             setHasNext(0);

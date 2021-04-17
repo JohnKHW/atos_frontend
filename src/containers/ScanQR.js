@@ -9,15 +9,18 @@ import { RNCamera } from 'react-native-camera';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
 import ConfigSetup from "src/common/ConfigSetup";
+// here is for QR code scan 
 const ScanQR = (props) => {
+  // fields
   const [QRdata, setQRData] = useState("");
   const [hasNext, setHasNext] = useState(undefined);
+  // scan well , then ok and send data
     const onSuccess = (e) => {
              Alert.alert("OK");
              setQRData(e.data);
              sendQRData();
       };
-
+      // send data
     const sendQRData = async() => {
       fetch(`${ConfigSetup.getAPI()}cashier/cal/${QRdata}`, {
           method: 'POST',
@@ -43,6 +46,7 @@ const ScanQR = (props) => {
               //props.navigation.navigate("Notification");
           });    
   }
+  // any params in route , set value
   useEffect(() =>{
     if(props.route.params){
         console.log(props.route.params);
@@ -58,7 +62,7 @@ const ScanQR = (props) => {
    
 })
 
-
+// clearData
 useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
       

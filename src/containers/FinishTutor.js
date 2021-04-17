@@ -4,6 +4,8 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {componentStyles} from 'src/common/containerStyles';
+
+//fisnish Tutor page 
 const FinishTutor = (props) => {
     return (
         <>

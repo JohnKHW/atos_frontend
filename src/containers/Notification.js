@@ -4,7 +4,7 @@ import HeaderIndex from 'src/common/HeaderIndex';
 import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 
-
+// here is the send report when there is a bug 
 const Notification = ({navigation}) => { 
 
     const [response,setResponse] =  useState("no worry we will fix it!");

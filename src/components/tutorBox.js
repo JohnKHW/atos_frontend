@@ -9,7 +9,9 @@ import {
     Alert
 } from 'react-native';
 
+//this is the tutor box
 const TutorBox = (props) => {
+    // * pass mouseNum, text, circle, isPlace, haveCount, hasNext , place props
     const [mouseNum, setMouseNum] = useState(props.mouseNum);
     const backgroundColor = props.backgroundColor;
     const boxText = props.text;
@@ -25,12 +27,16 @@ const TutorBox = (props) => {
                 <TouchableOpacity style={styles.btnContainer}
                     onPress={()=>
                         {
+                            //have place, then go to props given place
                             if(isPlace===1){
                                 props.navigation.navigate(props.place);
                             }
                             else{
                                 props.navigation.openDrawer();
                             }
+
+                            // if any same page, then give the nowCount to help
+                            // which page you want
                             if(isCount===1){
                                 console.log("has is count in turtor", isCount);
                                 props.navigation.navigate(props.place,{
@@ -39,6 +45,7 @@ const TutorBox = (props) => {
                                 });
                                 
                             }    
+                            //pass to next page
                             else if(hasNext===1){
                                 console.log("has has Next in turtor", hasNext);
                                 props.navigation.navigate(props.place,{
@@ -49,10 +56,12 @@ const TutorBox = (props) => {
                         }
                     }
                 >
+                    
                     <Text style={styles.btnText}>Next</Text> 
                 </TouchableOpacity>
             </View>
-            {mouseNum===1&&
+            {//this is to show the mouse Icon and the circle point
+            mouseNum===1&&
             <View style={[styles.mousePoint,{left:props.mouse1left,flexDirection:"row",top:props.mouse1top}]}>
                  {circle===1&&
                         <Image source={require("src/assets/images/icon_mouse_circle.png")}></Image>

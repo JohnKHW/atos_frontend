@@ -6,6 +6,7 @@ import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// detail of gift page
 const GiftDetail = (props) => {
     const [title,setTitle] =  useState(props.route.params.title);
     const [description,setDescription] = useState(props.route.params.description);

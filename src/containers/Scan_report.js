@@ -5,11 +5,13 @@ import FooterIndex from 'src/common/FooterIndex';
 
 import {componentStyles} from 'src/common/containerStyles';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ConfigSetup from "src/common/ConfigSetup";
+// here is the send bug to us page
 const Scan_report = ({navigation}) => {
     const [reportText, setText] = useState("");
-
+//fetching data
     const sendReport = () => {
-        fetch('http://42.2.228.35:8000/api/user/login', {
+        fetch(ConfigSetup.getAPI()+'api/user/', {
             method: 'POST',
             body:JSON.stringify({
               reportText: reportText,
@@ -23,8 +25,7 @@ const Scan_report = ({navigation}) => {
             })
 
             .then((data) => {
-                Alert.alert(""+ JSON.stringify(data))
-                navigation.navigate("Notification");
+                navigation.navigate("Notification"); // here is tell user ok 
             })
 
             .catch((error) => {

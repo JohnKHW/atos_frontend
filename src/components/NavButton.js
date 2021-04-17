@@ -4,14 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfigSetup from "src/common/ConfigSetup";
 const NavButton = (props)=> {
   
+  //assign to the props given screen
   const goToScreen = async() => {
     
       switch(props.title){
         case "Logout":
-            await AsyncStorage.removeItem("LoggedIn");
+            await AsyncStorage.removeItem("LoggedIn"); // clear local storage
             return props.navigation.navigate("Login");
         case "Setting":
-            //ConfigSetup.setAPI("Brian Wong");
             return props.navigation.navigate("Setting");
         case "Help":
             return props.navigation.navigate("Help");

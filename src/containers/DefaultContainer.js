@@ -10,24 +10,27 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from 'src/common/SavePost';
 import TutorBox from 'src/components/TutorBox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-const Drawer = createDrawerNavigator();
 
+const Drawer = createDrawerNavigator();
+//this is the main page
 const DefaultContainer = (props) => {
-  
+// fields
 const [username, setUsername]= useState("Brian Wong");
 const [countSave, setCountSave] = useState(0);
 const [countHelp, setCountHelp] = useState(0);
 
+// get the username from local storage
 const getUserName = async() => {
   try{
     setUsername(await AsyncStorage.getItem("username"));
-    //Alert.alert("added");
+
   }
   catch(e){
     console.error(e);
     
   }
 }
+// update post data 
 const updateSavedPost = async() =>{
   if(SavePost.get().length===0){
     console.log("it is null");
@@ -43,7 +46,7 @@ const updateSavedPost = async() =>{
     
   }
 }
-
+// enter page then update save post 
 useEffect(() =>{ 
   const add = props.navigation.addListener('focus' , () => {
     if(countSave===0){

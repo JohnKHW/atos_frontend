@@ -19,12 +19,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {actions,customIcon,RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 import { WebView } from 'react-native-webview';
 import TutorBox from 'src/components/TutorBox';
+// to write some article 
 const WriteArticle = (props) => {
-
+    // fields
     const [title,setTitle] = useState("");
     const [content, setContent] = useState("");
     const [hasNext, setHasNext] = useState(undefined);
-
+    // fetching data and send
     const send = () => {
         fetch('http://42.2.228.35:8000/api/user/login', {
             method: 'POST',

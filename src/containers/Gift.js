@@ -7,7 +7,9 @@ import {componentStyles} from 'src/common/containerStyles';
 import NetPoint from 'src/components/NetPoint';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfigSetup from "src/common/ConfigSetup";
+// exchange the netpoint in this page
 const Gift = (props) => {
+    // feilds
     const [data, setData] = useState(undefined);
     const [netpoint, setNetpoint] = useState("");
     const sampleData = [
@@ -32,7 +34,7 @@ const Gift = (props) => {
         netpoint: 200
     }
     ];
-
+    // fetching data
     const getNetPoint = () => {
         fetch( ConfigSetup.getAPI()+'api/user/login', {
             method: 'POST',

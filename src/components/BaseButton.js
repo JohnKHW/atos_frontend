@@ -9,30 +9,29 @@ import {
 
 const BaseButton = (props) => {
   const [click, setClick] = useState(false);
-
-
+  // when click button , then assign to the props given screen
   const goToScreen = () => {
     switch(props.title) {
       case "Articles": 
        
         return props.navigation.navigate("Article",{
-          helpCount:0,
-          hasNext:0,
-          countHelp:0
+          helpCount:null,
+          hasNext:null,
+          countHelp:null
         });
       case "Transport":
       
         return props.navigation.navigate("Transport",{
-          helpCount:0,
-          hasNext:0,
-          countHelp:0
+          helpCount:null,
+          hasNext:null,
+          countHelp:null
         });
       case "Scan":
-     
+        
         return props.navigation.navigate("Scan",{
-          helpCount:0,
-          hasNext:0,
-          countHelp:0
+          helpCount:null,
+          hasNext:null,
+          countHelp:null
         });
       case "Rank":
         

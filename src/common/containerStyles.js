@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-
+// this is fir the common style
 export const componentStyles = StyleSheet.create({
     container: {
         backgroundColor: "rgba(255, 198, 80, 0.59)",

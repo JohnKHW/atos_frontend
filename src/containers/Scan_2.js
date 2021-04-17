@@ -7,8 +7,9 @@ import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
+// here is the detail of food point
 const Scan_2 = (props) => {
-
+  //fields
     const [title, setTitle] = useState("Title");
     const [point, setPoint] = useState("Point");
     const [data, setData] = useState(undefined);
@@ -32,7 +33,7 @@ const Scan_2 = (props) => {
     ]
     const [totalPoint, setTotalPoint] = useState(0);
     
-
+//fetching data
     const fetchingData = async() => {fetch(ConfigSetup.getAPI()+'api/user/login', {
         token:  AsyncStorage.getItem("token"),
     }).then((response) => {
@@ -41,12 +42,12 @@ const Scan_2 = (props) => {
         }
       
       })
-//If response is in json then in success
+
       .then((data) => {
           //Success 
           setData(data);
       })
-      //If response is not in json then in error
+
       .catch((error) => {      
           //Error         
           console.error(error);
@@ -66,6 +67,7 @@ const Scan_2 = (props) => {
             clearData;
         }
     },[props.navigation]);
+    //any params in route, set value
     useEffect(() =>{
       if(props.route.params){
          
@@ -103,12 +105,18 @@ const Scan_2 = (props) => {
                 <FlatList
                     data={data}
                     keyExtractor={({ id }) => id.toString()}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }) => {
+                      //const abc= "";
+                      return (  
+                        <>               
                         <View style={styles.scanContainer}>
                             <Text style={styles.foodTitle}>{item.title} +{item.point}</Text>
                             <Text style={styles.foodContent}>content</Text>
                         </View>
-                    )}
+                        
+                        </>
+                     )
+                  }}
                  />
 
 

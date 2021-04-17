@@ -8,14 +8,14 @@ import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
+// rank box render when call 
+// * must have no, name and point in props
 const RankUserContent = (props) =>{
 
   const [name, setName] = useState(props.name);
   const [netPoint, setNetPoint] = useState(props.point);
   
-
-
-
   return (
     <View style={styles.rankContent}>
         <View style={styles.rankNo}>
@@ -33,12 +33,13 @@ const RankUserContent = (props) =>{
   )
 }
 
-
+// for ranking page
 const Rank = (props) => {
-
+  //feilds
   const rankTitle = "Regional Rank";
   const [hasNext, setHasNext] = useState(undefined);
   const [data , setData] = useState({});
+  // fetching data
   const fetchingUsers = async() => {
       fetch(ConfigSetup.getAPI()+'api/rank/users/all', {
         token:  AsyncStorage.getItem("token"),
@@ -48,21 +49,23 @@ const Rank = (props) => {
         }
       
       })
-    //If response is in json then in success
+
       .then((data) => {
           //Success 
           setData(data);
       })
-      //If response is not in json then in error
+      
       .catch((error) => {      
           //Error         
           console.error(error);
       });
 }
+//update fetching
   useEffect(() =>{
     fetchingUsers();
   },[props.navigation])
 
+  //any params in route then set value
   useEffect(() =>{
     if(props.route.params){
         console.log("",props.route.params)
@@ -76,6 +79,7 @@ const Rank = (props) => {
     }
    
 })
+//clear data
 useEffect(() =>{
   const clearData = props.navigation.addListener("blur" , () => {
       console.log("clear!");

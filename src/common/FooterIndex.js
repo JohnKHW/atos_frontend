@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
 import BaseButton from 'src/components/BaseButton';
-
+//this is for the common footer
 const FooterIndex = (props) => {
   const icon = {
     article: {

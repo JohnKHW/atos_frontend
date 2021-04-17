@@ -6,6 +6,7 @@ import FooterIndex from 'src/common/FooterIndex';
 import {componentStyles} from 'src/common/containerStyles';
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// change the username
 const Setting = ({navigation}) => {
     const [username, setUsername] = useState("");
     const changeNewName = () =>{

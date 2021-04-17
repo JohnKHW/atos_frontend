@@ -9,11 +9,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import TutorBox from 'src/components/TutorBox';
 import ConfigSetup from "src/common/ConfigSetup";
+//scan food page
 const ScanFood = (props) => {
+    // fields
     const [response, setResponse] = useState(null);
     const [didCancel, setDidCancel] = useState(true);
     const [uri, setUri] = useState(null);
     const [hasNext, setHasNext] = useState(undefined);
+
+    // creat a form data to upload photo 
     const createData = (photo, body) => {
         const data = new FormData();
 
@@ -50,10 +54,10 @@ const ScanFood = (props) => {
           .catch((error) => {
               
               console.error(error);
-              //props.navigation.navigate("Notification");
+              
           });    
   }
-  
+  // any params in route
   useEffect(() =>{
     if(props.route.params){
         console.log(props.route.params);

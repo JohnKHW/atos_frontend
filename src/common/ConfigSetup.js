@@ -1,3 +1,4 @@
+//this page is for set up the api
 class ConfigSetup {
     constructor(){
         if(typeof ConfigSetup.instance === 'object'){

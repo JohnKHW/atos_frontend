@@ -58,10 +58,10 @@ const MoveBackground = () => {
 const movebg = new Animated.Value(0);
 const movebg2 = new Animated.Value(0);
 const movebg3 = new Animated.Value(0);
-
+// animation
 const startAm = () => {
     Animated.loop(
-        //Animated.parallel([
+       
             Animated.timing(movebg,{
                 toValue:1,
                 duration: 15000,
@@ -71,8 +71,7 @@ const startAm = () => {
             })      
     ).start();
     Animated.loop(
-        //Animated.parallel([
-           
+        
         Animated.timing(movebg2,{
             toValue:1,
             duration: 15000,
@@ -92,19 +91,20 @@ const startAm = () => {
         }),
     ).start();
 }
-
+// rest animation
 const resetAM = () => {
     Animated.timing(movebg).reset();
     Animated.timing(movebg2).reset();
     Animated.timing(movebg3).reset();
 }
-
+//stop animation
 const stopAM = () => {
     Animated.timing(movebg).stop();
     Animated.timing(movebg2).stop();
     Animated.timing(movebg3).stop();
 }
 
+// move range
 const moveX = movebg.interpolate({
     inputRange: [0,1],
     outputRange: [0,-1000]
@@ -145,19 +145,19 @@ const Transport = (props) => {
             }
           
           })
-  //If response is in json then in success
+ 
           .then((data) => {
               //Success 
-              //props.navigation.navigate("Congrats");
+              
           })
-          //If response is not in json then in error
+        
           .catch((error) => {      
               //Error 
-             // props.navigation.navigate("Congrats");        
+              
               console.error(error);
           });
     }
-
+// counte step
     const counter = (click,leave) => {
         console.log("click", click);
         console.log('leave', leave);
@@ -172,11 +172,7 @@ const Transport = (props) => {
 
                         magnitude = added;
                         
-                    
-                        //Alert.alert(stepCount) );
-                        //const temp = magnitude;
-                        //console.log("temp" , temp);
-
+            
                         delta = magnitude - MagnitudePrevious;
                         MagnitudePrevious = magnitude;
                     
@@ -202,7 +198,7 @@ const Transport = (props) => {
         }
     }
 
-
+// clear data
 
     useEffect(() => {
     
@@ -227,6 +223,7 @@ const Transport = (props) => {
             };
 
       }, [props.navigation]);
+      //clear data
       useEffect(() =>{
         const clearData = props.navigation.addListener('blur', () => {
             console.log("I leave in transport");
@@ -246,7 +243,7 @@ const Transport = (props) => {
         setText(countVal);
     
       },[countVal])
-
+      //any params in route, set value
       useEffect(() =>{
         if(props.route.params){
            
@@ -270,7 +267,7 @@ const Transport = (props) => {
         }
        
     })
-
+    // check click and leave update ,set value
     useEffect(() =>{
         
         console.log("Hi");
@@ -287,7 +284,7 @@ const Transport = (props) => {
             out;
         }
     },[click,leave])
-
+//clear data
     useEffect(() =>{
         const clearData = props.navigation.addListener("blur" , () => {
             setHelpCount(undefined);
@@ -296,10 +293,7 @@ const Transport = (props) => {
         })
         return clearData;
     },[props.navigation])
-      //console.log("delta" , delta);
-      //console.log("MaP" , MagnitudePrevious);
-      //console.log(magnitude);
-      //console.log(stepCount);
+     
   return (
     <View style={componentStyles.container_v2}>
       <HeaderIndex navigation={props.navigation}/> 

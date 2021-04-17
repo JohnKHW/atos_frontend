@@ -7,7 +7,7 @@ const version = '1.0.0';
 const contry = 'Hong Kong';
 //const username = 'John Wong';
 
-
+// here is the drawer part
 const icon = {
   setting: {
     title: 'Setting',
@@ -45,12 +45,7 @@ const NavContainer = ({navigation}) => {
         <NavButton img={icon.about.img} title={icon.about.title} navigation={navigation}/>
         <NavButton img={icon.logout.img} title={icon.logout.title} navigation={navigation} />
       </View>
-      {/*
-      <View style={styles.systemInfo}>
-        <Text>© Carbonet Inc. 2021</Text>
-        <Text>v{version}</Text>
-      </View>*/
-}
+     
     </View>
       
   );

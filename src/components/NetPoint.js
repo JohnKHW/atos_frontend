@@ -1,6 +1,8 @@
 import React from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 
+// this is for given others to render the netpoint box
+// must have the netpoint and text props
 const NetPoint = (props) => {
     return (
         <>

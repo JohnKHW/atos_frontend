@@ -16,11 +16,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ConfigSetup from "src/common/ConfigSetup";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+//this is the signup page
 const SignUp = (props)=> {
+    // fields
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [cPassword, setCPassword] = useState("");
+    const [cPassword, setCPassword] = useState(""); // for confirm password
    
     const icon ={
         loginIcon:{
@@ -30,7 +32,7 @@ const SignUp = (props)=> {
     
 
     const setupData = async() => {  
-       if(cPassword === password){
+       if(cPassword === password){ // check equal, yes then send data
             fetch(`${ConfigSetup.getAPI()}api/user/register?username=${username}&name=${username}&email=${email}&password=${password}`, {
                 method: 'POST',
             
@@ -54,7 +56,7 @@ const SignUp = (props)=> {
                 });
         }
     }
-
+    // clear data
     useEffect(() =>{
         const clearData = props.navigation.addListener('focus' , () => {
             setUsername("");

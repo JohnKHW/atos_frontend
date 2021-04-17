@@ -20,6 +20,7 @@ import LoadScreen from "src/containers/LoadScreen";
 import ConfigSetup from "src/common/ConfigSetup";
 const window = Dimensions.get("window");
 
+//login page
 const Login = ({navigation})=> {
 
     const user = {
@@ -42,23 +43,7 @@ const Login = ({navigation})=> {
     
 
     const authentication = async() => {  
-        /*
-        if(username === user.user && password === user.password){
-            try{
-                await AsyncStorage.setItem("isLoggedIn", "1");
-                await AsyncStorage.setItem("username", username);
-                navigation.navigate("DefaultContainer");
-            }catch(e){
-
-            }
-        }
-         else {
-            Alert.alert("Your input username or password is incorrect!");
-        }
-        */
-       console.log("username " , username);
-       console.log("password ", password);
-
+        // fetching data
        fetch(`${ConfigSetup.getAPI()}api/user/login?username=${username}&password=${password}`, {
         method: 'POST',
       })
@@ -84,7 +69,7 @@ const Login = ({navigation})=> {
             console.error(error);
         });
     }
-
+//clear data
     useEffect(() =>{
         const clearData = navigation.addListener('focus' , () => {
             setUsername("");

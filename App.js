@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React ,{useState,useEffect} from 'react';
+import React ,{useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -46,35 +46,35 @@ import FinishTutor from "src/containers/FinishTutor"
 import Gift from "src/containers/Gift"
 import GiftDetail from "src/containers/GiftDetail"
 import SignUp from "src/containers/SignUp"
+// a drawer navigation bar in the left side
 const Drawer = createDrawerNavigator();
 
+// to authentication the identity to assign to which page
 const AuthScreen = ({navigation}) =>{
 
   const loadData = async() =>{
     try{
-      const isLoggedIn = await AsyncStorage.getItem("LoggedIn");
-      const first = await AsyncStorage.getItem("first");
-      Alert.alert(isLoggedIn);
-      console.log("first",first);
+      const isLoggedIn = await AsyncStorage.getItem("LoggedIn"); // use to use the app whether using
+      const first = await AsyncStorage.getItem("first"); // whether user is first time use
+      //Alert.alert(isLoggedIn);
+      //console.log("first",first);
       if(first === "1"&& isLoggedIn=== "1")
-        navigation.navigate("Help");
-      else if(isLoggedIn==="1")
-        navigation.navigate("DefaultContainer");
+        navigation.navigate("Help"); // if first time , then go to help tutorial
+      else if(isLoggedIn==="1") 
+        navigation.navigate("DefaultContainer"); // other go to the home page
       else
-        navigation.navigate("Login")
-      //navigation.navigate((isLoggedIn !== 1) ? "Login": "DefaultContainer" );
+        navigation.navigate("Login") // if user haven't login yet , then go to login page
+
     }catch(e){
-      Alert.alert(e);
+      //Alert.alert(e);
+      console.error(e);
     }
   };
-  useEffect(() =>{
+  useEffect(() =>{ // to call the loadData
     loadData();
   })
   
-  return (
-    <>
-    </>
-  )
+
 }
 
 
@@ -94,9 +94,12 @@ const App = () => {
             }
             }
             drawerContent={({navigation})=> 
-              (<MyDrawer navigation={navigation}/>)}
+              (<MyDrawer navigation={navigation}/>)}  // this the drawer screen
             screenOptions={{swipeEnabled:false}}
               >
+                {
+                  //Here is the screen and the name
+                }
               <Drawer.Screen name="DefaultContainer" component={DefaultContainer}/>
               <Drawer.Screen name='Login' component={LoginPage}/>
               <Drawer.Screen name='AuthScreen' component={AuthScreen}/>

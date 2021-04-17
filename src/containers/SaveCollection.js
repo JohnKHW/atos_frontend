@@ -7,12 +7,14 @@ import {componentStyles} from 'src/common/containerStyles';
 import SavePost from 'src/common/SavePost';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from 'src/components/TutorBox';
-
+// save post page
 const SaveCollection = (props) => {
+    // feilds
     const [data, setData] = useState({});
     const [currentTime, setTime] = useState(0);
     const [hasNext, setHasNext] = useState(undefined);
     var mytime;
+    // enter page to update a timer
     useEffect(() =>{
         const reRun = props.navigation.addListener('focus' , () => {
              
@@ -25,7 +27,7 @@ const SaveCollection = (props) => {
             //Alert.alert("Time " + currentTime);
         }, 3000);
        
-
+        // clear data
         const unsubscribe = props.navigation.addListener('blur' , () => {
             clearTimeout(mytime);
             console.log("I done clear")
@@ -35,18 +37,12 @@ const SaveCollection = (props) => {
             reRun;
         }
     })
-
+    // set data 
     useEffect(() =>{
         
         const reRun = props.navigation.addListener('focus' , async() => {
             setData(SavePost.get());
-            /*
-            try{
-                setData(JSON.parse(await AsyncStorage.getItem("SavedPost")));
-            }catch(e){
-                console.error(e);
-            }
-            */
+        
         });
 
     
@@ -57,18 +53,19 @@ const SaveCollection = (props) => {
         }
         //console.log("getted data", testData);
     },[props.navigation]);
+    // clear data
     useEffect(() =>{
         const clearData = props.navigation.addListener("blur" , () => {
             
             setHasNext(0);
             props.navigation.setParams({
-                helpCount:0,
-                hasNext:0,
-                countHelp:0})
+                helpCount:null,
+                hasNext:null,
+                countHelp:null})
         })
         return clearData;
     },[props.navigation])
-
+//any params in route, set value
     useEffect(() =>{
         if(props.route.params){
            

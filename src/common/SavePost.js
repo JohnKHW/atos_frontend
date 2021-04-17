@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+//this is for save post 
 class SavePost {
     constructor(){
         if(typeof SavePost.instance === 'object'){
@@ -12,6 +12,7 @@ class SavePost {
         SavePost.instance = this;
        
     }
+    // any set into the array
     async set(item){
         for(var i=0;i<this.post.length;i++){
             if(item.id===this.post[i].id){
@@ -25,6 +26,7 @@ class SavePost {
             this.post.push(item);
             try{
                 if(this.post.length!==0){
+                    //try to save into local storage for next time to get
                     await AsyncStorage.setItem("SavedPost", JSON.stringify(this.post));
                 }      
             }catch(e){

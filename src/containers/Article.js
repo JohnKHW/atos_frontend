@@ -11,7 +11,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import ConfigSetup from "src/common/ConfigSetup";
 const ScreenHight = Dimensions.get('screen').height;
 
-//Alert.alert(""+ScreenHight);
+//this is the article page
 const Articles = (props) => {
    
     const [post,setPost] = useState("");
@@ -39,10 +39,10 @@ const Articles = (props) => {
     ];
 
     const text = testArt;
-    
-    const [index , setIndex] = useState(0);
-    const [currentText, setText] = useState(text[index].title);
-    const [currentContent, setContent] = useState(text[index].content);
+    const [index , setIndex] = useState(0); // use to show the index of article
+    const [currentText, setText] = useState(text[index].title); // use to set the current index article title
+    const [currentContent, setContent] = useState(text[index].content); // use to set the current index article content
+    // for fetching the data
     fetch(ConfigSetup.getAPI()+'api/articles', {
         method: 'POST',
         body:JSON.stringify({
@@ -56,16 +56,17 @@ const Articles = (props) => {
         })
 
         .then((data) => {
-            setPost(JSON.stringify(data));
+            setPost(JSON.stringify(data)); // here is to set the post data
             console.log(JSON.stringify(data));
         })
 
         .catch((error) => {
         
             console.error(error);
-            //navigation.navigate("Notification");
+        
         });   
 
+    //this is for add the save to save post
     const addSave = () => {
         try{
             SavePost.set(testArt[index]);
@@ -75,17 +76,17 @@ const Articles = (props) => {
             console.error(e);
         }
     }
-
+    //this is for going to write article page
     const write = () => { 
         props.navigation.navigate("Write");
     }
+    // this is for update the title and content, when index change
     useEffect(()=>{
         setText(text[index].title);
         setContent(text[index].content);
-        //Alert.alert(""+index);
-        
     },[index])
 
+    // here is to clear data when leave the current screen
     useEffect(() =>{
         const clearData = props.navigation.addListener("blur" , () => {
             setHelpCount(undefined);
@@ -100,11 +101,11 @@ const Articles = (props) => {
         return clearData;
     },[props.navigation])
 
-
+    // here is for set the tutor box parameter and render
     useEffect(() =>{
         console.log("has ", props.route.params );
         console.log("has ", hasNext);
-        if(props.route.params){
+        if(props.route.params){ // check any params in route
             console.log(props.route.params)
             if(props.route.params.helpCount){
                 console.log("has enter helpCount");
@@ -156,7 +157,7 @@ const Articles = (props) => {
                         onPress={()=>{
                             console.log("now passing title ", text[index].title);
                             console.log("now passing content ", text[index].content);
-                            props.navigation.navigate("ArticleDetail",{
+                            props.navigation.navigate("ArticleDetail",{// pass the params to article detail page
                                 title: text[index].title,
                                 content: text[index].content,
                                 author: text[index].author
@@ -171,10 +172,10 @@ const Articles = (props) => {
                     </View>
                 </View>
                 <TouchableOpacity style={styles.nextArrowContainer} onPress={()=>{
+                    //here is to change the index
                         setIndex(index=>(index<2)?index+1:index=0);
                         setText(text[index].title);
                         setContent(text[index].content);
-                        //Alert.alert(""+ index);
                         console.log("" + index);
                     }
                 }>
@@ -182,9 +183,8 @@ const Articles = (props) => {
                     <Image source={require("src/assets/images/icon_next.png")}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.backArrowContainer} onPress={()=>{
-                    //Alert.alert(""+ index);
+                     //here is to change the index
                     setIndex(index=>(index>0)?index-1:index=2);
-                    //Alert.alert(""+ index);
                     console.log("" + index);
                 }}>
                     <Image source={require("src/assets/images/icon_back.png")}></Image>
@@ -200,7 +200,8 @@ const Articles = (props) => {
             
             
         <FooterIndex style={styles.footer} navigation={props.navigation} points={5000} route={props.route}/>
-        {hasNext===1&&
+        { // following is for the tutor box setting
+        hasNext===1&&
             <View style={{width:"100%",height:"100%",backgroundColor:"rgba(0,0,0,0.7)",position:"absolute"}}></View>
          }
                 {helpCount===undefined&&hasNext===1?
