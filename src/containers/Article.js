@@ -5,9 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
   Dimensions,
-  Linking,
 } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";

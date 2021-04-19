@@ -1,22 +1,27 @@
 import React from "react";
-import { Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { Text, StyleSheet, ScrollView, SafeAreaView ,View} from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { ComponentStyles } from "src/common/ContainerStyles";
 import RankUserContent from "../components/RankUserContent";
 import api from "../api";
-
+import TutorBox from "src/components/TutorBox";
 const rankTitle = "Regional Rank";
 
 export default class Rank extends React.Component {
   state = {
     rankData: [],
+    hasNext:undefined,
   };
 
   constructor(props) {
     super(props);
     this.fetchData();
+    
   }
 
   fetchData() {
@@ -33,9 +38,17 @@ export default class Rank extends React.Component {
   }
 
   render() {
+    const {navigation} = this.props;
+    const {route} = this.props;
+    console.log("props route", route);
+    if(route.params){
+      
+       this.hasNext = route.params.countHelp;
+    }
+    
     return (
       <>
-        <HeaderIndex navigation={this.props.navigation} />
+        <HeaderIndex navigation={navigation} />
         <SafeAreaView
           style={[
             ComponentStyles.container_v2,
@@ -56,7 +69,32 @@ export default class Rank extends React.Component {
           </ScrollView>
         </SafeAreaView>
 
-        <FooterIndex style={styles.footer} navigation={this.props.navigation} />
+        <FooterIndex style={styles.footer} navigation={navigation} />
+        {this.hasNext === 1 && (
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            position: "absolute",
+          }}
+        ></View>
+      )}
+      {this.hasNext === 1 && (
+        <TutorBox
+          mouseNum={1}
+          text={"You can see the rank of your region here."}
+          mouse1left={340}
+          mouse1top={hp("90%")}
+          circle={1}
+          navigation={navigation}
+          isPlace={1}
+          place={"FinishTutor"}
+          boxtop={100}
+          haveCount={0}
+          hasNext={1}
+        />
+      )}
       </>
     );
   }

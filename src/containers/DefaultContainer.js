@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+
 import { ComponentStyles } from "src/common/ContainerStyles";
 import NetPoint from "src/components/NetPoint";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,11 +17,12 @@ export default class DefaultContainer extends React.Component {
   state = {
     userData: {},
     countryData: {},
-    countHelp: 1,
+    countHelp: undefined,
   };
   constructor(props) {
     super(props);
     this.fetchData();
+    
   }
   fetchData() {
     api
@@ -36,10 +37,36 @@ export default class DefaultContainer extends React.Component {
       });
   }
 
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener("blur",() => {
+        this.props.navigation.setParams({
+          helpCount:null,
+          hasNext:null,
+          countHelp:null
+        })
+    })
+    this.add = this.props.navigation.addListener('focus', () => {
+      console.log("Count Help", this.props.route.countHelp);
+      this.setState({countHelp:this.props.route.countHelp});
+    })
+  }
+  componentWillUnmount(){
+    this._unsubscribe();
+    this.add();
+  }
+
   render() {
+    
+    const {navigation} = this.props;
+    const {route} = this.props;
+    if(route.params){
+      this.countHelp = route.params.countHelp;
+
+      console.log("props route", route);
+    }
     return (
       <View style={ComponentStyles.container_v2}>
-        <HeaderIndex navigation={this.props.navigation} />
+        <HeaderIndex navigation={navigation} />
 
         <View>
           <Text style={[styles.welcomeText, { marginTop: 50 }]}>
@@ -63,7 +90,36 @@ export default class DefaultContainer extends React.Component {
             text="you now have earned"
           />
         </View>
-        <FooterIndex style={styles.footer} navigation={this.props.navigation} />
+        <FooterIndex style={styles.footer} navigation={navigation} />
+        {this.countHelp === 1 && (
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            position: "absolute",
+          }}
+        ></View>
+      )}
+      {this.countHelp === 1 && (
+        <TutorBox
+          mouseNum={2}
+          text={
+            "You can set your information and see the current net points here!"
+          }
+          mouse1left={wp("15%")}
+          mouse1top={hp("4%")}
+          mouse2left={wp("70%")}
+          mouse2top={hp("55%")}
+          circle={0}
+          navigation={navigation}
+          isPlace={1}
+          place={"Article"}
+          haveCount={0}
+          boxtop={0}
+          hasNext={this.countHelp}
+        />
+      )}
       </View>
     );
   }
@@ -217,35 +273,7 @@ const DefaultContainer = (props) => {
         <NetPoint netpoint="00000" text="you now have earned" />
       </View>
       <FooterIndex style={styles.footer} navigation={props.navigation} />
-      {countHelp === 1 && (
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.7)",
-            position: "absolute",
-          }}
-        ></View>
-      )}
-      {countHelp === 1 && (
-        <TutorBox
-          mouseNum={2}
-          text={
-            "You can set your information and see the current net points here!"
-          }
-          mouse1left={wp("15%")}
-          mouse1top={hp("4%")}
-          mouse2left={wp("70%")}
-          mouse2top={hp("55%")}
-          circle={0}
-          navigation={props.navigation}
-          isPlace={1}
-          place={"Article"}
-          haveCount={0}
-          boxtop={0}
-          hasNext={countHelp}
-        />
-      )}
+      
     </View>
   );
 };
