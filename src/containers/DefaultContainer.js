@@ -18,6 +18,7 @@ export default class DefaultContainer extends React.Component {
     userData: {},
     countryData: {},
     countHelp: undefined,
+    countSave: 0,
   };
   constructor(props) {
     super(props);
@@ -36,6 +37,22 @@ export default class DefaultContainer extends React.Component {
         console.log(error);
       });
   }
+  updateSavedPost = async () => {
+    if (SavePost.get().length === 0) {
+      console.log("it is null");
+      const savedPost = JSON.parse(await AsyncStorage.getItem("SavedPost"));
+      console.log(
+        "Saved post in storage",
+        JSON.parse(await AsyncStorage.getItem("SavedPost"))
+      );
+      SavePost.setSave(savedPost);
+      console.log("done");
+      console.log("Saved post ", SavePost.get());
+      this.setState({countSave: this.state.countSave++});
+    } else {
+      console.log("nothing happened ", SavePost.get());
+    }
+  };
 
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener("blur",() => {
@@ -46,10 +63,12 @@ export default class DefaultContainer extends React.Component {
         })
     })
     this.add = this.props.navigation.addListener('focus', () => {
-      console.log("Count Help", this.props.route.countHelp);
-      this.setState({countHelp:this.props.route.countHelp});
+        this.updateSavedPost();
     })
   }
+
+
+
   componentWillUnmount(){
     this._unsubscribe();
     this.add();
