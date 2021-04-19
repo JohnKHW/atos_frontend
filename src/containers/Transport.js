@@ -130,6 +130,7 @@ const Transport = (props) => {
   //const [subscription, setSubscription] = useState(undefined);
   const [countVal, setCountVal] = useState(0);
   const [leave, setLeave] = useState(false);
+  setUpdateIntervalForType(SensorTypes.accelerometer, 400);
   var magnitude;
   var delta;
   var MagnitudePrevious;
@@ -155,43 +156,6 @@ const Transport = (props) => {
 
         console.error(error);
       });
-  };
-  // counte step
-  const counter = (click, leave) => {
-    console.log("click", click);
-    console.log("leave", leave);
-    if (click) {
-      setUpdateIntervalForType(SensorTypes.accelerometer, 400);
-      const subscription = accelerometer.subscribe(({ x, y, z }) => {
-        //console.log({ x, y, z })
-
-        if (!leave) {
-          const added = Math.sqrt(x * x + y * y + z * z).toString();
-          console.log(added);
-
-          magnitude = added;
-
-          delta = magnitude - MagnitudePrevious;
-          MagnitudePrevious = magnitude;
-
-          stepCount = delta > 0.1 ? ++stepCount : stepCount;
-          setCountVal(stepCount);
-          console.log("mag = ", magnitude);
-          console.log("delta=", delta);
-          console.log("MaP=", MagnitudePrevious);
-          console.log("step= ", stepCount);
-          console.log("leave = ", leave);
-          console.log("click = ", click);
-        }
-      });
-
-      //console.log("clear");
-      if (leave) {
-        subscription.unsubscribe();
-        props.navigation.navigate("Congrats");
-      }
-      //return subscription;
-    }
   };
 
   // clear data
@@ -254,17 +218,39 @@ const Transport = (props) => {
     console.log("Hi");
     console.log("click 3", click);
     console.log("leave h", leave);
-    counter(click, leave);
+
+    const subscription = accelerometer.subscribe(({ x, y, z }) => {
+        //console.log({ x, y, z })
+
+        if (click) {
+        const added = Math.sqrt(x * x + y * y + z * z).toString();
+        console.log(added);
+
+        magnitude = added;
+
+        delta = magnitude - MagnitudePrevious;
+        MagnitudePrevious = magnitude;
+
+        stepCount = delta > 0.1 ? ++stepCount : stepCount;
+        setCountVal(stepCount);
+        console.log("mag = ", magnitude);
+        console.log("delta=", delta);
+        console.log("MaP=", MagnitudePrevious);
+        console.log("step= ", stepCount);
+        console.log("leave = ", leave);
+        console.log("click = ", click);
+        }
+    });
     //const subscription = counter(click);
     const out = props.navigation.addListener("blur", () => {
       console.log("counter leave");
 
-      //subscription.unsubscribe();
+      subscription.unsubscribe();
     });
     return () => {
       out;
     };
-  }, [click, leave]);
+  }, [click]);
   //clear data
   useEffect(() => {
     const clearData = props.navigation.addListener("blur", () => {
@@ -308,11 +294,11 @@ const Transport = (props) => {
       </View>
       <View style={hidden ? styles.netpoint : styles.netpointHidden}>
         <Step step={countVal} text="You have earned" />
-        {
+        {/*
           <TouchableOpacity
             onPress={() => {
               setClick((click) => {
-                click = !click;
+                return !click;
               });
               stopAM();
             }}
@@ -320,12 +306,13 @@ const Transport = (props) => {
           >
             <Image source={require("src/assets/images/icon_pause.png")}></Image>
           </TouchableOpacity>
+          */
         }
 
         <TouchableOpacity
           onPress={() => {
             setClick((click) => {
-              click = !click;
+              return !click;
             });
             startAm();
           }}
@@ -333,13 +320,15 @@ const Transport = (props) => {
         >
           <Image source={require("src/assets/images/icon_play.png")}></Image>
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => {
             setStart(false);
-            setLeave((leave) => {
-              return !leave;
+            setClick((click) => {
+                click = !click;
             });
             sendData();
+            props.navigation.navigate("Congrats");
           }}
           style={styles.stopBtn}
         >
