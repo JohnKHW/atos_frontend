@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 // this is the profile box, provide others to call
+// must have the contry and the username
 const Profile = (props) => {
   return (
     <View style={styles.container}>

@@ -11,30 +11,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import api from "../api";
 //Here is the congrats page
 const Congrats = (props) => {
   //congrats fields
   const [hasNext, setHasNext] = useState(undefined);
   const [netPoint, setNetPoint] = useState("");
   //fetching data
-  fetch(ConfigSetup.getAPI() + "api/user/login", {
-    token: AsyncStorage.getItem("token"),
-  })
-    .then((response) => {
-      if (response.status === 201) {
-        return response.json();
-      }
-    })
-    .then((data) => {
-      //Success
-      //setNetPoint(JSON.stringify(data.netPoint));
-    })
-    .catch((error) => {
-      //Error
-      console.error(error);
-    });
-
+  
+  const fetchData = () =>{
+    api
+      .get("/api/rank/users/all")
+      .then((response) => {
+        console.log("data", response.data);
+        const rankData = response.data;
+        this.setState({ rankData });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  fetchData();
   // any params in route then set value
   useEffect(() => {
     if (props.route.params) {

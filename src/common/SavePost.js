@@ -28,7 +28,6 @@ class SavePost {
             try{
                 if(this.post.length!==0){
                     //try to save into local storage for next time to get
-                    console.log("save A");
                     await AsyncStorage.setItem("SavedPost", JSON.stringify(this.post));
                 }      
             }catch(e){
