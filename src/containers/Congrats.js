@@ -18,22 +18,23 @@ const Congrats = (props) => {
   const [hasNext, setHasNext] = useState(undefined);
   const [netPoint, setNetPoint] = useState("");
   //fetching data
-  
+
   const fetchData = () =>{
     api
       .get("/api/rank/users/all")
       .then((response) => {
         console.log("data", response.data);
         const rankData = response.data;
-        this.setState({ rankData });
+        setNetPoint(rankData.netPoint);
       })
       .catch((error) => {
         console.log(error);
       });
   }
-  fetchData();
+  
   // any params in route then set value
   useEffect(() => {
+    fetchData();
     if (props.route.params) {
       if (props.route.params.countHelp) {
         setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)));

@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import TutorBox from "src/components/TutorBox";
 import ConfigSetup from "src/common/ConfigSetup";
+import api from "../api";
 //scan food page
 const ScanFood = (props) => {
   // fields
@@ -42,24 +43,20 @@ const ScanFood = (props) => {
   };
 
   const sendFoodData = async () => {
-    fetch(`${ConfigSetup.getAPI()}cashier/cal`, {
-      method: "POST",
-      body: createData(response, await AsyncStorage.getItem("token")),
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
+    api
+      .post("/api/cashiers/cal", {
+          data:createData(response)
       })
-
-      .then((data) => {
-        Alert.alert("" + JSON.stringify(data));
+      .then((response) => {
+        const result = response.data;
+        console.log("data", result);
+        Alert.alert("" + result.score);
         props.navigation.navigate("Scan_2");
       })
-
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
+
   };
   // any params in route
   useEffect(() => {

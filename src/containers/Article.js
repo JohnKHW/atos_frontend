@@ -19,6 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import ConfigSetup from "src/common/ConfigSetup";
+import api from "../api";
 const ScreenHight = Dimensions.get("screen").height;
 
 //this is the article page
@@ -26,6 +27,19 @@ const Articles = (props) => {
   const [post, setPost] = useState("");
   const [helpCount, setHelpCount] = useState(undefined);
   const [hasNext, setHasNext] = useState(undefined);
+  const fetchData = () => {
+    api
+    .get("/api/articles")
+    .then((response) => {
+      console.log("data", response.data);
+      const rankData = response.data;
+      setPost(rankData);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  
   const testArt = [
     {
       id: 1,
@@ -53,31 +67,12 @@ const Articles = (props) => {
   const [currentText, setText] = useState(text[index].title); // use to set the current index article title
   const [currentContent, setContent] = useState(text[index].content); // use to set the current index article content
   // for fetching the data
-  fetch(ConfigSetup.getAPI() + "api/articles", {
-    method: "POST",
-    body: JSON.stringify({
-      token: AsyncStorage.getItem("token"),
-    }),
-  })
-    .then((response) => {
-      if (response.status === 201) {
-        return response.json();
-      }
-    })
-
-    .then((data) => {
-      setPost(JSON.stringify(data)); // here is to set the post data
-      console.log(JSON.stringify(data));
-    })
-
-    .catch((error) => {
-      console.error(error);
-    });
-
+  
+  
   //this is for add the save to save post
   const addSave = () => {
     try {
-      SavePost.set(testArt[index]);
+      SavePost.set(post[index]);
       console.log("ADDed ", SavePost.get());
     } catch (e) {
       console.error(e);
@@ -109,38 +104,7 @@ const Articles = (props) => {
   }, [props.navigation]);
 
   // here is for set the tutor box parameter and render
-  useEffect(() => {
-    console.log("has ", props.route.params);
-    console.log("has ", hasNext);
-    if (props.route.params) {
-      // check any params in route
-      console.log(props.route.params);
-      if (props.route.params.helpCount) {
-        console.log("has enter helpCount");
-        setHelpCount(
-          (helpCount) =>
-            (helpCount = parseInt(JSON.stringify(props.route.params.helpCount)))
-        );
-      } else {
-        setHelpCount(undefined);
-        console.log("nothing has enter helpCount");
-      }
-
-      if (props.route.params.countHelp) {
-        console.log("has enter hasNext");
-        setHasNext(
-          (hasNext) =>
-            (hasNext = parseInt(JSON.stringify(props.route.params.countHelp)))
-        );
-      } else {
-        setHasNext(0);
-        console.log("nothing has enter hasNext");
-      }
-    }
-    console.log("has add", hasNext);
-    console.log("has add", helpCount);
-  });
-
+  
   return (
     <>
       <HeaderIndex navigation={props.navigation} />

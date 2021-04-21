@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Animated,
+  SafeAreaView
 } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
@@ -49,10 +50,11 @@ const ArticleDetail = (props) => {
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>Author: </Text>
           <Text style={{ fontSize: 20 }}>{author}</Text>
         </View>
-
-        <Animated.ScrollView style={styles.contentContainer}>
-          <Text style={styles.content}>{content}</Text>
-        </Animated.ScrollView>
+        <SafeAreaView style={{height:"60%"}}>
+          <Animated.ScrollView style={styles.contentContainer}>
+            <Text style={styles.content}>{content}</Text>
+          </Animated.ScrollView>
+        </SafeAreaView>
       </View>
       <FooterIndex style={styles.footer} navigation={props.navigation} />
     </>

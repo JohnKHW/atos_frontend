@@ -24,6 +24,7 @@ import {
 } from "react-native-pell-rich-editor";
 import { WebView } from "react-native-webview";
 import TutorBox from "src/components/TutorBox";
+import api from "../api";
 // to write some article
 const WriteArticle = (props) => {
   // fields
@@ -32,30 +33,20 @@ const WriteArticle = (props) => {
   const [hasNext, setHasNext] = useState(undefined);
   // fetching data and send
   const send = () => {
-    fetch("http://42.2.228.35:8000/api/user/login", {
-      method: "POST",
-      body: JSON.stringify({
+    api
+    .post("/api/articles", {
         title: title,
         content: content,
-        token: AsyncStorage.getItem("token"),
-      }),
     })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-      })
+    .then((response) => {
+      console.log("data", response);
+      alert("Sended");
+      props.navigation.navigate("Article");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-      .then((data) => {
-        // Alert.alert(""+ JSON.stringify(data))
-        console.log(JSON.stringify(data));
-        props.navigation.navigate("Notification");
-      })
-
-      .catch((error) => {
-        console.error(error);
-        //navigation.navigate("Notification");
-      });
   };
   /*
     const [richText,setRichText] = useState(React.createRef() || useRef());
@@ -114,7 +105,9 @@ const WriteArticle = (props) => {
         <Image source={require("src/assets/images/icon_back.png")}></Image>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.send}>
+      <TouchableOpacity style={styles.send} onPress={() =>{
+        send()
+      }}>
         <Text style={styles.sendText}>Send</Text>
       </TouchableOpacity>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -13,11 +13,35 @@ import { ComponentStyles } from "src/common/ContainerStyles";
 import NetPoint from "src/components/NetPoint";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfigSetup from "src/common/ConfigSetup";
+import api from "../api";
 // exchange the netpoint in this page
 const Gift = (props) => {
   // feilds
   const [data, setData] = useState(undefined);
   const [netpoint, setNetpoint] = useState("");
+  
+  const fetchData = () => {
+    api
+    .get("/api/rank/users/all")
+    .then((response) => {
+      console.log("data", response.data);
+      const rankData = response.data;
+      setNetpoint(rankData.netPoint);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  }
+  
+  const change = () => {
+      setNetpoint(1);
+      console.log("N", netpoint);
+  }
+  useEffect(() => {
+    change();
+    fetchData()
+  })
   const sampleData = [
     {
       id: "1",
@@ -38,7 +62,10 @@ const Gift = (props) => {
       netpoint: 200,
     },
   ];
+
+  const tData = data;
   // fetching data
+  /*
   const getNetPoint = () => {
     fetch(ConfigSetup.getAPI() + "api/user/login", {
       method: "POST",
@@ -62,9 +89,7 @@ const Gift = (props) => {
         //navigation.navigate("Notification");
       });
   };
-  useEffect(() => {
-    getNetPoint();
-  });
+  */
   return (
     <>
       <HeaderIndex navigation={props.navigation} />
@@ -76,7 +101,7 @@ const Gift = (props) => {
 
         <FlatList
           style={{ top: 30 }}
-          data={sampleData}
+          data={tData}
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item }) => (
             <View style={styles.giftContainer}>

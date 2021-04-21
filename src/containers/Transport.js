@@ -31,7 +31,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 const pointText = "you have earned";
-
+import api from "../api";
 const MoveBackground = () => {
   return (
     <>
@@ -137,24 +137,15 @@ const Transport = (props) => {
   var stepCount = 0;
 
   const sendData = () => {
-    fetch(ConfigSetup.getAPI() + "api/user/login", {
-      count: countVal,
-      token: AsyncStorage.getItem("token"),
-    })
+    api
+      .post("/api/user", {
+          count: countVal,
+      })
       .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
+        console.log("data", response);
       })
-
-      .then((data) => {
-        //Success
-      })
-
       .catch((error) => {
-        //Error
-
-        console.error(error);
+        console.log(error);
       });
   };
 

@@ -18,27 +18,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Setting = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const changeNewName = () => {
-    fetch(ConfigSetup.getAPI() + "api/user/login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: AsyncStorage.getItem("token"),
+    api
+    .post("/api/user/", {
         username: username,
-      }),
     })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-      })
-
-      .then((data) => {
-        console.log(JSON.stringify(data));
-      })
-
-      .catch((error) => {
-        console.error(error);
-        //navigation.navigate("Notification");
-      });
+    .then((response) => {
+      const result = response.data;
+      console.log("data", result);
+      Alert.alert("" + result.score);
+      props.navigation.navigate("Scan_2");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   return (

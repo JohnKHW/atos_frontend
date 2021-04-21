@@ -29,9 +29,12 @@ export default class DefaultContainer extends React.Component {
     api
       .get("/api/user")
       .then((response) => {
+
         const userData = response.data;
         const countryData = response.data.country;
         this.setState({ userData, countryData });
+        
+        console.log("name" , userData.name);
       })
       .catch((error) => {
         console.log(error);

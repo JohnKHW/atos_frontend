@@ -14,6 +14,7 @@ import { ComponentStyles } from "src/common/ContainerStyles";
 import ConfigSetup from "src/common/ConfigSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from "src/components/TutorBox";
+import api from "../api";
 // here is the detail of food point
 const Scan_2 = (props) => {
   //fields
@@ -43,31 +44,20 @@ const Scan_2 = (props) => {
 
   //fetching data
   const fetchingData = async () => {
-    fetch(ConfigSetup.getAPI() + "api/user/cal", {
-      token: AsyncStorage.getItem("token"),
+    api
+    .get("/api/user/cal")
+    .then((response) => {
+      console.log("data", response.data);
+      const rankData = response.data;
+      setData(rankData);
     })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-      })
-
-      .then((data) => {
-        //Success
-        setData(data);
-      })
-
-      .catch((error) => {
-        //Error
-        console.error(error);
-      });
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   useEffect(() => {
     // for counting the point added to the total the user has
-    setTotalPoint((totalPoint) => {
-      totalPoint += point;
-    });
     setData(titleobj);
     //fetchingData();
     const clearData = props.navigation.addListener("focus", () => {
@@ -80,6 +70,7 @@ const Scan_2 = (props) => {
   }, [props.navigation]);
   //any params in route, set value
   useEffect(() => {
+    fetchingData();
     if (props.route.params) {
       if (props.route.params.countHelp) {
         setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)));
@@ -88,6 +79,7 @@ const Scan_2 = (props) => {
       }
     }
   });
+
   useEffect(() => {
     const clearData = props.navigation.addListener("blur", () => {
       setHasNext(0);
