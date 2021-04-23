@@ -6,7 +6,7 @@ import { ComponentStyles } from "src/common/ContainerStyles";
 const LoadScreen = ({ navigation }) => {
   const spinValue = new Animated.Value(0);
   const zoomValue = new Animated.Value(0);
-
+  console.disableYellowBox = true;
   // First set up animation
   const runAni = () => {
     Animated.loop(

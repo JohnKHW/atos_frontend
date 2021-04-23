@@ -13,13 +13,14 @@ import FooterIndex from "src/common/FooterIndex";
 import { ComponentStyles } from "src/common/ContainerStyles";
 import api from "../api";
 import NetPoint from "src/components/NetPoint";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SaveHistory from "src/common/SaveHistory";
 const MyGift = (props) => {
     const [data, setData] = useState(undefined);
     const [netpoint, setNetpoint] = useState("");
     const [used, setUsed] = useState(false);
     const [objID, setObjID] = useState(0);
+    const [historyData, setHistoryData] = useState(SaveHistory.get());
     const fetchData = () => {
         api
         .get("/api/user")
@@ -43,40 +44,44 @@ const MyGift = (props) => {
       });
   
     }
+
+    
     useEffect(() => {
       const add = props.navigation.addListener("focus", () => {
         fetchData();
        
-       
+        console.log("History in gift", historyData);
        console.log("used 1" , used);
        console.log("objID " , objID);
       })
 
-      const unsubscribe = props.navigation.addListener("blur", () => {
-        props.navigation.setParams({active: null, objID: null});
-    })
+    
       return () =>{
         add;
-        unsubscribe;
+    
       }
     },[props.navigation])
+
     useEffect(() => {
         console.log("route " , props.route.params);
       
         if(props.route.params){
-            if(props.route.params.active){
-                setUsed(props.route.params.active);
-                alert("set Used!");
-            }
+
+            //if(props.route.params.active){
+             //   setUsed(props.route.params.active);
+            
+           // }
+           /*
             if(props.route.params.id){
                 setObjID(props.route.params.id);
-                alert("set ID");
+                
             }
+            */
        }
     })
-    console.log("used " , used);
-    console.log("objID " , objID );
+    console.disableYellowBox = true;
     return (
+    
         <>
             <HeaderIndex navigation={props.navigation} />
             <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
@@ -86,15 +91,24 @@ const MyGift = (props) => {
                     style={{ top: 40 }}
                     data={data}
                     keyExtractor={({ id }) => id.toString()}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }) => {
+                        console.log("item user coupon id", item.user_coupon.id);
+                        console.log("history", historyData);
+                        const hit = historyData.filter((id,index) => id.id===item.user_coupon.id);
+                        if(hit[0]!==undefined){
+                            console.log("hit ", hit[0].id);
+                        }
+                    return  (
                 <View style={styles.giftContainer}>
                 <Text style={styles.giftNetPoint}>
-                    {item.points_cost} NET POINTS
+                    {item.user_coupon.id} NET POINTS
                 </Text>
                 <Text style={styles.giftTitle}>{item.name}</Text>
                 <Text style={styles.giftContent}>{item.description}</Text>
                 <TouchableOpacity
-                    disabled={objID===item.user_coupon.id?used:false}
+                    disabled={
+                        hit[0]!==undefined?(hit[0].active):false
+                    }
                     style={styles.giftBtnContainer}
                     onPress={() => {
                     console.log("clicked");
@@ -112,7 +126,7 @@ const MyGift = (props) => {
               
             </View>
             
-          )}
+          )}}
         />
         </SafeAreaView>
             </View>

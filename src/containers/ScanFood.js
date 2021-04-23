@@ -114,6 +114,27 @@ const ScanFood = (props) => {
             <Text style={styles.scanBtnText}>Take photo</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => {
+              launchImageLibrary(
+                {
+                  mediaType: "photo",
+                  //saveToPhotos:true,
+                },
+                (response) => {
+                  setResponse(response);
+                  console.log("s ", JSON.stringify(response.didCancel));
+                  setDidCancel(JSON.stringify(response.didCancel));
+                  if (response.uri) {
+                    setUri(JSON.stringify(response.uri));
+                  }
+                }
+              );
+            }}
+            style={styles.scanBtnContainer}
+          >
+            <Text style={styles.scanBtnText}>Select</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.scanBtnContainer}
             onPress={() => {
               if (!didCancel) {
@@ -125,6 +146,7 @@ const ScanFood = (props) => {
           >
             <Text style={styles.scanBtnText}>Send</Text>
           </TouchableOpacity>
+
           {!didCancel && (
             <View style={styles.image}>
               <Image

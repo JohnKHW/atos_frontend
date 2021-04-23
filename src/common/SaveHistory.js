@@ -1,3 +1,6 @@
+import React from 'react';
+import {Alert} from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 class SaveHistory {
     constructor(){
         if(typeof SaveHistory.instance === 'object'){
@@ -15,6 +18,10 @@ class SaveHistory {
                 if(this.history.length!==0){
                     //try to save into local storage for next time to get
                     await AsyncStorage.setItem("History", JSON.stringify(this.history));
+                    console.log(
+                        "Saved history in class",
+                        JSON.parse(await AsyncStorage.getItem("History"))
+                      );
                 }      
             }catch(e){
                 console.error(e);

@@ -39,10 +39,7 @@ const GiftDetail = (props) => {
       console.log("data sendback", response.data);
       addSave();
       alert("Sucuss");
-      props.navigation.navigate("MyGift",{
-        active: true,
-        id: id,
-      });
+      props.navigation.navigate("MyGift");
 
     })
     .catch((error) => {
@@ -52,7 +49,8 @@ const GiftDetail = (props) => {
   };
   const addSave = () => {
     try {
-      SaveHistory.set(data);
+      console.log("History Data ar ", data[0]);
+      SaveHistory.set(data[0]);
       console.log("ADDed ", SaveHistory.get());
     } catch (e) {
       console.error(e);

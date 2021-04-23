@@ -46,7 +46,7 @@ import GiftDetail from "src/containers/GiftDetail";
 import SignUp from "src/containers/SignUp";
 import MyGift from "src/containers/MyGift";
 import api from "src/api";
-//import History from "src/containers/History";
+import History from "src/containers/History";
 // a drawer navigation bar in the left side
 const Drawer = createDrawerNavigator();
 
@@ -134,7 +134,7 @@ const App = () => {
               <Drawer.Screen name="GiftDetail" component={GiftDetail} />
               <Drawer.Screen name="SignUp" component={SignUp} />
               <Drawer.Screen name="MyGift" component={MyGift} />
-            
+              <Drawer.Screen name="History" component={History} />
             </Drawer.Navigator>
           </NavigationContainer>
         </View>

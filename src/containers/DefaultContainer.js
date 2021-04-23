@@ -42,7 +42,7 @@ export default class DefaultContainer extends React.Component {
       });
   }
   updateSavedPost = async () => {
-    if(this.countSave === 0){
+
       if (SavePost.get().length === 0) {
         console.log("it is null");
         const savedPost = JSON.parse(await AsyncStorage.getItem("SavedPost"));
@@ -57,25 +57,25 @@ export default class DefaultContainer extends React.Component {
       } else {
         console.log("nothing happened ", SavePost.get());
       }
-   }
+   
   };
   updateHistory = async () => {
-    if(countSave===0){
+ 
       if (SaveHistory.get().length === 0) {
         console.log("it is null");
-        const savedHistory = JSON.parse(await AsyncStorage.getItem("SavedPost"));
+        const savedHistory = JSON.parse(await AsyncStorage.getItem("History"));
         console.log(
-          "Saved post in storage",
-          JSON.parse(await AsyncStorage.getItem("SavedPost"))
+          "Saved history in storage",
+          JSON.parse(await AsyncStorage.getItem("History"))
         );
         SaveHistory.setSave(savedHistory);
         console.log("done");
-        console.log("Saved post ", SaveHistory.get());
+        console.log("Saved history ", SaveHistory.get());
         this.setState({countSave: this.state.countSave++});
       } else {
         console.log("nothing happened ", SaveHistory.get());
       }
-   }
+   
   };
   
   componentDidMount() {
@@ -89,6 +89,7 @@ export default class DefaultContainer extends React.Component {
     this.add = this.props.navigation.addListener('focus', () => {
         this.updateSavedPost();
         this.updateHistory();
+        this.fetchData();
     })
   }
 
