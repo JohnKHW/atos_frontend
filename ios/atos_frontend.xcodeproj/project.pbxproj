@@ -298,11 +298,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 453YBFASB5;
+						DevelopmentTeam = A88QK57286;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 453YBFASB5;
+						DevelopmentTeam = A88QK57286;
 						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
@@ -622,7 +622,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 453YBFASB5;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = A88QK57286;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -649,8 +650,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 453YBFASB5;
+				DEVELOPMENT_TEAM = A88QK57286;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = atos_frontendTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -676,7 +678,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 453YBFASB5;
+				DEVELOPMENT_TEAM = A88QK57286;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = atos_frontend/Info.plist;
@@ -687,7 +689,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.atos-frontend";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.john.atos-frontend";
 				PRODUCT_NAME = atos_frontend;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -705,7 +707,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 453YBFASB5;
+				DEVELOPMENT_TEAM = A88QK57286;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = atos_frontend/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
@@ -715,7 +717,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.atos-frontend";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.john.atos-frontend";
 				PRODUCT_NAME = atos_frontend;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

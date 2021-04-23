@@ -21,42 +21,51 @@ import api from "../api";
 //scan food page
 const ScanFood = (props) => {
   // fields
-  const [response, setResponse] = useState(null);
+  const [img, setResponse] = useState(null);
   const [didCancel, setDidCancel] = useState(true);
   const [uri, setUri] = useState(null);
   const [hasNext, setHasNext] = useState(undefined);
 
   // creat a form data to upload photo
-  const createData = (photo, body) => {
+  const createData = (photo) => {
     const data = new FormData();
 
-    data.append("photo", {
+    data.append("name", "Image Upload");
+    data.append("file_attachment", photo);
+    /* data.append("image", {
       name: photo.fileName,
       type: photo.type,
-      uri: photo.uri,
-    });
+      uri:
+        Platform.OS === "android"
+          ? photo.uri
+          : photo.uri.replace("file://", ""),
+    }); */
 
-    Object.keys(body).forEach((key) => {
+    /* Object.keys(body).forEach((key) => {
       data.append(key, body[key]);
-    });
+    }); */
     return data;
   };
 
   const sendFoodData = async () => {
+    const formData = new FormData();
+    formData.append("image", {
+      type: img.type,
+      uri: Platform.OS === "android" ? img.uri : img.uri.replace("file://", ""),
+      name: img.fileName,
+    });
+
     api
-      .post("/api/cashiers/cal", {
-          data:createData(response)
-      })
+      .post("/api/scan/recognize", formData, {})
       .then((response) => {
         const result = response.data;
         console.log("data", result);
-        Alert.alert("" + result.score);
+        Alert.alert("" + result[0].percentage);
         props.navigation.navigate("Scan_2");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("send error", error);
       });
-
   };
   // any params in route
   useEffect(() => {
@@ -120,12 +129,12 @@ const ScanFood = (props) => {
                   mediaType: "photo",
                   //saveToPhotos:true,
                 },
-                (response) => {
-                  setResponse(response);
-                  console.log("s ", JSON.stringify(response.didCancel));
-                  setDidCancel(JSON.stringify(response.didCancel));
-                  if (response.uri) {
-                    setUri(JSON.stringify(response.uri));
+                (img) => {
+                  setResponse(img);
+                  console.log("s ", JSON.stringify(img.didCancel));
+                  setDidCancel(JSON.stringify(img.didCancel));
+                  if (img.uri) {
+                    setUri(JSON.stringify(img.uri));
                   }
                 }
               );
@@ -151,7 +160,7 @@ const ScanFood = (props) => {
             <View style={styles.image}>
               <Image
                 style={{ width: 200, height: 200 }}
-                source={{ uri: response.uri }}
+                source={{ uri: img.uri }}
               />
             </View>
           )}

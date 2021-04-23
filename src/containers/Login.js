@@ -35,11 +35,11 @@ const Login = ({ navigation }) => {
 
   const authentication = async () => {
     // fetching data
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
     api
-      .post("/api/user/login", {
-        username: username,
-        password: password,
-      })
+      .post("/api/user/login", formData, {})
       .then(async (response) => {
         console.log("response", response.data);
         const data = response.data;

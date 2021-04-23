@@ -45,21 +45,21 @@ const Scan_2 = (props) => {
   //fetching data
   const fetchingData = async () => {
     api
-    .get("/api/user/cal")
-    .then((response) => {
-      console.log("data", response.data);
-      const rankData = response.data;
-      setData(rankData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get("/api/user/cal")
+      .then((response) => {
+        console.log("data", response.data);
+        const rankData = response.data;
+        setData(rankData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     // for counting the point added to the total the user has
     setData(titleobj);
-    
+
     const clearData = props.navigation.addListener("focus", () => {
       setTitle("");
       setPoint("");
@@ -71,7 +71,6 @@ const Scan_2 = (props) => {
   }, [props.navigation]);
   //any params in route, set value
   useEffect(() => {
-   
     if (props.route.params) {
       if (props.route.params.countHelp) {
         setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)));
