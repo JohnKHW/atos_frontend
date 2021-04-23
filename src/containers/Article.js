@@ -27,19 +27,11 @@ const Articles = (props) => {
   const [post, setPost] = useState("");
   const [helpCount, setHelpCount] = useState(undefined);
   const [hasNext, setHasNext] = useState(undefined);
-  const fetchData = () => {
-    api
-    .get("/api/articles")
-    .then((response) => {
-      console.log("data", response.data);
-      const rankData = response.data;
-      setPost(rankData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-  
+  //const [text , setDData] = useState("");
+  const [index, setIndex] = useState(0); // use to show the index of article
+  const [currentText, setText] = useState(""); // use to set the current index article title
+  const [currentContent, setContent] = useState(""); // use to set the current index article content
+   
   const testArt = [
     {
       id: 1,
@@ -61,18 +53,37 @@ const Articles = (props) => {
       author: "Brian Wong",
     },
   ];
+  
+    // for fetching the data
+    const fetchData = () => {
+      
+      api
+      .get("/api/articles")
+      .then((response) => {
+        console.log("data article", response.data);
+        
+        const articleData = response.data;
+        setPost(articleData);
+        setText(text[index].title);
+        setContent(text[index].content);
+        
+      })
+      .catch((error) => {
+        console.log("Fail in article " , error);
+      });
 
+      console.log("now post", post)
+
+    }
+ 
+  
+
+    // this is for update the title and content, when index change
   const text = testArt;
-  const [index, setIndex] = useState(0); // use to show the index of article
-  const [currentText, setText] = useState(text[index].title); // use to set the current index article title
-  const [currentContent, setContent] = useState(text[index].content); // use to set the current index article content
-  // for fetching the data
-  
-  
   //this is for add the save to save post
   const addSave = () => {
     try {
-      SavePost.set(post[index]);
+      SavePost.set(text[index]);
       console.log("ADDed ", SavePost.get());
     } catch (e) {
       console.error(e);
@@ -82,11 +93,38 @@ const Articles = (props) => {
   const write = () => {
     props.navigation.navigate("Write");
   };
-  // this is for update the title and content, when index change
-  useEffect(() => {
-    setText(text[index].title);
-    setContent(text[index].content);
-  }, [index]);
+// here is for set the tutor box parameter and render
+useEffect(() => {
+ 
+  if (props.route.params) {
+    // check any params in route
+    console.log(props.route.params);
+    if (props.route.params.helpCount) {
+      console.log("has enter helpCount");
+      setHelpCount(
+        (helpCount) =>
+          (helpCount = parseInt(JSON.stringify(props.route.params.helpCount)))
+      );
+    } else {
+      setHelpCount(undefined);
+      console.log("nothing has enter helpCount");
+    }
+
+    if (props.route.params.countHelp) {
+      console.log("has enter hasNext");
+      setHasNext(
+        (hasNext) =>
+          (hasNext = parseInt(JSON.stringify(props.route.params.countHelp)))
+      );
+    } else {
+      setHasNext(0);
+      console.log("nothing has enter hasNext");
+    }
+  }
+  console.log("has add", hasNext);
+  console.log("has add", helpCount);
+});
+
 
   // here is to clear data when leave the current screen
   useEffect(() => {
@@ -100,10 +138,22 @@ const Articles = (props) => {
       });
     });
 
-    return clearData;
-  }, [props.navigation]);
+    const focus = props.navigation.addListener("focus" , () => {
+      fetchData();
+    })
 
-  // here is for set the tutor box parameter and render
+    return () => {
+      focus;
+      clearData;
+    }
+  }, [props.navigation]);
+  useEffect(() => {
+    console.log("have post", post);
+
+    setText(text[index]? text[index].title: "Nn");
+    setContent(text[index]? text[index].content: "Nn");
+    
+  },[index])
   
   return (
     <>
@@ -149,7 +199,7 @@ const Articles = (props) => {
           style={styles.nextArrowContainer}
           onPress={() => {
             //here is to change the index
-            setIndex((index) => (index < 2 ? index + 1 : (index = 0)));
+            setIndex((index) => (index < 1 ? index + 1 : (index = 0)));
             setText(text[index].title);
             setContent(text[index].content);
             console.log("" + index);
@@ -161,7 +211,7 @@ const Articles = (props) => {
           style={styles.backArrowContainer}
           onPress={() => {
             //here is to change the index
-            setIndex((index) => (index > 0 ? index - 1 : (index = 2)));
+            setIndex((index) => (index > 0 ? index - 1 : (index = 1)));
             console.log("" + index);
           }}
         >

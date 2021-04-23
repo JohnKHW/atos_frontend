@@ -8,6 +8,7 @@ import NetPoint from "src/components/NetPoint";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SavePost from "src/common/SavePost";
 import TutorBox from "src/components/TutorBox";
+import SaveHistory from "src/common/SaveHistory";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -41,22 +42,42 @@ export default class DefaultContainer extends React.Component {
       });
   }
   updateSavedPost = async () => {
-    if (SavePost.get().length === 0) {
-      console.log("it is null");
-      const savedPost = JSON.parse(await AsyncStorage.getItem("SavedPost"));
-      console.log(
-        "Saved post in storage",
-        JSON.parse(await AsyncStorage.getItem("SavedPost"))
-      );
-      SavePost.setSave(savedPost);
-      console.log("done");
-      console.log("Saved post ", SavePost.get());
-      this.setState({countSave: this.state.countSave++});
-    } else {
-      console.log("nothing happened ", SavePost.get());
-    }
+    if(this.countSave === 0){
+      if (SavePost.get().length === 0) {
+        console.log("it is null");
+        const savedPost = JSON.parse(await AsyncStorage.getItem("SavedPost"));
+        console.log(
+          "Saved post in storage",
+          JSON.parse(await AsyncStorage.getItem("SavedPost"))
+        );
+        SavePost.setSave(savedPost);
+        console.log("done");
+        console.log("Saved post ", SavePost.get());
+        this.setState({countSave: this.state.countSave++});
+      } else {
+        console.log("nothing happened ", SavePost.get());
+      }
+   }
   };
-
+  updateHistory = async () => {
+    if(countSave===0){
+      if (SaveHistory.get().length === 0) {
+        console.log("it is null");
+        const savedHistory = JSON.parse(await AsyncStorage.getItem("SavedPost"));
+        console.log(
+          "Saved post in storage",
+          JSON.parse(await AsyncStorage.getItem("SavedPost"))
+        );
+        SaveHistory.setSave(savedHistory);
+        console.log("done");
+        console.log("Saved post ", SaveHistory.get());
+        this.setState({countSave: this.state.countSave++});
+      } else {
+        console.log("nothing happened ", SaveHistory.get());
+      }
+   }
+  };
+  
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener("blur",() => {
         this.props.navigation.setParams({
@@ -67,10 +88,9 @@ export default class DefaultContainer extends React.Component {
     })
     this.add = this.props.navigation.addListener('focus', () => {
         this.updateSavedPost();
+        this.updateHistory();
     })
   }
-
-
 
   componentWillUnmount(){
     this._unsubscribe();

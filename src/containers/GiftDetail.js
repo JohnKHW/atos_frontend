@@ -10,9 +10,8 @@ import {
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
 import { ComponentStyles } from "src/common/ContainerStyles";
-import ConfigSetup from "src/common/ConfigSetup";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import api from "../api";
+import SaveHistory from "src/common/SaveHistory";
 // detail of gift page
 const GiftDetail = (props) => {
   const [title, setTitle] = useState(props.route.params.title);
@@ -20,37 +19,51 @@ const GiftDetail = (props) => {
     props.route.params.description
   );
   const [netpoint, setNetPoint] = useState(props.route.params.netpoint);
+  const [id, setID] = useState(props.route.params.id);
 
+  const data = [
+    {
+      id: id,
+      title: title,
+      description: description,
+      netpoint: netpoint,
+      active: true,
+    }
+  ]
   const deductNetPoint = () => {
-    fetch(ConfigSetup.getAPI() + "api/user/login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: AsyncStorage.getItem("token"),
-        netpoint: netpoint,
-      }),
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-      })
+    console.log("id ", id);
 
-      .then((data) => {
-        props.navigation.navigate("Gift");
-        console.log(JSON.stringify(data));
-      })
-
-      .catch((error) => {
-        props.navigation.navigate("Gift");
-        console.error(error);
-        //navigation.navigate("Notification");
+    api
+    .get(`/api/coupons/use/${id}`)
+    .then((response) => {
+      console.log("data sendback", response.data);
+      addSave();
+      alert("Sucuss");
+      props.navigation.navigate("MyGift",{
+        active: true,
+        id: id,
       });
-  };
 
+    })
+    .catch((error) => {
+      console.log("I have error ", error);
+    });
+
+  };
+  const addSave = () => {
+    try {
+      SaveHistory.set(data);
+      console.log("ADDed ", SaveHistory.get());
+    } catch (e) {
+      console.error(e);
+    }
+  };
   useEffect(() => {
     setTitle(props.route.params.title);
     setDescription(props.route.params.description);
     setNetPoint(props.route.params.netpoint);
+    setID(props.route.params.id);
+   
   });
 
   useEffect(() => {
@@ -58,6 +71,8 @@ const GiftDetail = (props) => {
       setTitle("");
       setDescription("");
       setNetPoint("");
+      setID(0);
+      
     });
     return () => {
       unsubscribe;

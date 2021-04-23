@@ -15,6 +15,10 @@ import { ComponentStyles } from "src/common/ContainerStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfigSetup from "src/common/ConfigSetup";
 import api from "../api";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 // here is the send bug to us page
 const Scan_report = ({ navigation }) => {
   const [reportText, setText] = useState("");
@@ -34,19 +38,21 @@ const Scan_report = ({ navigation }) => {
     });
   };
 
+  
   return (
     <>
       <HeaderIndex navigation={navigation} />
+      
       <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
         <Text>Report</Text>
+     
         <Text style={styles.reportTitle}>Something's wrong? </Text>
         <View style={styles.reportContainer}>
           <TextInput
             style={styles.reportContent}
-            multiline={true}
             placeholder="I have some problems in..."
             onChangeText={(reportText) => setText(reportText)}
-            defaultValue={reportText}
+            value={reportText}
           />
         </View>
         <TouchableOpacity style={styles.sendBtnContainer} onPress={sendReport}>
@@ -70,9 +76,9 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
     borderRadius: 50,
-    height: 350,
-    marginTop: 50,
-    width: 300,
+    height: hp('55%'),
+    marginTop: 15,
+    width: wp('70%'),
     alignItems: "center",
   },
   reportTitle: {
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FF6319",
     textTransform: "uppercase",
-    marginTop: 50,
+    marginTop: 20,
   },
   sendBtnContainer: {
     borderWidth: 1,
@@ -89,19 +95,12 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 170,
     backgroundColor: "#309397",
-    marginTop: 50,
+    marginTop: 10,
   },
   sendBtnText: {
     fontSize: 18,
     textAlign: "center",
     color: "white",
-  },
-  scanCam: {
-    marginRight: 10,
-    marginLeft: 10,
-  },
-  qrImage: {
-    marginTop: 50,
   },
   reportContent: {
     marginHorizontal: 30,

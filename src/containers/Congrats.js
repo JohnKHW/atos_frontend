@@ -12,6 +12,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import api from "../api";
+import { add } from "react-native-reanimated";
 //Here is the congrats page
 const Congrats = (props) => {
   //congrats fields
@@ -34,7 +35,7 @@ const Congrats = (props) => {
   
   // any params in route then set value
   useEffect(() => {
-    fetchData();
+    
     if (props.route.params) {
       if (props.route.params.countHelp) {
         setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)));
@@ -52,9 +53,16 @@ const Congrats = (props) => {
         hasNext: null,
         countHelp: null,
       });
+      const add = props.navigation.addListener("focus", () =>{
+        fetchData();
+      })
+
       console.log("HERE!!!!!", props.route.params);
     });
-    return clearData;
+    return () => {
+      clearData;
+      add;
+    }
   }, [props.navigation]);
 
   return (

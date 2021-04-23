@@ -45,7 +45,7 @@ const ScanQR = (props) => {
       .then((response) => {
         const result = response.data;
         console.log("data", result);
-        Alert.alert("You have earned " + result.score + "net points");
+        Alert.alert("You have earned " + result.score + " net points");
         //props.navigation.navigate("Scan_2");
       })
       .catch((error) => {

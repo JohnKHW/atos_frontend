@@ -5,14 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  SafeAreaView
 } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
 
 import { ComponentStyles } from "src/common/ContainerStyles";
-import NetPoint from "src/components/NetPoint";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ConfigSetup from "src/common/ConfigSetup";
 import api from "../api";
 // exchange the netpoint in this page
 const Gift = (props) => {
@@ -22,83 +20,51 @@ const Gift = (props) => {
   
   const fetchData = () => {
     api
-    .get("/api/rank/users/all")
+    .get("/api/coupons")
     .then((response) => {
-      console.log("data", response.data);
-      const rankData = response.data;
-      setNetpoint(rankData.netPoint);
+      console.log("data gift", response.data);
+      const gift = response.data;
+      setData(gift);
     })
     .catch((error) => {
-      console.log(error);
+      console.log("I have error ", error);
     });
 
   }
   
-  const change = () => {
-      setNetpoint(1);
-      console.log("N", netpoint);
+  const redeem = (id) => {
+    api
+    .get(`/api/coupons/redeem/${id}`)
+    .then((response) => {
+      console.log("data redeem", response.data);
+      alert("Sucess");
+    })
+    .catch((error) => {
+      console.log("I have error ", error);
+    });
+
   }
+
   useEffect(() => {
-    change();
-    fetchData()
-  })
-  const sampleData = [
-    {
-      id: "1",
-      title: "Donate to XX Charity",
-      description: "to plant a tree",
-      netpoint: 800,
-    },
-    {
-      id: "2",
-      title: "Store ABC",
-      description: "15% off coupon",
-      netpoint: 500,
-    },
-    {
-      id: "3",
-      title: "Store ABC",
-      description: "Buy 500-50",
-      netpoint: 200,
-    },
-  ];
+    const add = props.navigation.addListener("focus", () => {
+      fetchData();
+    })
+    return () =>{
+      add;
+    }
+  },[props.navigation])
+
 
   const tData = data;
-  // fetching data
-  /*
-  const getNetPoint = () => {
-    fetch(ConfigSetup.getAPI() + "api/user/login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: AsyncStorage.getItem("token"),
-      }),
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-      })
 
-      .then((data) => {
-        setNetpoint(JSON.stringify(data.netpoint));
-        console.log(JSON.stringify(data));
-      })
-
-      .catch((error) => {
-        console.error(error);
-        //navigation.navigate("Notification");
-      });
-  };
-  */
   return (
     <>
       <HeaderIndex navigation={props.navigation} />
 
       <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
-        <View style={{ top: -50 }}>
-          <NetPoint text={"You now have earned"} netpoint={netpoint} />
-        </View>
-
+      <Text style={{fontSize: 20,top:30,fontWeight:'bold'}}>Here are the gift lists</Text>
+        <SafeAreaView style={{height:"70%"}}>
+ 
         <FlatList
           style={{ top: 30 }}
           data={tData}
@@ -106,19 +72,15 @@ const Gift = (props) => {
           renderItem={({ item }) => (
             <View style={styles.giftContainer}>
               <Text style={styles.giftNetPoint}>
-                {item.netpoint} NET POINTS
+                {item.points_cost} NET POINTS
               </Text>
-              <Text style={styles.giftTitle}>{item.title}</Text>
+              <Text style={styles.giftTitle}>{item.name}</Text>
               <Text style={styles.giftContent}>{item.description}</Text>
               <TouchableOpacity
                 style={styles.giftBtnContainer}
                 onPress={() => {
                   console.log("clicked");
-                  props.navigation.navigate("GiftDetail", {
-                    title: item.title,
-                    description: item.description,
-                    netpoint: item.netpoint,
-                  });
+                  redeem(item.id);
                 }}
               >
                 <Text style={styles.giftBtnText}>Get it</Text>
@@ -126,6 +88,7 @@ const Gift = (props) => {
             </View>
           )}
         />
+        </SafeAreaView>
       </View>
       <FooterIndex style={styles.footer} navigation={props.navigation} />
     </>

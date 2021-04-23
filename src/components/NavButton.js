@@ -15,6 +15,7 @@ const NavButton = (props)=> {
             return props.navigation.navigate("Setting");
         case "Help":
             return props.navigation.navigate("Help");
+       
       }
     
 

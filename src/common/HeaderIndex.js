@@ -40,7 +40,8 @@ const HeaderIndex = (props) => {
         </TouchableOpacity>
         
         <View style={styles.subcontainer}>
-          <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("Gift",{
+
+        <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("Gift",{
             helpCount:null,
             hasNext:null,
             countHelp:null
@@ -49,19 +50,23 @@ const HeaderIndex = (props) => {
               source={require('src/assets/images/icon_gift.png')}
             />
           </TouchableOpacity>
+
+        <TouchableOpacity style={styles.subicon} onPress={()=>props.navigation.navigate("MyGift")}>
+            <Image
+              source={require('src/assets/images/icon_mygift.png')}
+            />
+          </TouchableOpacity>
+
+
+       
+       
+
           <TouchableOpacity style={[styles.subicon,{bottom:5}]} onPress={()=>props.navigation.navigate("Save",{
             helpCount:null,
             hasNext:null,
             countHelp:null
           })}>
             <Image source={require('src/assets/images/icon_favour.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.subicon}
-           
-          >
-            {
-              //<Image  source={require('src/assets/images/icon_searching.png')} />
-            }
           </TouchableOpacity>
         </View>
         
@@ -92,7 +97,9 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: 30,
     tintColor:"#2d3436",
-    transform : [{translateX:20}]
+    transform : [{translateX:20}],
+    borderWidth:1,
+    right:25,
   },
   leading: {
     marginTop: 30,

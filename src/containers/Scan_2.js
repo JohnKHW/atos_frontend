@@ -59,10 +59,11 @@ const Scan_2 = (props) => {
   useEffect(() => {
     // for counting the point added to the total the user has
     setData(titleobj);
-    //fetchingData();
+    
     const clearData = props.navigation.addListener("focus", () => {
       setTitle("");
       setPoint("");
+      fetchingData();
     });
     return () => {
       clearData;
@@ -70,7 +71,7 @@ const Scan_2 = (props) => {
   }, [props.navigation]);
   //any params in route, set value
   useEffect(() => {
-    fetchingData();
+   
     if (props.route.params) {
       if (props.route.params.countHelp) {
         setHasNext(parseInt(JSON.stringify(props.route.params.countHelp)));

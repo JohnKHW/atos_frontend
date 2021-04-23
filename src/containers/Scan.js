@@ -81,6 +81,14 @@ const Scan = (props) => {
           >
             <Text style={styles.scanBtnText}>Scan Food</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.scanBtnContainer}
+            onPress={() =>
+              props.navigation.navigate("Report")
+            }
+          >
+            <Text style={styles.scanBtnText}>Report Problem</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <FooterIndex
@@ -181,7 +189,7 @@ const styles = StyleSheet.create({
     width: 170,
     backgroundColor: "#309397",
     flexDirection: "row",
-    marginTop: 30,
+    marginTop: 10,
     justifyContent: "center",
   },
   scanBtnText: {

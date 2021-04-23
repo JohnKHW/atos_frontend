@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     earn:{
         textTransform: 'uppercase',
         fontSize: 24,
-        transform: [{translateY:80}],
+        transform: [{translateY:50}],
         color: 'white',
         fontWeight: 'bold',
     }

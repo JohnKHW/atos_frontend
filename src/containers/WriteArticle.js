@@ -34,9 +34,11 @@ const WriteArticle = (props) => {
   // fetching data and send
   const send = () => {
     api
-    .post("/api/articles", {
+    .post("/api/articles",{
         title: title,
         content: content,
+        isReply: 0,
+        isHidden: 1,
     })
     .then((response) => {
       console.log("data", response);
@@ -44,7 +46,7 @@ const WriteArticle = (props) => {
       props.navigation.navigate("Article");
     })
     .catch((error) => {
-      console.log(error);
+      console.log("Send article ", error);
     });
 
   };
@@ -66,6 +68,7 @@ const WriteArticle = (props) => {
   useEffect(() => {
     const clearData = props.navigation.addListener("focus", () => {
       setContent("");
+      send();
     });
 
     return () => {
