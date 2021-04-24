@@ -53,6 +53,9 @@ const Login = ({ navigation }) => {
       })
       .catch(function (error) {
         console.log(error);
+        Alert.alert("Login Fail");
+        setUsername("");
+        setPassword("");
       });
   };
   //clear data

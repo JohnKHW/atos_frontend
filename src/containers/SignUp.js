@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import HeaderIndex from "src/common/HeaderIndex";
-import FooterIndex from "src/common/FooterIndex";
 import {
   StyleSheet,
   View,
@@ -9,6 +7,7 @@ import {
   TextInput,
   Alert,
   Image,
+  ScrollView,
 } from "react-native";
 import { ComponentStyles } from "src/common/ContainerStyles";
 
@@ -19,11 +18,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import api from "../api";
 //this is the signup page
 const SignUp = (props) => {
   // fields
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState(""); // for confirm password
 
@@ -32,11 +33,40 @@ const SignUp = (props) => {
       img: require("src/assets/images/icon_loginIcon.png"),
     },
   };
-
+  const reset = () => {
+    setUsername("");
+    setPassword("");
+    setName("");
+    setCPassword("");
+    setEmail("");
+  };
   const setupData = async () => {
     if (cPassword === password) {
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("password", password);
+      api
+        .post("/api/user/register", formData, {})
+        .then(async (response) => {
+          console.log("response", response.data);
+          const data = response.data;
+          const TOKEN = "Bearer " + data.token;
+          await AsyncStorage.setItem("TOKEN", TOKEN);
+          await AsyncStorage.setItem("LoggedIn", "1");
+          await AsyncStorage.setItem("first", "1");
+          await AsyncStorage.setItem("username", data.user.name);
+          api.defaults.headers.common["Authorization"] = TOKEN;
+          props.navigation.navigate("Load");
+        })
+        .catch(function (error) {
+          console.log(error);
+          Alert.alert("Register Fail");
+          reset();
+        });
       // check equal, yes then send data
-      fetch(
+      /*  fetch(
         `${ConfigSetup.getAPI()}api/user/register?username=${username}&name=${username}&email=${email}&password=${password}`,
         {
           method: "POST",
@@ -58,15 +88,13 @@ const SignUp = (props) => {
         .catch((error) => {
           //Error
           console.error(error);
-        });
+        }); */
     }
   };
   // clear data
   useEffect(() => {
     const clearData = props.navigation.addListener("focus", () => {
-      setUsername("");
-      setPassword("");
-      setEmail("");
+      reset();
     });
     return () => {
       clearData;
@@ -79,7 +107,7 @@ const SignUp = (props) => {
         <View style={{ marginTop: hp("-5%") }}>
           <Image source={icon.loginIcon.img} style={styles.logo} />
         </View>
-        <View style={styles.container}>
+        <View style={[styles.container]}>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -93,6 +121,13 @@ const SignUp = (props) => {
             autoCapitalize="none"
             onChangeText={(username) => setUsername(username)}
             value={username}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Display Name"
+            autoCapitalize="none"
+            onChangeText={(name) => setName(name)}
+            value={name}
           />
           <TextInput
             style={styles.input}
@@ -110,15 +145,18 @@ const SignUp = (props) => {
             onChangeText={(cPassword) => setCPassword(cPassword)}
             value={cPassword}
           />
-          <TouchableOpacity style={styles.SignupBtn} onPress={setupData}>
-            <Text style={styles.LoginText}>Sign Up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.SignupBtn}
-            onPress={() => props.navigation.navigate("Login")}
-          >
-            <Text style={styles.LoginText}>Sign In</Text>
-          </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity style={styles.SignupBtn} onPress={setupData}>
+              <Text style={styles.LoginText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.SignupBtn}
+              onPress={() => props.navigation.navigate("Login")}
+            >
+              <Text style={styles.LoginText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </>
@@ -147,8 +185,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginVertical: 5,
     paddingLeft: 15,
     width: wp("70%"),
     height: hp("7%"),
