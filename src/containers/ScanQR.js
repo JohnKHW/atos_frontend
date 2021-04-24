@@ -41,7 +41,7 @@ const ScanQR = (props) => {
     console.log("token ", token);
     console.log(`${ConfigSetup.getAPI()}api/cashiers/cal/${QRdata}`);
     api
-      .get(`/api/cashiers/cal/${QRdata}`)
+      .get(`/api/scan/qrcode/${QRdata}`)
       .then((response) => {
         const result = response.data;
         console.log("data", result);

@@ -60,8 +60,8 @@ const ScanFood = (props) => {
       .then((response) => {
         const result = response.data;
         console.log("data", result);
-        Alert.alert("" + result[0].percentage);
-        props.navigation.navigate("Scan_2");
+        Alert.alert("" + result.mark);
+        props.navigation.navigate("Scan_2", { food: result.food });
       })
       .catch((error) => {
         console.log("send error", error);

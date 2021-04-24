@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, ScrollView, SafeAreaView ,View} from "react-native";
+import { Text, StyleSheet, ScrollView, SafeAreaView, View } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
 import {
@@ -15,15 +15,24 @@ const rankTitle = "Regional Rank";
 export default class Rank extends React.Component {
   state = {
     rankData: [],
-    hasNext:undefined,
+    hasNext: undefined,
   };
 
   constructor(props) {
     super(props);
     this.fetchData();
-    
+  }
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener("focus", () => {
+      // Update your state here
+
+      this.fetchData();
+    });
   }
 
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   fetchData() {
     api
       .get("/api/rank/users/all")
@@ -38,14 +47,13 @@ export default class Rank extends React.Component {
   }
 
   render() {
-    const {navigation} = this.props;
-    const {route} = this.props;
+    const { navigation } = this.props;
+    const { route } = this.props;
     console.log("props route", route);
-    if(route.params){
-      
-       this.hasNext = route.params.countHelp;
+    if (route.params) {
+      this.hasNext = route.params.countHelp;
     }
-    
+
     return (
       <>
         <HeaderIndex navigation={navigation} />
@@ -71,30 +79,30 @@ export default class Rank extends React.Component {
 
         <FooterIndex style={styles.footer} navigation={navigation} />
         {this.hasNext === 1 && (
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.7)",
-            position: "absolute",
-          }}
-        ></View>
-      )}
-      {this.hasNext === 1 && (
-        <TutorBox
-          mouseNum={1}
-          text={"You can see the rank of your region here."}
-          mouse1left={340}
-          mouse1top={hp("90%")}
-          circle={1}
-          navigation={navigation}
-          isPlace={1}
-          place={"FinishTutor"}
-          boxtop={100}
-          haveCount={0}
-          hasNext={1}
-        />
-      )}
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0,0,0,0.7)",
+              position: "absolute",
+            }}
+          ></View>
+        )}
+        {this.hasNext === 1 && (
+          <TutorBox
+            mouseNum={1}
+            text={"You can see the rank of your region here."}
+            mouse1left={340}
+            mouse1top={hp("90%")}
+            circle={1}
+            navigation={navigation}
+            isPlace={1}
+            place={"FinishTutor"}
+            boxtop={100}
+            haveCount={0}
+            hasNext={1}
+          />
+        )}
       </>
     );
   }

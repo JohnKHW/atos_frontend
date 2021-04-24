@@ -20,7 +20,7 @@ const Scan_2 = (props) => {
   //fields
   const [title, setTitle] = useState("Title");
   const [point, setPoint] = useState("Point");
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState([]);
   const [hasNext, setHasNext] = useState(undefined);
 
   const titleobj = [
@@ -55,15 +55,19 @@ const Scan_2 = (props) => {
         console.log(error);
       });
   };
-
+  const setPropsData = (pass) => {
+    setData(pass);
+    console.log("passData", data);
+  };
   useEffect(() => {
     // for counting the point added to the total the user has
-    setData(titleobj);
+    //setData(titleobj);
 
     const clearData = props.navigation.addListener("focus", () => {
-      setTitle("");
-      setPoint("");
-      fetchingData();
+      setPropsData(props.route.params.food);
+      //setTitle("");
+      //setPoint("");
+      //fetchingData();
     });
     return () => {
       clearData;
@@ -90,8 +94,8 @@ const Scan_2 = (props) => {
     <>
       <HeaderIndex navigation={props.navigation} />
       <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
-        <Text>Scan2</Text>
         <View style={styles.scanedCotainer}>
+          <Text style={styles.scanText}>Result</Text>
           {/*
                         list.map(function(){
                             return <ScanedCotainer/>
@@ -101,14 +105,16 @@ const Scan_2 = (props) => {
             data={data}
             keyExtractor={({ id }) => id.toString()}
             renderItem={({ item }) => {
-              //const abc= "";
+              let country = item.country ? item.country : "";
+              let type = item.point ? item.point : "";
               return (
                 <>
                   <View style={styles.scanContainer}>
                     <Text style={styles.foodTitle}>
-                      {item.title} +{item.point}
+                      {item.name} +{item.score}
                     </Text>
-                    <Text style={styles.foodContent}>content</Text>
+                    <Text style={styles.foodContent}>From {country.name}</Text>
+                    <Text style={styles.foodContent}>Type {type.name}</Text>
                   </View>
                 </>
               );
@@ -172,7 +178,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
     borderRadius: 30,
-    height: 115,
+    height: 150,
     marginTop: 20,
     width: 298,
   },
