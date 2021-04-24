@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://168.70.3.116:8000",
+  baseURL: "https://atos-api.herokuapp.com/",
   headers: {
     //"Content-Type": "application/json; multipart/form-data",
     "Content-Type":
