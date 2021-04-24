@@ -31,7 +31,7 @@ const Articles = (props) => {
   const [index, setIndex] = useState(0); // use to show the index of article
   const [currentText, setText] = useState(""); // use to set the current index article title
   const [currentContent, setContent] = useState(""); // use to set the current index article content
-   
+
   const testArt = [
     {
       id: 1,
@@ -53,32 +53,27 @@ const Articles = (props) => {
       author: "Brian Wong",
     },
   ];
-  
-    // for fetching the data
-    const fetchData = () => {
-      
-      api
+
+  // for fetching the data
+  const fetchData = () => {
+    api
       .get("/api/articles")
       .then((response) => {
         console.log("data article", response.data);
-        
+
         const articleData = response.data;
         setPost(articleData);
         setText(text[index].title);
         setContent(text[index].content);
-        
       })
       .catch((error) => {
-        console.log("Fail in article " , error);
+        console.log("Fail in article ", error);
       });
 
-      console.log("now post", post)
+    console.log("now post", post);
+  };
 
-    }
- 
-  
-
-    // this is for update the title and content, when index change
+  // this is for update the title and content, when index change
   const text = testArt;
   //this is for add the save to save post
   const addSave = () => {
@@ -93,38 +88,36 @@ const Articles = (props) => {
   const write = () => {
     props.navigation.navigate("Write");
   };
-// here is for set the tutor box parameter and render
-useEffect(() => {
- 
-  if (props.route.params) {
-    // check any params in route
-    console.log(props.route.params);
-    if (props.route.params.helpCount) {
-      console.log("has enter helpCount");
-      setHelpCount(
-        (helpCount) =>
-          (helpCount = parseInt(JSON.stringify(props.route.params.helpCount)))
-      );
-    } else {
-      setHelpCount(undefined);
-      console.log("nothing has enter helpCount");
-    }
+  // here is for set the tutor box parameter and render
+  useEffect(() => {
+    if (props.route.params) {
+      // check any params in route
+      console.log(props.route.params);
+      if (props.route.params.helpCount) {
+        console.log("has enter helpCount");
+        setHelpCount(
+          (helpCount) =>
+            (helpCount = parseInt(JSON.stringify(props.route.params.helpCount)))
+        );
+      } else {
+        setHelpCount(undefined);
+        console.log("nothing has enter helpCount");
+      }
 
-    if (props.route.params.countHelp) {
-      console.log("has enter hasNext");
-      setHasNext(
-        (hasNext) =>
-          (hasNext = parseInt(JSON.stringify(props.route.params.countHelp)))
-      );
-    } else {
-      setHasNext(0);
-      console.log("nothing has enter hasNext");
+      if (props.route.params.countHelp) {
+        console.log("has enter hasNext");
+        setHasNext(
+          (hasNext) =>
+            (hasNext = parseInt(JSON.stringify(props.route.params.countHelp)))
+        );
+      } else {
+        setHasNext(0);
+        console.log("nothing has enter hasNext");
+      }
     }
-  }
-  console.log("has add", hasNext);
-  console.log("has add", helpCount);
-});
-
+    console.log("has add", hasNext);
+    console.log("has add", helpCount);
+  });
 
   // here is to clear data when leave the current screen
   useEffect(() => {
@@ -138,23 +131,22 @@ useEffect(() => {
       });
     });
 
-    const focus = props.navigation.addListener("focus" , () => {
+    const focus = props.navigation.addListener("focus", () => {
       fetchData();
-    })
+    });
 
     return () => {
       focus;
       clearData;
-    }
+    };
   }, [props.navigation]);
   useEffect(() => {
     console.log("have post", post);
 
-    setText(text[index]? text[index].title: "Nn");
-    setContent(text[index]? text[index].content: "Nn");
-    
-  },[index])
-  
+    setText(text[index] ? text[index].title : "Nn");
+    setContent(text[index] ? text[index].content : "Nn");
+  }, [index]);
+
   return (
     <>
       <HeaderIndex navigation={props.navigation} />
