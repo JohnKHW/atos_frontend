@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     tintColor:"#2d3436",
     transform : [{translateX:20}],
-   
+    borderWidth:1,
     right:25,
   },
   leading: {
