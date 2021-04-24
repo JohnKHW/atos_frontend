@@ -42,7 +42,6 @@ export default class Articles extends React.Component {
     api
       .get(`/api/articles?page=${this.state.page}`)
       .then((response) => {
-        console.log("data", response.data);
         const articles = this.state.articles.concat(response.data.data);
         const next_page_url = response.data.next_page_url;
         this.setState({ articles, next_page_url });
@@ -87,13 +86,14 @@ export default class Articles extends React.Component {
                 }
               }}
             >
-              {this.state.articles.map((article, key) => {
+              {this.state.articles.map((article) => {
                 return (
                   <ArticleBox
                     id={article.id}
                     title={article.title}
                     owner={article.owner.name}
                     date={article.created_at}
+                    navigation={this.props.navigation}
                   />
                 );
               })}

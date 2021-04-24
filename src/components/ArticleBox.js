@@ -1,10 +1,12 @@
+import { CommonActions } from "@react-navigation/routers";
 import React, { useState } from "react";
 
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { NavigationActions } from "react-navigation";
 
 const ArticleBox = (props) => {
   const [id] = useState(props.id);
@@ -12,46 +14,66 @@ const ArticleBox = (props) => {
   const [owner] = useState(props.owner);
   const [date] = useState(props.date);
 
-  const deltaDate = (date) => {
+  const deltaDate = () => {
+    const create_date = new Date(date);
     const delta = Date.now() - new Date(date);
     const second = Math.round(delta / 1000);
     // delta time is seond
     if (second < 60) {
       return "now";
     } else if (second < 3600) {
-      return Math.round(second / 60) + " mins ago";
+      return Math.round(second / 60) + "m";
     } else if (second < 86400) {
-      return Math.round(second / 3600) + " hrs ago";
+      return Math.round(second / 3600) + "h";
     } else if (second < 604800) {
-      return Math.round(second / 86400) + " days ago";
-    } else if (second < 2629743) {
-      return Math.round(second / 604800) + " weeks ago";
+      return Math.round(second / 86400) + "d";
     } else if (second < 31556926) {
-      return Math.round(second / 2629743) + " months ago";
+      return create_date.getMonth() + "-" + create_date.getDate();
     }
-    return Math.round(second / 31556926) + " years ago";
+    return (
+      create_date.getFullYear() +
+      "-" +
+      create_date.getMonth() +
+      "-" +
+      create_date.getDate()
+    );
   };
-
+  const navAction = CommonActions.navigate({
+    name: "ArticleDetail",
+    params: {
+      id: id,
+    },
+  });
   return (
-    <View style={styles.rankContent}>
-      <View style={styles.rankUserContent}>
-        <Text style={styles.rankUserContentText}>{title}</Text>
-        <Text style={styles.rankUserContentText}>{owner}</Text>
-        <Text style={styles.rankUserContentText}>{deltaDate(date)}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        props.navigation.navigate("ArticleDetail", {
+          id: id,
+        });
+      }}
+    >
+      <View style={styles.article}>
+        <View style={styles.information}>
+          <Text style={[styles.text, styles.author]}>{owner}</Text>
+          <Text style={[styles.text, styles.date]}>{deltaDate()}</Text>
+        </View>
+        <View>
+          <Text style={[styles.title, styles.text]}>{title}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  rankContent: {
-    borderWidth: 2,
-    borderRadius: 20,
-    width: wp("80%"),
-    height: hp("13%"),
+  article: {
+    borderBottomWidth: 2,
+    width: wp("90%"),
+    height: hp("7%"),
     borderColor: "#FF6319",
-    flexDirection: "row",
-    marginVertical: 10,
+    flexDirection: "column",
+    marginVertical: 5,
+    paddingHorizontal: 10,
   },
   rankNo: {
     borderWidth: 2,
@@ -76,15 +98,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  rankUserContent: {
-    flexDirection: "column",
-    justifyContent: "center",
-    marginHorizontal: 10,
+  information: {
+    flexDirection: "row",
   },
-  rankUserContentText: {
-    fontSize: 25,
+  text: {
     color: "#FF6319",
     fontWeight: "bold",
+  },
+  title: {
+    fontSize: 25,
+  },
+  date: {
+    color: "#FF9319",
+    paddingLeft: 25,
+  },
+  author: {
+    fontSize: 17,
+    color: "#FF9319",
   },
 });
 export default ArticleBox;
