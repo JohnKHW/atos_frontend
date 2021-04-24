@@ -14,12 +14,14 @@ import { ComponentStyles } from "src/common/ContainerStyles";
 import api from "../api";
 import ArticleFooter from "../common/ArticleFooter";
 import ArticleHeader from "../common/ArticleHeader";
+import ContentBox from "../components/ContentBox";
 
 export default class ArticleDetail extends React.Component {
   state = {
     id: 0,
     details: {},
     author: {},
+    comments: [],
     page: 1,
     next_page_url: "",
     hasNext: undefined,
@@ -49,10 +51,10 @@ export default class ArticleDetail extends React.Component {
     api
       .get(`/api/articles/${this.state.id}`)
       .then((response) => {
-        console.log("data", response.data);
         const details = response.data;
         const author = response.data.owner;
-        this.setState({ details, author });
+        const comments = response.data.comments;
+        this.setState({ details, author, comments });
       })
       .catch((error) => {
         console.log(error);
@@ -63,24 +65,39 @@ export default class ArticleDetail extends React.Component {
     return (
       <>
         <ArticleHeader
+          id={this.state.id}
           title={this.state.details.title}
           navigation={this.props.navigation}
         />
         <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
-          <View style={styles.authorContainer}>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Author: </Text>
-            <Text style={{ fontSize: 20 }}>{this.state.author.name}</Text>
-          </View>
           <SafeAreaView style={{ height: "60%" }}>
             <Animated.ScrollView style={styles.contentContainer}>
-              <Text style={styles.content}>{this.state.details.content}</Text>
+              <ContentBox
+                position={0}
+                owner={this.state.author.name}
+                point={this.state.author.net_points}
+                date={this.state.details.created_at}
+                content={this.state.details.content}
+              />
+              {this.state.comments.map((comment) => {
+                return (
+                  <ContentBox
+                    position={comment.position}
+                    owner={comment.user.name}
+                    point={comment.user.net_points}
+                    date={comment.created_at}
+                    content={comment.content}
+                  />
+                );
+              })}
             </Animated.ScrollView>
           </SafeAreaView>
         </View>
-        <ArticleFooter
+        <FooterIndex style={styles.footer} navigation={this.props.navigation} />
+        {/* <ArticleFooter
           style={styles.footer}
           navigation={this.props.navigation}
-        />
+        /> */}
       </>
     );
   }

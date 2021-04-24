@@ -37,6 +37,7 @@ import ScanQR from "src/containers/ScanQR";
 import Setting from "src/containers/Setting";
 import Help from "src/containers/Help";
 import Write from "src/containers/WriteArticle";
+import Reply from "src/containers/ReplyArticle";
 import Save from "src/containers/SaveCollection";
 import ArticleDetail from "src/containers/ArticleDetail";
 import ScanFood from "src/containers/ScanFood";
@@ -126,6 +127,7 @@ const App = () => {
               <Drawer.Screen name="Setting" component={Setting} />
               <Drawer.Screen name="Help" component={Help} />
               <Drawer.Screen name="Write" component={Write} />
+              <Drawer.Screen name="Reply" component={Reply} />
               <Drawer.Screen name="Save" component={Save} />
               <Drawer.Screen name="ArticleDetail" component={ArticleDetail} />
               <Drawer.Screen name="ScanFood" component={ScanFood} />

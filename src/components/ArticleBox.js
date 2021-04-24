@@ -1,12 +1,10 @@
-import { CommonActions } from "@react-navigation/routers";
 import React, { useState } from "react";
 
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { NavigationActions } from "react-navigation";
 
 const ArticleBox = (props) => {
   const [id] = useState(props.id);
@@ -38,12 +36,6 @@ const ArticleBox = (props) => {
       create_date.getDate()
     );
   };
-  const navAction = CommonActions.navigate({
-    name: "ArticleDetail",
-    params: {
-      id: id,
-    },
-  });
   return (
     <TouchableOpacity
       onPress={() => {

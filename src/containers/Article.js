@@ -37,7 +37,18 @@ export default class Articles extends React.Component {
 
     this.fetchData();
   }
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener("focus", () => {
+      // Update your state here
+      this.state.page = 1;
+      this.state.articles = [];
+      this.fetchData();
+    });
+  }
 
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
   fetchData() {
     api
       .get(`/api/articles?page=${this.state.page}`)
@@ -70,7 +81,18 @@ export default class Articles extends React.Component {
         <HeaderIndex navigation={this.props.navigation} />
 
         <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
-          <Text style={styles.newsTitle}>What's new today?</Text>
+          <Text style={styles.newsTitle}>Eco-friendly Today</Text>
+
+          <TouchableOpacity
+            style={styles.write}
+            onPress={() => {
+              this.props.navigation.navigate("Write", {});
+            }}
+          >
+            <Image
+              source={require("src/assets/images/icon_favour.png")}
+            ></Image>
+          </TouchableOpacity>
           <SafeAreaView
             style={[
               ComponentStyles.container_v2,
@@ -99,35 +121,6 @@ export default class Articles extends React.Component {
               })}
             </ScrollView>
           </SafeAreaView>
-
-          {/*           <TouchableOpacity
-            style={styles.nextArrowContainer}
-            onPress={() => {
-              //here is to change the index
-              setIndex((index) => (index < 1 ? index + 1 : (index = 0)));
-              setText(text[index].title);
-              setContent(text[index].content);
-              console.log("" + index);
-            }}
-          >
-            <Image source={require("src/assets/images/icon_next.png")}></Image>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.backArrowContainer}
-            onPress={() => {
-              //here is to change the index
-              setIndex((index) => (index > 0 ? index - 1 : (index = 1)));
-              console.log("" + index);
-            }}
-          >
-            <Image source={require("src/assets/images/icon_back.png")}></Image>
-          </TouchableOpacity>
- */}
-          <TouchableOpacity style={styles.write} onPress={() => write()}>
-            <Image
-              source={require("src/assets/images/icon_favour.png")}
-            ></Image>
-          </TouchableOpacity>
         </View>
 
         <FooterIndex
@@ -149,22 +142,9 @@ const styles = StyleSheet.create({
     height: hp("10%"),
   },
   newsTitle: {
-    marginTop: 40,
+    marginTop: 20,
     fontSize: hp("3.5%"),
     color: "#f5f5f5",
-  },
-  newsContainer: {
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 50,
-
-    marginVertical: 50,
-    marginHorizontal: 5,
-    padding: 15,
-    width: wp("65%"),
-    height: hp("58%"),
-    backgroundColor: "rgba(255,255,255,0.5)",
-    alignItems: "stretch",
   },
   text: {
     fontSize: hp("3.3%"),
@@ -174,35 +154,9 @@ const styles = StyleSheet.create({
   content: {
     fontSize: hp("2.7%"),
   },
-
-  nextArrowContainer: {
-    borderWidth: 3,
-    borderTopColor: "black",
-    height: hp("5.5%"),
-    width: wp("12%"),
-    right: wp("2%"),
-    top: hp("40%"),
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-  },
-  backArrowContainer: {
-    borderWidth: 3,
-    borderTopColor: "black",
-    height: hp("5.5%"),
-    width: wp("12%"),
-    left: wp("2%"),
-    top: hp("40%"),
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-  },
   write: {
-    position: "absolute",
-    borderWidth: 3,
-    borderColor: "black",
-    right: hp("3%"),
-    top: hp("4.5%"),
+    height: 35,
+    width: 35,
   },
   titleContainer: {
     flexDirection: "row",

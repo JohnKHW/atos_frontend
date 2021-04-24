@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,53 +9,78 @@ import {
 } from "react-native";
 import { ComponentStyles } from "src/common/ContainerStyles";
 // this is for the common header
-const ArticleHeader = (props) => {
-  const app = {
-    name: "Carbonet",
+export default class ArticleHeader extends React.Component {
+  state = {
+    title: "",
+    id: 1,
   };
 
-  const Back = () => {
-    props.navigation.openDrawer();
-  };
+  constructor(props) {
+    super(props);
+  }
+  getTitle() {
+    if (typeof this.props.title !== "string") {
+      return "";
+    }
+    if (this.props.title.length > 7) {
+      const text = this.props.title.substring(0, 7);
+      return text + "...";
+    }
+    return this.props.title;
+  }
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener("focus", () => {
+      // Update your state here
+      this.state.id = this.props.id;
+      this.state.title = this.props.title;
+    });
+  }
 
-  return (
-    <>
-      <SafeAreaView style={ComponentStyles.header}>
-        <View style={[styles.container, ComponentStyles.header]}>
-          <View>
-            <TouchableOpacity
-              style={styles.leading}
-              onPress={() => props.navigation.goBack()}
-            >
-              <Image
-                style={styles.icon}
-                source={require("src/assets/images/icon_back.png")}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.title}>{props.title}</Text>
-          </View>
-          <View style={styles.subcontainer}>
-            <TouchableOpacity
-              style={[styles.subicon, styles.icon]}
-              onPress={() => props.navigation.navigate("MyGift")}
-            >
-              <Image source={require("src/assets/images/icon_mygift.png")} />
-            </TouchableOpacity>
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+  render() {
+    return (
+      <>
+        <SafeAreaView style={ComponentStyles.header}>
+          <View style={[styles.container, ComponentStyles.header]}>
+            <View>
+              <TouchableOpacity
+                style={[styles.icon]}
+                onPress={() => this.props.navigation.goBack()}
+              >
+                <Image source={require("src/assets/images/icon_back.png")} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.title}>{this.getTitle()}</Text>
+            </View>
+            <View style={styles.subcontainer}>
+              <TouchableOpacity
+                style={[styles.subicon, styles.icon]}
+                onPress={() => this.props.navigation.navigate("MyGift")}
+              >
+                <Image source={require("src/assets/images/icon_star.png")} />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[styles.subicon, styles.icon]}
-              onPress={() => props.navigation.navigate("Save", {})}
-            >
-              <Image source={require("src/assets/images/icon_favour.png")} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.subicon, styles.icon]}
+                onPress={() =>
+                  this.props.navigation.navigate("Reply", {
+                    id: this.props.id,
+                    title: this.props.title,
+                  })
+                }
+              >
+                <Image source={require("src/assets/images/icon_reply.png")} />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
-    </>
-  );
-};
+        </SafeAreaView>
+      </>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -66,23 +91,20 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     color: "red",
   },
   icon: {
     tintColor: "#2d3436",
-    borderWidth: 1,
-    width: 30,
+    width: 35,
   },
   subicon: {
     tintColor: "#2d3436",
     transform: [{ translateX: 20 }],
-    paddingHorizontal: 5,
-    right: 25,
+    marginHorizontal: 5,
   },
   subcontainer: {
     flexDirection: "row",
   },
 });
-export default ArticleHeader;

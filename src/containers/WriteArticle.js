@@ -5,24 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
   TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from "react-native";
-import HeaderIndex from "src/common/HeaderIndex";
-import FooterIndex from "src/common/FooterIndex";
 import { ComponentStyles } from "src/common/ContainerStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  actions,
-  customIcon,
-  RichEditor,
-  RichToolbar,
-} from "react-native-pell-rich-editor";
-import { WebView } from "react-native-webview";
 import TutorBox from "src/components/TutorBox";
 import api from "../api";
 // to write some article
@@ -33,41 +21,24 @@ const WriteArticle = (props) => {
   const [hasNext, setHasNext] = useState(undefined);
   // fetching data and send
   const send = () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
     api
-    .post("/api/articles",{
-        title: title,
-        content: content,
-        isReply: 0,
-        isHidden: 1,
-    })
-    .then((response) => {
-      console.log("data", response);
-      alert("Sended");
-      props.navigation.navigate("Article");
-    })
-    .catch((error) => {
-      console.log("Send article ", error);
-    });
-
+      .post("/api/articles", formData, {})
+      .then((response) => {
+        console.log("data", response);
+        alert("Sended");
+        props.navigation.navigate("Article");
+      })
+      .catch((error) => {
+        console.log("Send article ", error);
+      });
   };
-  /*
-    const [richText,setRichText] = useState(React.createRef() || useRef());
-    const onEditorInitialized = () => {
-        richText.current?.registerToolbar(function (items) {
-            // console.log('Toolbar click, selected items (insert end callback):', items);
-        });
-    }
-
-    const handleChange = (html) => {
-        setContent(html);
-    }
-    const [keyboardStatus, setKeyboardStatus] = useState(undefined);
-    const onKeyShow = () => setKeyboardStatus("Keyboard Shown");
-    const onKeyHide = () => setKeyboardStatus("Keyboard Hidden");
-    */
   useEffect(() => {
     const clearData = props.navigation.addListener("focus", () => {
       setContent("");
+      setTitle("");
       send();
     });
 
@@ -98,21 +69,32 @@ const WriteArticle = (props) => {
   });
   return (
     <>
-      <View style={styles.header}>
-        <Text style={styles.writeTitle}>Write Your Artile</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.backArrow}
-        onPress={() => props.navigation.goBack()}
-      >
-        <Image source={require("src/assets/images/icon_back.png")}></Image>
-      </TouchableOpacity>
+      <SafeAreaView style={ComponentStyles.header}>
+        <View style={[styles.container, ComponentStyles.header]}>
+          <View>
+            <TouchableOpacity
+              style={[styles.icon]}
+              onPress={() => props.navigation.goBack()}
+            >
+              <Image source={require("src/assets/images/icon_back.png")} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={styles.writeTitle}>Write Your Artile</Text>
+          </View>
+          <View style={styles.subcontainer}>
+            <TouchableOpacity
+              style={[styles.subicon]}
+              onPress={() => {
+                send();
+              }}
+            >
+              <Text style={styles.sendText}>Send</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
 
-      <TouchableOpacity style={styles.send} onPress={() =>{
-        send()
-      }}>
-        <Text style={styles.sendText}>Send</Text>
-      </TouchableOpacity>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={ComponentStyles.container_v2}>
           <View style={styles.titleContainer}>
@@ -127,26 +109,14 @@ const WriteArticle = (props) => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.inputContent}
+              multiline={true}
+              numberOfLines={10}
               placeholder="Content"
               autoCapitalize="none"
               onChangeText={(content) => setContent(content)}
               value={content}
             ></TextInput>
           </View>
-          {/*
-                <View style={styles.inputContainer} keyboardDismissMode={'none'}>
-                    <RichEditor
-                        ref={(r) => setRichText(r)}
-        
-                        placeholder={'Content'}
-                        style={styles.inputContent}
-                        onChange={handleChange}
-                        editorInitializedCallback={() => onEditorInitialized()}
-                    />
-                  
-                    <Text>This is {content}</Text>
-                </View>
-               */}
         </View>
       </TouchableWithoutFeedback>
       {hasNext === 1 && (
@@ -177,7 +147,32 @@ const WriteArticle = (props) => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 25,
+    paddingBottom: 10,
+    marginTop: 30,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "red",
+  },
+  icon: {
+    tintColor: "#2d3436",
+    width: 35,
+  },
+  subicon: {
+    tintColor: "#2d3436",
+    transform: [{ translateX: 20 }],
+    marginHorizontal: 5,
+  },
+  subcontainer: {
+    flexDirection: "row",
+  },
   writeTitle: {
     fontSize: 20,
     textAlign: "center",
@@ -189,13 +184,6 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "grey",
     paddingTop: 80,
-  },
-  backArrow: {
-    position: "absolute",
-    borderWidth: 3,
-    borderTopColor: "black",
-    marginTop: 50,
-    marginLeft: 50,
   },
   titleContainer: {
     borderBottomWidth: 1,
@@ -209,18 +197,6 @@ const styles = StyleSheet.create({
     height: "75%",
     padding: 10,
     flex: 1,
-  },
-  send: {
-    position: "absolute",
-    marginTop: 50,
-    marginLeft: 50,
-    borderWidth: 3,
-    borderColor: "black",
-    right: 50,
-    top: 5,
-  },
-  sendText: {
-    fontSize: 20,
   },
 });
 
