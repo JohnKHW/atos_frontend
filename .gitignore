@@ -110,3 +110,8 @@ package-lock.json
 
 # Android memory profiler files
 *.hprof
+ios/atos_frontend.xcworkspace/xcuserdata/wonghokwan.xcuserdatad/UserInterfaceState.xcuserstate
+ios/atos_frontend.xcodeproj/project.pbxproj
+ios/atos_frontend.xcodeproj/project.pbxproj
+*.pbxproj
+ios/atos_frontend.xcworkspace/xcuserdata/wonghokwan.xcuserdatad/UserInterfaceState.xcuserstate
