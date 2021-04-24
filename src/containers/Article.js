@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import HeaderIndex from "src/common/HeaderIndex";
 import FooterIndex from "src/common/FooterIndex";
@@ -20,10 +22,198 @@ import {
 } from "react-native-responsive-screen";
 import ConfigSetup from "src/common/ConfigSetup";
 import api from "../api";
+import ArticleBox from "../components/ArticleBox";
 const ScreenHight = Dimensions.get("screen").height;
+export default class Articles extends React.Component {
+  state = {
+    articles: [],
+    page: 1,
+    next_page_url: "",
+    hasNext: undefined,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.fetchData();
+  }
+
+  fetchData() {
+    api
+      .get(`/api/articles?page=${this.state.page}`)
+      .then((response) => {
+        console.log("data", response.data);
+        const articles = this.state.articles.concat(response.data.data);
+        const next_page_url = response.data.next_page_url;
+        this.setState({ articles, next_page_url });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  }
+  nextPage() {
+    if (this.state.next_page_url != null) {
+      this.state.page++;
+      this.fetchData();
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <HeaderIndex navigation={this.props.navigation} />
+
+        <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
+          <Text style={styles.newsTitle}>What's new today?</Text>
+          <SafeAreaView
+            style={[
+              ComponentStyles.container_v2,
+              { alignItems: "center", height: "65%" },
+            ]}
+          >
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.context}
+              onMomentumScrollEnd={(event) => {
+                if (this.isCloseToBottom(event.nativeEvent)) {
+                  this.nextPage();
+                }
+              }}
+            >
+              {this.state.articles.map((article, key) => {
+                return (
+                  <ArticleBox
+                    id={article.id}
+                    title={article.title}
+                    owner={article.owner.name}
+                    date={article.created_at}
+                  />
+                );
+              })}
+            </ScrollView>
+          </SafeAreaView>
+
+          {/*           <TouchableOpacity
+            style={styles.nextArrowContainer}
+            onPress={() => {
+              //here is to change the index
+              setIndex((index) => (index < 1 ? index + 1 : (index = 0)));
+              setText(text[index].title);
+              setContent(text[index].content);
+              console.log("" + index);
+            }}
+          >
+            <Image source={require("src/assets/images/icon_next.png")}></Image>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.backArrowContainer}
+            onPress={() => {
+              //here is to change the index
+              setIndex((index) => (index > 0 ? index - 1 : (index = 1)));
+              console.log("" + index);
+            }}
+          >
+            <Image source={require("src/assets/images/icon_back.png")}></Image>
+          </TouchableOpacity>
+ */}
+          <TouchableOpacity style={styles.write} onPress={() => write()}>
+            <Image
+              source={require("src/assets/images/icon_favour.png")}
+            ></Image>
+          </TouchableOpacity>
+        </View>
+
+        <FooterIndex
+          style={styles.footer}
+          navigation={this.props.navigation}
+          points={5000}
+          route={this.props.route}
+        />
+      </>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: hp("10%"),
+  },
+  newsTitle: {
+    marginTop: 40,
+    fontSize: hp("3.5%"),
+    color: "#f5f5f5",
+  },
+  newsContainer: {
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 50,
+
+    marginVertical: 50,
+    marginHorizontal: 5,
+    padding: 15,
+    width: wp("65%"),
+    height: hp("58%"),
+    backgroundColor: "rgba(255,255,255,0.5)",
+    alignItems: "stretch",
+  },
+  text: {
+    fontSize: hp("3.3%"),
+    fontWeight: "bold",
+    flexDirection: "row",
+  },
+  content: {
+    fontSize: hp("2.7%"),
+  },
+
+  nextArrowContainer: {
+    borderWidth: 3,
+    borderTopColor: "black",
+    height: hp("5.5%"),
+    width: wp("12%"),
+    right: wp("2%"),
+    top: hp("40%"),
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+  },
+  backArrowContainer: {
+    borderWidth: 3,
+    borderTopColor: "black",
+    height: hp("5.5%"),
+    width: wp("12%"),
+    left: wp("2%"),
+    top: hp("40%"),
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+  },
+  write: {
+    position: "absolute",
+    borderWidth: 3,
+    borderColor: "black",
+    right: hp("3%"),
+    top: hp("4.5%"),
+  },
+  titleContainer: {
+    flexDirection: "row",
+  },
+  newsContext: {
+    height: hp("40%"),
+  },
+});
 
 //this is the article page
-const Articles = (props) => {
+/* const Articles = (props) => {
   const [post, setPost] = useState("");
   const [helpCount, setHelpCount] = useState(undefined);
   const [hasNext, setHasNext] = useState(undefined);
@@ -295,76 +485,4 @@ const Articles = (props) => {
       )}
     </>
   );
-};
-
-const styles = StyleSheet.create({
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: hp("10%"),
-  },
-  newsTitle: {
-    marginTop: 40,
-    fontSize: hp("3.5%"),
-    color: "#f5f5f5",
-  },
-  newsContainer: {
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 50,
-
-    marginVertical: 50,
-    marginHorizontal: 5,
-    padding: 15,
-    width: wp("65%"),
-    height: hp("58%"),
-    backgroundColor: "rgba(255,255,255,0.5)",
-    alignItems: "stretch",
-  },
-  text: {
-    fontSize: hp("3.3%"),
-    fontWeight: "bold",
-    flexDirection: "row",
-  },
-  content: {
-    fontSize: hp("2.7%"),
-  },
-
-  nextArrowContainer: {
-    borderWidth: 3,
-    borderTopColor: "black",
-    height: hp("5.5%"),
-    width: wp("12%"),
-    right: wp("2%"),
-    top: hp("40%"),
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-  },
-  backArrowContainer: {
-    borderWidth: 3,
-    borderTopColor: "black",
-    height: hp("5.5%"),
-    width: wp("12%"),
-    left: wp("2%"),
-    top: hp("40%"),
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-  },
-  write: {
-    position: "absolute",
-    borderWidth: 3,
-    borderColor: "black",
-    right: hp("3%"),
-    top: hp("4.5%"),
-  },
-  titleContainer: {
-    flexDirection: "row",
-  },
-  newsContext: {
-    height: hp("40%"),
-  },
-});
-export default Articles;
+}; */
