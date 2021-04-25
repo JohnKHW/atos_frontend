@@ -22,11 +22,11 @@ const Congrats = (props) => {
 
   const fetchData = () =>{
     api
-      .get("/api/rank/users/all")
+      .get("/api/rank/users")
       .then((response) => {
         console.log("data", response.data);
         const rankData = response.data;
-        setNetPoint(rankData.netPoint);
+        setNetPoint(rankData.net_points);
       })
       .catch((error) => {
         console.log(error);
