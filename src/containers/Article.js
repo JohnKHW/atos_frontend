@@ -30,6 +30,7 @@ export default class Articles extends React.Component {
     page: 1,
     next_page_url: "",
     hasNext: undefined,
+    countHelp: undefined
   };
 
   constructor(props) {
@@ -43,7 +44,18 @@ export default class Articles extends React.Component {
       this.state.page = 1;
       this.state.articles = [];
       this.fetchData();
+   
     });
+    this.remove = this.props.navigation.addListener("blur", () => {
+        this.props.navigation.setParams({
+          helpCount:null,
+          hasNext:null,
+          countHelp:null
+        })
+        this.helpCount = undefined;
+        this.hasNext = undefined;
+        this.countHelp = undefined;
+    })
   }
 
   componentWillUnmount() {
@@ -76,9 +88,26 @@ export default class Articles extends React.Component {
   }
 
   render() {
+
+    const {navigation} = this.props;
+    const {route} = this.props;
+
+    if(route.params){
+      if(route.params.countHelp){
+        this.countHelp = route.params.countHelp;
+      }
+      if(route.params.hasNext){
+        this.hasNext = this.params.hasNext;
+      }
+      if(route.params.helpCount){
+        this.helpCount = route.params.helpCount;
+      }
+      
+    }
+     console.log("props route", route);
     return (
       <>
-        <HeaderIndex navigation={this.props.navigation} />
+        <HeaderIndex navigation={navigation} />
 
         <View style={[ComponentStyles.container_v2, { alignItems: "center" }]}>
           <Text style={styles.newsTitle}>Eco-friendly Today</Text>
@@ -86,7 +115,7 @@ export default class Articles extends React.Component {
           <TouchableOpacity
             style={styles.write}
             onPress={() => {
-              this.props.navigation.navigate("Write", {});
+              navigation.navigate("Write");
             }}
           >
             <Image
@@ -115,7 +144,7 @@ export default class Articles extends React.Component {
                     title={article.title}
                     owner={article.owner.name}
                     date={article.created_at}
-                    navigation={this.props.navigation}
+                    navigation={navigation}
                   />
                 );
               })}
@@ -125,10 +154,66 @@ export default class Articles extends React.Component {
 
         <FooterIndex
           style={styles.footer}
-          navigation={this.props.navigation}
-          points={5000}
-          route={this.props.route}
+          navigation={navigation}
         />
+         {
+        // following is for the tutor box setting
+        this.countHelp === 1 && (
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0,0,0,0.7)",
+              position: "absolute",
+            }}
+          ></View>
+        )
+      }
+      {this.countHelp === 1 && this.helpCount === undefined?(
+        <TutorBox
+          mouseNum={1}
+          text={"You can read the latest article about decarbonization here!"}
+          mouse1left={wp("25%")}
+          mouse1top={hp("26%")}
+          circle={0}
+          navigation={navigation}
+          isPlace={1}
+          place={"Article"}
+          boxtop={100}
+          haveCount={1}
+          nowCount={1}
+        />
+      ) :this.helpCount === 1 ? (
+        <TutorBox
+          mouseNum={1}
+          text={"You can read the article you have saved by passing here."}
+          mouse1left={Dimensions.get("screen").width - 70}
+          mouse1top={hp("5.5%")}
+          circle={1}
+          navigation={navigation}
+          isPlace={1}
+          place={"Save"}
+          boxtop={100}
+          haveCount={0}
+          hasNext={1}
+        />
+      ) : (
+        this.helpCount === 2 && (
+          <TutorBox
+            mouseNum={1}
+            text={"You can write your own article tips to the others here."}
+            mouse1left={wp("43%")}
+            mouse1top={hp("18%")}
+            circle={1}
+            navigation={navigation}
+            isPlace={1}
+            place={"Write"}
+            boxtop={100}
+            haveCount={0}
+            hasNext={1}
+          />
+        )
+      )}
       </>
     );
   }

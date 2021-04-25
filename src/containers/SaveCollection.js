@@ -132,7 +132,7 @@ const SaveCollection = (props) => {
           place={"Article"}
           boxtop={100}
           haveCount={1}
-          nowCount={3}
+          nowCount={2}
         />
       )}
     </>
