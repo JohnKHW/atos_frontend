@@ -23,9 +23,6 @@ import {
   setUpdateIntervalForType,
   SensorTypes,
 } from "react-native-sensors";
-import { map, filter } from "rxjs/operators";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ConfigSetup from "src/common/ConfigSetup";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -139,7 +136,7 @@ const Transport = (props) => {
   const sendData = () => {
     api
       .post("/api/user", {
-          count: countVal,
+        count: countVal,
       })
       .then((response) => {
         console.log("data", response);
@@ -211,9 +208,9 @@ const Transport = (props) => {
     console.log("leave h", leave);
 
     const subscription = accelerometer.subscribe(({ x, y, z }) => {
-        //console.log({ x, y, z })
+      //console.log({ x, y, z })
 
-        if (click) {
+      if (click) {
         const added = Math.sqrt(x * x + y * y + z * z).toString();
         console.log(added);
 
@@ -230,7 +227,7 @@ const Transport = (props) => {
         console.log("step= ", stepCount);
         console.log("leave = ", leave);
         console.log("click = ", click);
-        }
+      }
     });
     //const subscription = counter(click);
     const out = props.navigation.addListener("blur", () => {
@@ -297,8 +294,7 @@ const Transport = (props) => {
           >
             <Image source={require("src/assets/images/icon_pause.png")}></Image>
           </TouchableOpacity>
-          */
-        }
+          */}
 
         <TouchableOpacity
           onPress={() => {
@@ -316,7 +312,7 @@ const Transport = (props) => {
           onPress={() => {
             setStart(false);
             setClick((click) => {
-                click = !click;
+              click = !click;
             });
             sendData();
             props.navigation.navigate("Congrats");

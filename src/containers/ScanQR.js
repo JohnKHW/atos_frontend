@@ -13,7 +13,6 @@ import FooterIndex from "src/common/FooterIndex";
 
 import { ComponentStyles } from "src/common/ContainerStyles";
 import QRCodeScanner from "react-native-qrcode-scanner";
-import { RNCamera } from "react-native-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TutorBox from "src/components/TutorBox";
 import ConfigSetup from "src/common/ConfigSetup";
